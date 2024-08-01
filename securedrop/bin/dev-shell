@@ -10,6 +10,7 @@ export PATH="/opt/venvs/securedrop-app-code/bin:$PATH"
 
 TOPLEVEL=$(git rev-parse --show-toplevel)
 USE_TOR="${USE_TOR:-}"
+USE_ARTI="${USE_ARTI:-}"
 USE_PODMAN="${USE_PODMAN:-}"
 SLIM_BUILD="${SLIM_BUILD:-}"
 DOCKER_RUN_ARGUMENTS="${DOCKER_RUN_ARGUMENTS:-}"
@@ -116,10 +117,19 @@ function docker_run() {
         DOCKER_RUN_ARGUMENTS="${DOCKER_RUN_ARGUMENTS} -it"
     fi
 
+    if [ -n "${USE_TOR:-}" ] && [ -n "${USE_ARTI:-}" ]; then
+        echo "Cannot set both USE_TOR and USE_ARTI; pick one"
+        exit 1
+    fi
     if [ -n "${USE_TOR:-}" ]; then
         # Mount persistent onion services
         $DOCKER_BIN volume inspect sd-onion-services -f " " || $DOCKER_BIN volume create sd-onion-services
         DOCKER_RUN_ARGUMENTS="${DOCKER_RUN_ARGUMENTS} --volume sd-onion-services:/var/lib/tor/services"
+    fi
+    if [ -n "${USE_ARTI:-}" ]; then
+        # Mount persistent onion services
+        $DOCKER_BIN volume inspect sd-arti -f " " || $DOCKER_BIN volume create sd-arti
+        DOCKER_RUN_ARGUMENTS="${DOCKER_RUN_ARGUMENTS} --volume sd-arti:/var/lib/arti"
     fi
 
     # The --shm-size argument sets up dedicated shared memory for the
@@ -132,6 +142,7 @@ function docker_run() {
            -p "127.0.0.1:${SD_HOSTPORT_SI}:8080" \
            -p "127.0.0.1:${SD_HOSTPORT_JI}:8081" \
            -e USE_TOR=$USE_TOR \
+           -e USE_ARTI=$USE_ARTI \
            -e NUM_JOURNALISTS \
            -e NUM_SOURCES \
            -e LOADDATA_ARGS \

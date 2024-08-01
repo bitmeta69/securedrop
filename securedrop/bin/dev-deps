@@ -85,23 +85,69 @@ function maybe_use_tor() {
         openssl pkey -in /tmp/k1.prv.pem -pubout | grep -v " PUBLIC KEY" | base64pem -d | tail --bytes=32 | base32 | sed 's/=//g' > /tmp/k1.pub.key
         echo "descriptor:x25519:$(cat /tmp/k1.pub.key)" | sudo -u debian-tor tee /var/lib/tor/services/journalist/authorized_clients/client.auth
         # shellcheck disable=SC2024
-        sudo -u debian-tor cat /var/lib/tor/services/source/hostname > /var/lib/securedrop/source_v3_url
         # kill and restart Tor to pick up authorized_clients change
         # (restart a little flaky hence the kill)
         sudo kill "$(cat /run/tor/tor.pid)"; sudo service tor restart
-        # print out the addresses and the JI client auth key
 
         si_address="$(sudo -u debian-tor cat /var/lib/tor/services/source/hostname)"
         ji_address="$(sudo -u debian-tor cat /var/lib/tor/services/journalist/hostname)"
-        ji_authkey="$(sudo -u debian-tor cat /tmp/k1.prv.key)"
-        sdkey_fpr="$(gpg --with-fingerprint --with-colons ./tests/files/test_journalist_key.pub | grep -e '^fpr' | tr -d 'fpr:')"
+        ji_auth_private="$(sudo -u debian-tor cat /tmp/k1.prv.key)"
+    fi
+    if [[ -n "${USE_ARTI:-}" ]]; then
+        echo "Setting up Arti..."
 
+        mkdir -p /var/lib/arti
+        if [ ! -f "/var/lib/arti/config.toml" ]; then
+            # create config.toml for SI and JI
+            openssl genpkey -algorithm x25519 -out /var/lib/arti/ji_priv.key
+            ji_auth_public=$(openssl pkey -in /var/lib/arti/ji_priv.key -pubout | grep -v " PUBLIC KEY" | base64pem -d | tail --bytes=32 | base32 | sed 's/=//g')
+            cat > /var/lib/arti/config.toml << TOML
+[proxy]
+socks_listen = 9152
+
+[storage]
+# store temporarily
+cache_dir = "/tmp/arti-cache"
+# store persistently
+state_dir = "/var/lib/arti/data"
+
+[onion_services."source"]
+proxy_ports = [
+    ["80", "127.0.0.1:8080"]
+]
+
+[onion_services."journalist"]
+proxy_ports = [
+    ["80", "127.0.0.1:8081"]
+]
+[onion_services."journalist".restricted_discovery]
+enabled = true
+[onion_services."journalist".restricted_discovery.static_keys]
+journalist = "descriptor:x25519:${ji_auth_public}"
+
+TOML
+        fi
+        # Install the latest version of Arti, if not already present.
+        PATH="$PATH:/opt/cargo/bin/" CARGO_HOME="${REPOROOT}/target/cargo-dev" \
+            cargo install --locked arti --features onion-service-service,restricted-discovery
+        ARTI="${REPOROOT}/target/cargo-dev/bin/arti"
+
+        si_address="$($ARTI -c /var/lib/arti/config.toml hss --nickname source onion-name -l none --generate=if-needed)"
+        ji_address="$($ARTI -c /var/lib/arti/config.toml hss --nickname journalist onion-name -l none --generate=if-needed)"
+        ji_auth_private=$(grep -v " PRIVATE KEY" /var/lib/arti/ji_priv.key | base64pem -d | tail --bytes=32 | base32 | sed 's/=//g')
+        # Start Arti!
+        $ARTI -c /var/lib/arti/config.toml proxy &
+    fi
+    if [ -n "${USE_TOR:-}" ] || [ -n "${USE_ARTI:-}" ]; then
+        # print out the addresses and the JI client auth key
+        sdkey_fpr="$(gpg --with-fingerprint --with-colons ./tests/files/test_journalist_key.pub | grep -e '^fpr' | tr -d 'fpr:')"
+        echo "$si_address" > /var/lib/securedrop/source_v3_url
         cat > /tmp/qubes-config.json <<EOF
 {
   "submission_key_fpr": "${sdkey_fpr}",
   "hidserv": {
     "hostname": "${ji_address}",
-    "key": "${ji_authkey}"
+    "key": "${ji_auth_private}"
   },
   "environment": "prod",
   "vmsizes": {
@@ -115,7 +161,7 @@ EOF
         echo "--------"
         echo "Source Interface:     http://${si_address}"
         echo "Journalist Interface: http://${ji_address}"
-        echo "Journalist Auth Key:  ${ji_authkey}"
+        echo "Journalist Auth Key:  ${ji_auth_private}"
         echo "--------"
         echo
         echo "SecureDrop Workstation config.json:"

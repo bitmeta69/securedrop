@@ -249,6 +249,13 @@ dev-tor:  ## Run the development server with onion services in a Docker containe
 	@OFFSET_PORTS='false' DOCKER_BUILD_VERBOSE='true' USE_TOR='true' SLIM_BUILD=1 $(DEVSHELL) $(SDBIN)/run
 	@echo
 
+.PHONY: dev-arti
+dev-arti:  ## Same as `dev-tor`, but using Arti instead of C-Tor
+	@echo "███ Starting development server with onion services..."
+	@echo "███ WARNING: Arti support is experimental. Good luck!"
+	@USE_ARTI='true' $(MAKE) dev
+	@echo
+
 .PHONY: demo-landing-page
 demo-landing-page: ## Serve the landing page for the SecureDrop demo
 	@echo "███ Building Docker image..."
