@@ -3,7 +3,7 @@
   apt_key:
     state: present
     data: "{{ lookup('file', item) }}"
-    keyring: /etc/apt/trusted.gpg.d/securedrop-keyring.gpg
+    keyring: /etc/apt/trusted.gpg.d/securedrop-keyring2.gpg
   with_items: "{{ apt_repo_pubkey_files }}"
   tags:
     - apt

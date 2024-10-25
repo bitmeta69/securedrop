@@ -10,7 +10,7 @@
 #
 # For testing/QA, set this URL to another apt server. You must also update
 # the associated public key for the apt repo for testing/QA.
-apt_repo_url: https://apt.freedom.press
+apt_repo_url: https://apt-test.freedom.press
 
 # By default, install packages from the apt-repo, but under
 # staging hosts we'll prefer locally-built deb packages
@@ -21,6 +21,7 @@ install_local_packages: False
 # the Release file for which will *not* be signed with the prod key.
 apt_repo_pubkey_files:
   - fpf-signing-key-2021.pub
+  - apt-test-signing-key.pub
 
 # As of v2.0.0, only Focal is supported.
 apt_repo_target_distro: "{{ ansible_distribution_release }}"
