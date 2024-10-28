@@ -18,17 +18,25 @@ LogLevel INFO
 LoginGraceTime 120
 PermitRootLogin no
 StrictModes yes
+{% if ansible_distribution_release == "focal" %}
 RSAAuthentication yes
+{% endif %}
 PubkeyAuthentication yes
 PasswordAuthentication no
 # Only users in the sdssh group to authenticate
 AllowGroups sdssh
 # Don't use host-based authentication
 IgnoreRhosts yes
+{% if ansible_distribution_release == "focal" %}
 RhostsRSAAuthentication no
+{% endif %}
 HostbasedAuthentication no
 PermitEmptyPasswords no
+{% if ansible_distribution_release != "focal" %}
+KbdInteractiveAuthentication no
+{% else %}
 ChallengeResponseAuthentication no
+{% endif %}
 KerberosAuthentication no
 KerberosGetAFSToken no
 GSSAPIAuthentication no
@@ -36,7 +44,6 @@ UsePAM no
 UseDNS no
 
 # Cipher selection
-
 Ciphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes128-ctr
 # Don't use SHA1 for kex
 KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256
@@ -62,3 +69,8 @@ PrintMotd no
 PrintLastLog yes
 TCPKeepAlive yes
 AcceptEnv LANG LC_*
+
+{% if ansible_distribution_release != "focal" %}
+# Enable sftp access
+Subsystem       sftp    /usr/lib/openssh/sftp-server
+{% endif %}
