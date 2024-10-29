@@ -28,6 +28,9 @@ case "$1" in
     # And disable Ubuntu Pro's ua-timer and esm-cache (#6773)
     systemctl is-enabled ua-timer.timer && systemctl disable ua-timer.timer
     systemctl mask esm-cache
+    # Disable the apt-daily services but not the timers (#7298)
+    systemctl is-enabled apt-daily.service && systemctl disable apt-daily.service
+    systemctl is-enabled apt-daily-upgrade.service && systemctl disable apt-daily-upgrade.service
     # Migrate the ssh group to sdssh
     securedrop-migrate-ssh-group.py
 

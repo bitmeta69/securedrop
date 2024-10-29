@@ -163,23 +163,37 @@ def test_unattended_upgrades_functional(host):
 
 
 @pytest.mark.parametrize(
-    "service",
+    "timer",
     [
-        "apt-daily",
         "apt-daily.timer",
-        "apt-daily-upgrade",
         "apt-daily-upgrade.timer",
     ],
 )
-def test_apt_daily_services_and_timers_enabled(host, service):
+def test_apt_daily_timers_enabled(host, timer):
     """
-    Ensure the services and timers used for unattended upgrades are enabled
-    in Ubuntu 20.04 Focal.
+    Ensure the timers used for unattended upgrades are enabled
     """
     with host.sudo():
-        # The services are started only when the upgrades are being performed.
-        s = host.service(service)
+        s = host.service(timer)
         assert s.is_enabled
+
+
+@pytest.mark.parametrize(
+    "service",
+    [
+        "apt-daily.service",
+        "apt-daily-upgrade.service",
+    ],
+)
+def test_apt_daily_services_disabled(host, service):
+    """
+    Ensure the corresponding services are disabled
+    """
+    with host.sudo():
+        print(host.run("systemctl list-units").stdout)
+        print(host.run("systemctl list-timers").stdout)
+        s = host.service(service)
+        assert not s.is_enabled
 
 
 def test_apt_daily_timer_schedule(host):

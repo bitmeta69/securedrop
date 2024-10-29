@@ -20,11 +20,11 @@
   # Ensure daemon-reload has happened before starting/enabling
 - meta: flush_handlers
 
-- name: Ensure apt-daily and apt-daily-upgrade services are unmasked, started and enabled.
+- name: Ensure apt-daily and apt-daily-upgrade services are unmasked
   systemd:
     name: "{{ item }}"
-    state: started
-    enabled: yes
+    # We disable the service unit and enable the timer
+    enabled: no
     masked: no
   with_items:
     - 'apt-daily'
@@ -33,10 +33,9 @@
     - apt
     - unattended-upgrades
 
-- name: Ensure apt-daily and apt-daily-upgrade timers are started, and enabled.
+- name: Ensure apt-daily and apt-daily-upgrade timers are enabled.
   systemd:
     name: "{{ item }}"
-    state: started
     enabled: yes
   with_items:
     - 'apt-daily.timer'
