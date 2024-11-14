@@ -11,8 +11,10 @@ set -euxo pipefail
 
 # Make a copy of the source tree since we do destructive operations on it
 cp -R /src/securedrop /srv/securedrop
-cp -R /src/redwood /srv/redwood
-cp /src/Cargo.lock /srv/redwood/
+mkdir /srv/rust
+cp -R /src/noble-migration /srv/rust/noble-migration
+cp -R /src/redwood /srv/rust/redwood
+cp /src/Cargo.{toml,lock} /srv/rust/
 cd /srv/securedrop/
 
 # Control the version of setuptools used in the default construction of virtual environments
