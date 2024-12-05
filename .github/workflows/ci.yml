@@ -7,7 +7,7 @@ defaults:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -37,7 +37,7 @@ jobs:
           make verify-mo
 
   test-app:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -54,7 +54,7 @@ jobs:
           UBUNTU_VERSION=${{ matrix.ubuntu_version }} make test-app
 
   test-functional:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -71,7 +71,7 @@ jobs:
           UBUNTU_VERSION=${{ matrix.ubuntu_version }} make test-functional
 
   test-pageslayout:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -94,7 +94,7 @@ jobs:
           UBUNTU_VERSION=${{ matrix.ubuntu_version }} make accessibility-summary || true
 
   rust:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # Keep version in sync with rust-toolchain.toml
     container: rust:1.81.0
     steps:
@@ -109,7 +109,7 @@ jobs:
           make rust-test
 
   updater-gui-tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     container: debian:bookworm
     steps:
       - name: Install dependencies
@@ -128,7 +128,7 @@ jobs:
           QT_QPA_PLATFORM=offscreen python3 test_gui.py -v
 
   admin-tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - name: Run tests

@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   locales:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       locales: ${{ steps.locales.outputs.locales }}
     steps:
@@ -40,7 +40,7 @@ jobs:
           fi
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: locales
     # If we're in the skip case above, we'll have an empty list
     if: "join(fromJSON(needs.locales.outputs.locales), '') != ''"
