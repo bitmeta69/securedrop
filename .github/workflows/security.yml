@@ -8,7 +8,7 @@ on:
 
 jobs:
   rust-audit:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # Keep version in sync with rust-toolchain.toml
     container: rust:1.81.0
     steps:
@@ -18,7 +18,7 @@ jobs:
           make rust-audit
 
   static-analysis-and-no-known-cves:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

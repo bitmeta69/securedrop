@@ -45,7 +45,7 @@ jobs:
     strategy:
       matrix:
         ubuntu_version: [focal, noble]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     container: debian:bookworm
     needs:
       - build-debs
