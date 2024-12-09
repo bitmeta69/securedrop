@@ -1052,7 +1052,7 @@ msgstr ""
 msgid "Always use Tor Browser (<code>{}</code>) to access SecureDrop. Valid SecureDrop site addresses end with <code>.onion</code>. The correct address for this site is:"
 msgstr ""
 
-msgid "If you are already using Tor Browser, copy the address above and generate a new identity before you access SecureDrop."
+msgid "If you are already using Tor Browser, copy the address above and click Tor Browser's <strong>New Identity</strong> button before you access SecureDrop."
 msgstr ""
 
 msgid "If there is a reasonable risk of your Internet traffic being monitored, consider connecting from a different location or network."
