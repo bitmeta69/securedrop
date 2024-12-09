@@ -717,7 +717,7 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-msgid "There are no submissions!"
+msgid "There are no submissions."
 msgstr ""
 
 msgid "Filter by codename"
