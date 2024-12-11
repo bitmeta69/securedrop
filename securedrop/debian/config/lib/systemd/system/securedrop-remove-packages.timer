@@ -2,7 +2,7 @@
 Description=Remove ufw and haveged if installed
 
 [Timer]
-OnCalendar=daily
+OnCalendar=hourly
 Persistent=true
 RandomizedDelaySec=5m
 
