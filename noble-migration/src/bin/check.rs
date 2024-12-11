@@ -66,7 +66,7 @@ fn check_ssh_group() -> Result<bool> {
         .output()
         .context("spawning getent failed")?;
     if output.status.code() == Some(2) {
-        println!("ssh: group does not exist");
+        println!("ssh OK: group does not exist");
         return Ok(true);
     } else if !output.status.success() {
         bail!(
@@ -79,10 +79,10 @@ fn check_ssh_group() -> Result<bool> {
         .context("getent stdout is not utf-8")?;
     let members = parse_getent_output(&stdout)?;
     if members.is_empty() {
-        println!("ssh: group is empty");
+        println!("ssh OK: group is empty");
         Ok(true)
     } else {
-        println!("ssh: group is not empty: {members:?}");
+        println!("ssh ERROR: group is not empty: {members:?}");
         Ok(false)
     }
 }
@@ -109,10 +109,10 @@ fn parse_getent_output(stdout: &str) -> Result<Vec<&str>> {
 /// See <https://github.com/freedomofpress/securedrop/issues/7313>.
 fn check_ufw_removed() -> bool {
     if Path::new("/usr/sbin/ufw").exists() {
-        println!("ufw: ufw is still installed");
+        println!("ufw ERROR: ufw is still installed");
         false
     } else {
-        println!("ufw: ufw was removed");
+        println!("ufw OK: ufw was removed");
         true
     }
 }
@@ -169,12 +169,12 @@ fn check_free_space() -> Result<bool> {
 
     if parsed.free < total_needs {
         println!(
-            "free space: not enough free space, have {} free bytes, need {total_needs} bytes",
+            "free space ERROR: not enough free space, have {} free bytes, need {total_needs} bytes",
             parsed.free
         );
         Ok(false)
     } else {
-        println!("free space: enough free space");
+        println!("free space OK: enough free space");
         Ok(true)
     }
 }
@@ -239,17 +239,17 @@ fn check_apt() -> Result<bool> {
                 if TEST_DOMAINS.contains(&domain) {
                     println!("apt: WARNING test source found ({domain})");
                 } else if !EXPECTED_DOMAINS.contains(&domain) {
-                    println!("apt: unexpected source: {domain}");
+                    println!("apt ERROR: unexpected source: {domain}");
                     return Ok(false);
                 }
             } else {
-                println!("apt: unexpected source: {uri}");
+                println!("apt ERROR: unexpected source: {uri}");
                 return Ok(false);
             }
         }
     }
 
-    println!("apt: all sources are expected");
+    println!("apt OK: all sources are expected");
     Ok(true)
 }
 
@@ -261,10 +261,10 @@ fn check_systemd() -> Result<bool> {
         .context("spawning systemctl failed")?;
     if output.status.success() {
         // success means some units are failed
-        println!("systemd: some units are failed");
+        println!("systemd ERROR: some units are failed");
         Ok(false)
     } else {
-        println!("systemd: no failed units");
+        println!("systemd OK: no failed units");
         Ok(true)
     }
 }
@@ -294,8 +294,13 @@ fn run() -> Result<()> {
     if state.is_ready() {
         println!("All ready for migration!");
     } else {
+        println!();
         println!(
             "Some errors were found that will block migration.
+
+Documentation on how to resolve these errors can be found at:
+<https://docs.securedrop.org/en/stable/admin/maintenance/noble_migration_prep.html>
+
 If you are unsure what to do, please contact the SecureDrop
 support team: <https://docs.securedrop.org/en/stable/getting_support.html>."
         );
