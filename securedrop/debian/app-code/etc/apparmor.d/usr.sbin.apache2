@@ -70,6 +70,7 @@
   /etc/mime.types r,
   /etc/python3.12/sitecustomize.py r,
   /etc/python3.8/sitecustomize.py r,
+  /etc/securedrop-noble-migration.json r,
   /etc/services r,
   /etc/timezone r,
   /lib/x86_64-linux-gnu/libbz2.so.* mr,
