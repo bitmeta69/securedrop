@@ -31,6 +31,10 @@ case "$1" in
     # Migrate the ssh group to sdssh
     securedrop-migrate-ssh-group.py
 
+    # Should not exist but might because of an Ubuntu installer bug that is
+    # now fixed: https://bugs.launchpad.net/subiquity/+bug/2053002
+    rm -f /etc/apt/apt.conf.d/zzzz-temp-installer-unattended-upgrade
+
     ;;
     abort-upgrade|abort-remove|abort-deconfigure)
     ;;
