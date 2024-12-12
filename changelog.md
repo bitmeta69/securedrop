@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.11.0~rc2
+
+* Address translators' feedback on UI strings (#7370)
+* Improve output of Ubuntu Noble pre-migration check script (#7369)
+* Run `securedrop-remove-packages` hourly instead of daily (#7377)
+* Allow `apache2` to read `/etc/securedrop-noble-migration.json` under AppArmor (#7378)
+* Remove stray Ubuntu file `/etc/apt/apt.conf.d/zzzz-temp-installer-unattended-upgrade` if it exists (#7380)
+
 ## 2.11.0~rc1
 
 The main focus for this release was to prepare SecureDrop servers for upgrading
@@ -125,7 +133,7 @@ our [blog post](https://securedrop.org/news/securedrop-2_10_0-released/) for mor
 
 ### Development
 * Updated rust toolchain to version 1.78.0 (#7147)
-* Added random file generation in loaddata.py (#7161) 
+* Added random file generation in loaddata.py (#7161)
 * Fixed loaddata.py date generation bug (#7156)
 * Updated test signing key (#7150)
 * Added persistence for onion addresses created with `make dev-tor` (#7124)
@@ -384,7 +392,7 @@ our [blog post](https://securedrop.org/news/securedrop-2_10_0-released/) for mor
 
 ### CI
 
-* Added exclusions for 2 irrelevant safety db entries (#6473, #6477) 
+* Added exclusions for 2 irrelevant safety db entries (#6473, #6477)
 
 ## 2.4.0
 
@@ -422,7 +430,7 @@ our [blog post](https://securedrop.org/news/securedrop-2_10_0-released/) for mor
 ### CI
 
 * Removed logic to fetch Tor packages in nightly build (#6349)
-* Replaced codecov Bash uploader with binary uploader (#6416) 
+* Replaced codecov Bash uploader with binary uploader (#6416)
 * Updated CircleCI to use Python 3.8 image, GCE to use Debian 11 (bullseye) base image (#6431)
 
 ## 2.3.2
