@@ -1,14 +1,6 @@
 # Changelog
 
-## 2.11.0~rc2
-
-* Address translators' feedback on UI strings (#7370)
-* Improve output of Ubuntu Noble pre-migration check script (#7369)
-* Run `securedrop-remove-packages` hourly instead of daily (#7377)
-* Allow `apache2` to read `/etc/securedrop-noble-migration.json` under AppArmor (#7378)
-* Remove stray Ubuntu file `/etc/apt/apt.conf.d/zzzz-temp-installer-unattended-upgrade` if it exists (#7380)
-
-## 2.11.0~rc1
+## 2.11.0
 
 The main focus for this release was to prepare SecureDrop servers for upgrading
 to Ubuntu 24.04 (Noble) next year. Other maintenance changes are also included.
@@ -16,25 +8,26 @@ to Ubuntu 24.04 (Noble) next year. Other maintenance changes are also included.
 ### Ubuntu 24.04 (Noble) upgrade
 
 * Support building packages on noble (#7273, #7247, #7319)
-* Add a noble migration check script (#7334, #7363)
-* Use Type=exec instead of Type=oneshot for systemd units (#7350)
+* Add a noble migration check script (#7334, #7363, #7369, #7378)
+* Use `Type=exec` instead of `Type=oneshot` for systemd units (#7350)
 * Make Ansible variables distro-agnostic (#7356)
-* Apply grsec_lock once only (#7353)
-* Stop setting vm.heap_stack_gap and net.ipv4 sysctl flags via Ansible (#7324)
-* Use "sdssh" group instead of internal-only "ssh" group for access control (#7317, #7355)
+* Apply `grsec_lock` once only (#7353)
+* Stop setting `vm.heap_stack_gap` and `net.ipv4 sysctl` flags via Ansible (#7324)
+* Use `sdssh` group instead of internal-only `ssh` group for access control (#7317, #7355)
 * Add timed job to clean out old OSSEC diff and state files (#7327)
-* Remove ufw from new and existing installs (#7315)
+* Remove ufw from new and existing installs (#7315, #7377)
 * Update apache config templates to be distro-agnostic (#7301)
 * Install backup script on app server via Debian package (#7331)
-* Ensure sources.list is absent on noble (#7342)
-* Overwrite sources.list.d/ubuntu.sources on noble (#7307)
+* Ensure `sources.list` is absent on noble (#7342)
+* Overwrite `sources.list.d/ubuntu.sources` on noble (#7307)
 
 ### Web applications
 
 * Add a banner in the Journalist Interface, in preparation for the noble migration (#7348)
-* Use sqlalchemy.LargeBinary instead of deprecated Binary (#7264)
+* Use `sqlalchemy.LargeBinary` instead of deprecated `Binary` (#7264)
 * Upgrade sequoia-openpgp from 1.21.1 to 1.21.2 (#7248)
 * Import escape from markupsafe, not flask (#7252)
+* Update UI strings based on translator feedback (#7370)
 * Ignore safety alerts:
   * ignore Safety 73711 in cryptography (#7339)
   * ignore Safety 73889, 73969 in werkzeug (#7361)
@@ -45,27 +38,28 @@ to Ubuntu 24.04 (Noble) next year. Other maintenance changes are also included.
 * Replace reboot-flag cron job with a systemd timer (#7337)
 * Remove haveged package, if installed (#7335, 7341)
 * Don't install apt-transport-https transitional package (#7303)
-* Remove unused Ansible restrict_direct_access_{app,mon} roles (#7302)
-* Remove unused Ansible sysctl_flags_ipv6 variables (#7300)
-* Prompt "sdadmin" for the default SSH username (#7309)
-* Remove unused load_iptables script (#7282)
+* Remove unused Ansible `restrict_direct_access_{app,mon}` roles (#7302)
+* Remove unused Ansible `sysctl_flags_ipv6 variables` (#7300)
+* Prompt `sdadmin` for the default SSH username (#7309)
+* Remove unused `load_iptables` script (#7282)
 * Remove unused SSHd config from cloud-init (#7318)
+* Remove stray Ubuntu file `/etc/apt/apt.conf.d/zzzz-temp-installer-unattended-upgrade` if it exists (#7380)
 
 ### Development and CI
 
 * Publish versions of packages with debug symbols (#7347, #7365)
 * Preserve screenshots from translation test CI job (#7240)
-* Make backport.py more flexible for complex pull requests (#7260)
+* Make `backport.py` more flexible for complex pull requests (#7260)
 * Install xz-utils in diffoscope CI job (#7344)
-* Don't return True from test_swap_disabled for monitor server, skip test instead (#7320)
+* Don't return `True` from `test_swap_disabled` for monitor server, skip test instead (#7320)
 * Run admin CI tests on bookworm (#7212)
 * Use a single pass in ansible to install local packages (#7261)
 * Upgrade tbselenium from 0.8.1 to 0.9.0 (#7274, #7271)
 * Update geckodriver from 0.33.0 to 0.35.0 (#7268)
 * Standardize git message formats in version updater (#7263)
-* Speed up update-python3-dependencies using uv (#7234)
+* Speed up `update-python3-dependencies` Makefile target using uv (#7234)
 * Upgrade ruff, remove black, add ruff formatting fixes (#7233, #7246)
-* Remove unused devops/scripts/aws-jenkins-venv.sh (#7238)
+* Remove unused `devops/scripts/aws-jenkins-venv.sh` (#7238)
 * Ignore safety alerts:
   * Ignore CVE-2024-8775 in ansible-core (#7269)
 * Update dependencies:
@@ -77,8 +71,8 @@ to Ubuntu 24.04 (Noble) next year. Other maintenance changes are also included.
 * Support noble dev environment (#7249)
 * Run basic lint CI against Ubuntu noble and Python 3.12 (#7242)
 * Remove tests checking that no apparmor profiles are complaining (#7308)
-* Remove test_securedrop_application_apt_dependencies test (#7305)
-* Inspect grsec_lock as root in testinfra (#7304)
+* Remove `test_securedrop_application_apt_dependencies` test (#7305)
+* Inspect `grsec_lock` as root in testinfra (#7304)
 * Upgrade paramiko from 2.7.2 to 2.10.6 (#7280, #7321)
 
 ## 2.10.1
