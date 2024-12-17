@@ -8,6 +8,7 @@
 * Spanish (``es_ES``)
 * French (``fr_FR``)
 * Hindi (``hi``)
+* Croatian (``hr``)
 * Icelandic (``is``)
 * Italian (``it_IT``)
 * Norwegian (``nb_NO``)
