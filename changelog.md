@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.11.1
+
+* Modify the `securedrop-noble-migration-check` program to avoid triggering
+  spurious OSSEC alerts (#7394)
+
 ## 2.11.0
 
 The main focus for this release was to prepare SecureDrop servers for upgrading
