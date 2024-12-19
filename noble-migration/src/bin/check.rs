@@ -264,7 +264,7 @@ fn check_systemd() -> Result<bool> {
         println!("systemd ERROR: some units are failed");
         Ok(false)
     } else {
-        println!("systemd OK: no failed units");
+        println!("systemd OK: all units are happy");
         Ok(true)
     }
 }

@@ -62,9 +62,5 @@ def test_migration_check(host):
             print(cmd.stdout)
             # We'll fail in the next line after this
         assert "error" not in contents
-        # staging CI jobs don't have enough free space, so just check
-        # that it returned a value for it
-        assert "free_space" in contents
-        del contents["free_space"]
         # All the values should be True
         assert all(contents.values())
