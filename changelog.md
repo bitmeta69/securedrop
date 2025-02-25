@@ -2,7 +2,51 @@
 
 ## 2.12.0~rc1
 
+### Ubuntu 24.04 (Noble) upgrade
 
+* Add CI staging support for Noble (#7360)
+* Add the `sdssh` group before using it in ACLs (#7426)
+* Set a fixed machine-id to ensure phased Noble updates are consistent (#7424)
+* Add script to upgrade from Ubuntu 20.04 (Focal) to Noble (#7406)
+* Add support for manual upgrades from Focal to Noble (#7427)
+
+### Web applications and APIs
+
+* Update date string formatting to follow ISO8061 standards (#6413)
+* Update `redwood` to used stabilized `File::create_new()` (#7405)
+* Update Rust toolchain to 1.84.1 (#7423, #7437)
+* Add support for disabling previously-supported languages (#7443)
+* Remove Hindi as a supported language (#7446)
+* Ignore Safety alerts:
+  * Ignore Safety 73969 in `jinja2` (#7402)
+* Update dependencies: 
+* Update Rust `openssl` dependency to  0.10.70 (#7435)
+
+### Operations
+
+* Improve `securedrop-admin` error messaging (#7272)
+* Update `systemd` services using `Type=exec` to use `Type=simple` (#7404)
+* Add a single script to manage Redis authentication changes (#7409)
+* Ensure `/etc/iptables` exists before writing to it (#7417)
+* Fix `systemd` `ConditionPathExists` syntax (#7434)
+* Ignore Safety alerts:
+  * Ignore Safety 74221, 74261 in `ansible-core` (#7402)
+
+### Development
+
+* Update `backport.py` utility script (#7375)
+* Remove unused translator credits file (#7397)
+* Add support for Podman in `make dev-tor` (#7163)
+* Update `make update-python3-requirements` to use a container (#7400)
+* Add Github Actions workflow linting via `zizmor` (#7401)
+* Add `flake8-bugbear` rules to `ruff` config (#7403)
+* Update `testinfra` tests to resolve dpkg lock contention (#7418)
+* Update Tor Browser tests to be parameterized by locale (#7414)
+* Update `testinfra` tests to handle unapplied phased updates (#7420)
+* Update `testinfra` tests to speed up `pam_ecryptfs` check (#7428)
+* Update dependency review documentation to reflect Rust and Python differences (#7436)
+* Update dependencies:
+  * Update `pip` to 25.0 (#7429)
 
 ## 2.11.1
 
