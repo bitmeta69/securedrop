@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.12.0~rc2
+
+### Web applications and APIs
+
+* Add support for disabling previously-supported languages (#7443, #7451)
+
+### Development
+
+* Add `libvirt-prod-noble` molecule scenario (#7449)
+
 ## 2.12.0~rc1
 
 ### Ubuntu 24.04 (Noble) upgrade
