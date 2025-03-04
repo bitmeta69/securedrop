@@ -6,7 +6,7 @@ from pathlib import Path
 FOCAL_VERSION = "20.04"
 NOBLE_VERSION = "24.04"
 
-FOCAL_ENDOFLIFE = date(2025, 4, 2)
+FOCAL_ENDOFLIFE = date(2025, 5, 31)
 
 
 @functools.lru_cache
