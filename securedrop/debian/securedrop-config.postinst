@@ -34,6 +34,10 @@ case "$1" in
     # Should not exist but might because of an Ubuntu installer bug that is
     # now fixed: https://bugs.launchpad.net/subiquity/+bug/2053002
     rm -f /etc/apt/apt.conf.d/zzzz-temp-installer-unattended-upgrade
+    # In some cases the installer will copy sources.list to original.list, but
+    # we override sources.list, so also remove any original.list.
+    # See <https://github.com/canonical/subiquity/pull/1885>.
+    rm -f /etc/apt/sources.list.d/original.list
 
     ;;
     abort-upgrade|abort-remove|abort-deconfigure)
