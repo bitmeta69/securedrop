@@ -15,7 +15,7 @@ Description: SecureDrop application code, dependencies, Apache configuration, sy
 
 Package: securedrop-config
 Architecture: amd64
-Depends: ${shlibs:Depends}, unattended-upgrades, update-notifier-common
+Depends: ${shlibs:Depends}, ${systemd:Depends}, unattended-upgrades, update-notifier-common
 Description: Establishes baseline system state for running SecureDrop.
  Configures apt repositories.
 
