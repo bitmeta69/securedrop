@@ -1,5 +1,9 @@
 [advisories]
-ignore = [] # advisory IDs to ignore e.g. ["RUSTSEC-2019-0001", ...]
+# advisory IDs to ignore e.g. ["RUSTSEC-2019-0001", ...]
+ignore = [
+    # humantime, see #7469
+    "RUSTSEC-2025-0014"
+]
 
 # Output Configuration
 [output]
