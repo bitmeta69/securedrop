@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.12.0~rc3
+
+### Ubuntu 24.04 (Noble) upgrade
+
+* Correct end-of-life date for Ubuntu 20.04 (Focal) (#7459, #7465)
+* Remove `/etc/apt/sources.list.d/original.list` (#7462, #7467)
+* Remove `systemd-resolved` and explicitly install `systemd-hwe-hwdb` (#7466,
+  #7472)
+* Ignore RUSTSEC-2025-0014 (#7470, #7471)
+
 ## 2.12.0~rc2
 
 ### Web applications and APIs
