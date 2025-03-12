@@ -130,3 +130,22 @@ def test_apparmor_conditional():
 
     print(info)
     assert found, "Depends: line wasn't found"
+
+
+def test_systemd_conditional():
+    try:
+        path = [pkg for pkg in DEB_PATHS if pkg.name.startswith("securedrop-config")][0]
+    except IndexError:
+        raise RuntimeError("Unable to find securedrop-config package in build/ folder")
+    info = subprocess.check_output(["dpkg", "--info", path]).decode()
+    found = False
+    for line in info.splitlines():
+        if line.startswith(" Depends:"):
+            found = True
+            if UBUNTU_VERSION == "focal":
+                assert "systemd-hwe-hwdb" not in line, "focal has no systemd-hwe-hwdb dependency"
+            else:
+                assert "systemd-hwe-hwdb" in line, "noble has systemd-hwe-hwdb dependency"
+
+    print(info)
+    assert found, "Depends: line wasn't found"

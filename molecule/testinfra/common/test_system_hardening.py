@@ -49,6 +49,16 @@ def test_dns_setting(host):
     assert f.mode == 0o644
     assert f.contains(r"^nameserver 8\.8\.8\.8$")
 
+    if host.system_info.codename == "focal":
+        # On focal, systemd-resolved's unit is disabled
+        with host.sudo():
+            s = host.service("systemd-resolved")
+            assert not s.is_enabled
+            assert not s.is_running
+    else:
+        # On noble, systemd-resolved is not installed
+        assert not host.package("systemd-resolved").is_installed
+
 
 @pytest.mark.parametrize(
     "kernel_module",
