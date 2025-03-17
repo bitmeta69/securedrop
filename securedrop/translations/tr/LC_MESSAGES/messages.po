@@ -4,19 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
 #
 msgid ""
-msgstr ""
-"Project-Id-Version: SecureDrop 0.5-rc4\n"
-"Report-Msgid-Bugs-To: securedrop@freedom.press\n"
-"PO-Revision-Date: 2024-09-25 12:33+0000\n"
-"Last-Translator: kwadronaut <kwadronaut@autistici.org>\n"
-"Language-Team: Turkish <https://weblate.securedrop.org/projects/securedrop/securedrop/tr/>\n"
-"Language: tr\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7.1\n"
-"Generated-By: Babel 2.4.0\n"
+msgstr "Project-Id-Version: SecureDrop 0.5-rc4\nReport-Msgid-Bugs-To: securedrop@freedom.press\nPO-Revision-Date: 2025-03-11 17:34+0000\nLast-Translator: anonymous <noreply@weblate.org>\nLanguage-Team: Turkish <https://weblate.securedrop.org/projects/securedrop/securedrop/tr/>\nLanguage: tr\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n != 1;\nX-Generator: Weblate 5.10\nGenerated-By: Babel 2.4.0\n"
 
 msgid "Name too long"
 msgstr "İsim çok uzun"
@@ -1131,6 +1119,7 @@ msgstr "<code>gpg --recipient '{submission_key_fpr}' --encrypt /gonderi/dizini/g
 msgid "Upload your encrypted submission. It will have the same filename as the unencrypted file, with .gpg at the end (e.g. <code>internal_memo.pdf.gpg</code>)"
 msgstr "Şifrelenmiş gönderilerinizi yükleyin. Şifrelenmiş dosyanın adı şifreli olmayan dosya ile aynı olur, yalnızca sonuna .gpg uzantısı eklenir (örneğin <code>ic_not.pdf.gpg</code>)"
 
+#, fuzzy
 msgid "<strong>Important:</strong> If you wish to remain anonymous, <strong>do not</strong> use GPG to sign the encrypted file (with the <code>--sign</code> or <code>-s</code> flag) as this will reveal your GPG identity to us."
 msgstr "<strong>Önemli:</strong> Anonim kalmak istiyorsanız, dosyanın GPG tarafından (<code>--sign</code> ya da <code>-s</code> parametreleriyle) imzalanmasına <strong>izin vermeyin</strong>. Yoksa GPG kimliğiniz açığa çıkar."
 

@@ -4,19 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
 #
 msgid ""
-msgstr ""
-"Project-Id-Version: SecureDrop 0.6~rc2\n"
-"Report-Msgid-Bugs-To: securedrop@freedom.press\n"
-"PO-Revision-Date: 2021-10-19 01:42+0000\n"
-"Last-Translator: Cory Francis Myers <cory@freedom.press>\n"
-"Language-Team: Hindi <https://weblate.securedrop.org/projects/securedrop/securedrop/hi/>\n"
-"Language: hi\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.6\n"
-"Generated-By: Babel 2.5.1\n"
+msgstr "Project-Id-Version: SecureDrop 0.6~rc2\nReport-Msgid-Bugs-To: securedrop@freedom.press\nPO-Revision-Date: 2025-03-11 17:34+0000\nLast-Translator: anonymous <noreply@weblate.org>\nLanguage-Team: Hindi <https://weblate.securedrop.org/projects/securedrop/securedrop/hi/>\nLanguage: hi\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n != 1;\nX-Generator: Weblate 5.10\nGenerated-By: Babel 2.5.1\n"
 
 msgid "Name too long"
 msgstr "नाम बहुत लंबा है |"
@@ -1121,6 +1109,7 @@ msgstr "<code>gpg --recipient '{submission_key_fpr}' --encrypt /path/to/submissi
 msgid "Upload your encrypted submission. It will have the same filename as the unencrypted file, with .gpg at the end (e.g. <code>internal_memo.pdf.gpg</code>)"
 msgstr "अपना एन्क्रिप्टेड सबमिशन अपलोड करें| इसका अंतराल पर .gpg के साथ अनएन्क्रिप्टेड फाइल के समान फ़ाइल नाम होगा (उदाहरणस्वरूप <code>internal_memo.pdf.gpg</code>)"
 
+#, fuzzy
 msgid "<strong>Important:</strong> If you wish to remain anonymous, <strong>do not</strong> use GPG to sign the encrypted file (with the <code>--sign</code> or <code>-s</code> flag) as this will reveal your GPG identity to us."
 msgstr "<strong>महत्वपूर्ण:</strong> यदि आप गुमनाम रहना चाहते हैं, तोह कृपया GPG को (<code>--sign</code> या <code>-s</code> flag के साथ) <strong>मत प्रयोग करें</strong> क्यूंकि यह हमें आपकी GPG पहचान बता देता है।"
 
