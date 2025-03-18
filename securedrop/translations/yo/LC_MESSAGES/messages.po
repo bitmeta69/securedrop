@@ -4,19 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
 #
 msgid ""
-msgstr ""
-"Project-Id-Version: SecureDrop 1.0.0~rc1\n"
-"Report-Msgid-Bugs-To: securedrop@freedom.press\n"
-"PO-Revision-Date: 2020-07-27 21:12+0000\n"
-"Last-Translator: John Hensley <john@freedom.press>\n"
-"Language-Team: Yoruba <https://weblate.securedrop.org/projects/securedrop/securedrop/yo/>\n"
-"Language: yo\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.1.1\n"
-"Generated-By: Babel 2.5.1\n"
+msgstr "Project-Id-Version: SecureDrop 1.0.0~rc1\nReport-Msgid-Bugs-To: securedrop@freedom.press\nPO-Revision-Date: 2025-03-11 17:34+0000\nLast-Translator: anonymous <noreply@weblate.org>\nLanguage-Team: Yoruba <https://weblate.securedrop.org/projects/securedrop/securedrop/yo/>\nLanguage: yo\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=1; plural=0;\nX-Generator: Weblate 5.10\nGenerated-By: Babel 2.5.1\n"
 
 msgid "Name too long"
 msgstr ""
@@ -968,12 +956,14 @@ msgstr ""
 msgid "You can submit any kind of file, a message, or both."
 msgstr "O leè Ṣe-àfisílẹ̀ onírúurú fáìlì, iṣẹ́-ìjẹ́, tàbí méjèèjì."
 
+#, fuzzy
 msgid "If you are already familiar with GPG, you can optionally encrypt your files and messages with our <a href=\"{url}\" class=\"text-link\">public key</a> before submission. Files are encrypted as they are received by SecureDrop."
 msgstr "Bí o bá mọ bí a ṣe ń lo GPG, o lè yí-odù fáìlì àti iṣẹ́-ìjẹ́ẹ̀ rẹ padà sí odù ààbò pẹ̀lú <a href=\"{url}\" ẹgbẹ́=\"àyọkà-ìsopọ̀\">kọ́kọ́rọ́ gbogboògbò wa</a> kí o tó ṣe-àfisílẹ̀. Odù fáìlì ń yí padà sí ti ààbò bí SecureDrop ṣe ń gbà á."
 
 msgid "If you are already familiar with GPG, you can optionally encrypt your messages with our <a href=\"{url}\" class=\"text-link\">public key</a> before submission."
 msgstr ""
 
+#, fuzzy
 msgid "<a href=\"{url}\" class=\"text-link\">Learn more</a>."
 msgstr "<a href=\"{url}\" ẹgbẹ́=\"àyọkà-ìsopọ̀\">Kọ́ sí i</a>."
 
@@ -1055,6 +1045,7 @@ msgstr "Ó Yẹ Kí O Lo Aṣàwáríkiri Tor"
 msgid "If you are not using Tor Browser, you <strong>may not be anonymous</strong>."
 msgstr "Bí o kò bá lo Aṣàwáríkiri Tor, o <strong>lè máà wà ní ipò àìlórúkọ</strong>."
 
+#, fuzzy
 msgid "If you want to submit information to SecureDrop, we <strong>strongly advise you</strong> to install Tor Browser and use it to access our site safely and anonymously."
 msgstr "Bí o bá fẹ́ ṣe-àfisílẹ̀ ìwífún sí oríi SecureDrop, a <lágbára>rọ̀ ọ́</lágbára> kí o fi Aṣàwáríkiri Tor sí orí ẹ̀rọọ̀ rẹ, kí o sì lò ó láti fi wọ inú ibùdóo wa pẹ̀lú ààbò àti ìpamọ́ ipò àìlórúkọ."
 
@@ -1093,6 +1084,7 @@ msgstr ""
 msgid "Import it into your GPG keyring."
 msgstr "Kó o wọlé sínúu GPG rẹ pẹ̀lú òrùkakọ́kọ́rọ́."
 
+#, fuzzy
 msgid "If you are using <a href=\"{url}\">Tails</a>, you can double-click the <code>.asc</code> file you just downloaded and it will be automatically imported to your keyring."
 msgstr "Bí o bá ń lo <a href=\"{url}\">Tails</a>, o lè tẹ <odù>.asc</odù> fáìlì tí o ṣẹ̀ṣẹ̀ ṣàgbàsílẹ̀ẹ rẹ̀ lẹ́ẹ̀-mejì yóò sì di kíkó wọlé sí òrùkakọ́kọ́rọ́ọ̀ rẹ fúnra rẹ̀."
 

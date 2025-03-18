@@ -4,19 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
 #
 msgid ""
-msgstr ""
-"Project-Id-Version: SecureDrop 0.6~rc2\n"
-"Report-Msgid-Bugs-To: securedrop@freedom.press\n"
-"PO-Revision-Date: 2023-12-09 06:30+0000\n"
-"Last-Translator: Reader <isabellinacrew@tuta.io>\n"
-"Language-Team: Chinese (Simplified) <https://weblate.securedrop.org/projects/securedrop/securedrop/zh_Hans/>\n"
-"Language: zh_Hans\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.1.1\n"
-"Generated-By: Babel 2.5.1\n"
+msgstr "Project-Id-Version: SecureDrop 0.6~rc2\nReport-Msgid-Bugs-To: securedrop@freedom.press\nPO-Revision-Date: 2025-02-25 09:08+0000\nLast-Translator: none <bearbeeprunestardust@users.noreply.weblate.securedrop.org>\nLanguage-Team: Chinese (Simplified Han script) <https://weblate.securedrop.org/projects/securedrop/securedrop/zh_Hans/>\nLanguage: zh_Hans\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=1; plural=0;\nX-Generator: Weblate 5.10\nGenerated-By: Babel 2.5.1\n"
 
 msgid "Name too long"
 msgstr "名字太长"
@@ -35,7 +23,7 @@ msgid "{time} ago"
 msgstr "{time} 之前"
 
 msgid "You have been logged out due to inactivity or a problem with your session."
-msgstr ""
+msgstr "由于不活跃或会话问题，你已经被退出登录。"
 
 msgid "SecureDrop"
 msgstr "SecureDrop"
@@ -364,7 +352,7 @@ msgid "No users to display"
 msgstr "无用户可显示"
 
 msgid "Update instance configuration"
-msgstr ""
+msgstr "更新实例配置"
 
 msgid "INSTANCE CONFIG"
 msgstr "实例配置"
@@ -412,10 +400,10 @@ msgid "Can't scan the barcode? You can manually pair FreeOTP with this account b
 msgstr "无法扫描二维码？您可手动输入下列两步验证密钥以将您的账户关联至 FreeOTP:"
 
 msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
-msgstr ""
+msgstr "<strong>紧急：</strong>&nbsp;&nbsp;你的 SecureDrop 服务器所用的操作系统生命周期已结束。需要手动更新来重新启用信源界面并保持安全。请联系你的管理员。<a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">了解更多</a>"
 
 msgid "<strong>Important:</strong>&nbsp;&nbsp;Your SecureDrop server needs manual attention to resolve issues blocking automatic upgrade to the next operating-system version. Please contact your adminstrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
-msgstr ""
+msgstr "<strong>重要：</strong>&nbsp;&nbsp;你的 SecureDrop 服务器需要人工关注来解决阻止自动更新到下一个操作系统版本的问题，请联系你的管理员。<a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">了解更多</a>"
 
 msgid "Navigation"
 msgstr "导航"
@@ -433,7 +421,7 @@ msgid "Log Out"
 msgstr "登出"
 
 msgid "Return to All Sources"
-msgstr ""
+msgstr "回到所有信源"
 
 msgid "Powered by <b>SecureDrop {version}</b>."
 msgstr "由 <b>SecureDrop {version}</b> 提供支持。"
@@ -448,13 +436,13 @@ msgid "All messages, files, and replies from sources are stored as encrypted fil
 msgstr "安全起见，线人的所有消息、文件和回复都经过加密存储。如果想要阅读，必须在脱机安全机上解密。"
 
 msgid "Download Selected Files"
-msgstr ""
+msgstr "下载选中的文件"
 
 msgid "Download Selected"
 msgstr "下载所选的部分"
 
 msgid "Delete Selected Files"
-msgstr ""
+msgstr "删除选中的文件"
 
 msgid "Delete Selected"
 msgstr "删除所选的部分"
@@ -684,25 +672,25 @@ msgid "Reset Security Key Credentials"
 msgstr "重置安全密钥凭证"
 
 msgid "Download Selected Unread Submissions"
-msgstr ""
+msgstr "下载选中的未读提交"
 
 msgid "Download Unread"
 msgstr "下载未读项"
 
 msgid "Download Selected Submissions"
-msgstr ""
+msgstr "下载选中的提交"
 
 msgid "Download"
 msgstr "下载"
 
 msgid "Star Selected Submissions"
-msgstr ""
+msgstr "开始选中的提交"
 
 msgid "Star"
 msgstr "标星"
 
 msgid "Un-star Selected Submissions"
-msgstr ""
+msgstr "取消所选提交的星标"
 
 msgid "Un-star"
 msgstr "去星"
@@ -720,7 +708,7 @@ msgid "Date"
 msgstr "日期"
 
 msgid "There are no submissions."
-msgstr ""
+msgstr "没有提交"
 
 msgid "Filter by codename"
 msgstr "按代号筛选"
@@ -756,7 +744,7 @@ msgid "Show password"
 msgstr "显示密码"
 
 msgid "Log In to Journalist Interface"
-msgstr ""
+msgstr "登录记者界面"
 
 msgid "LOG IN"
 msgstr "登录"
@@ -832,7 +820,7 @@ msgid "Important"
 msgstr "重中之重"
 
 msgid "You have been logged out due to inactivity or a problem with your session. Click the <img src={icon} alt=\"\" width=\"16\" height=\"16\">&nbsp;<b>New Identity</b> button in your Tor Browser's toolbar before moving on. This will clear your Tor Browser activity data on this device."
-msgstr ""
+msgstr "你的账户登录已被退出，原因是不活跃或者会话问题。单击 Tor 浏览器工具栏中的 <img src={icon} alt=\"\" width=\"16\" height=\"16\">&nbsp;<b>New Identity</b> 再进行下一步。这会清除该浏览器再这台设备上的活动数据。"
 
 msgid "Protecting Journalists and Sources"
 msgstr "庇护记者及线人"
@@ -841,10 +829,10 @@ msgid "Skip to notification"
 msgstr "跳至通知"
 
 msgid "Return to Submission Page"
-msgstr ""
+msgstr "返回提交页"
 
 msgid "Return to Home Page"
-msgstr ""
+msgstr "返回主页"
 
 msgid "We're sorry, our SecureDrop is currently offline."
 msgstr "抱歉，SecureDrop目前不可用。"
@@ -889,7 +877,7 @@ msgid "<strong>Keep it safe.</strong> There is no account recovery option."
 msgstr "<strong>请妥善保管</strong>，无法找回代号。"
 
 msgid "Continue to Submission Page"
-msgstr ""
+msgstr "继续前往提交页"
 
 msgid "Welcome"
 msgstr "欢迎"
@@ -916,7 +904,7 @@ msgid "<strong>It is recommended to use Tor Browser to access SecureDrop:</stron
 msgstr "<strong>我们推荐您搭配 Tor 浏览器访问 SecureDrop：</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">了解如何安装</a>，您也可以忽略此警告继续访问。"
 
 msgid "<strong>It is recommended you use the desktop version of Tor Browser to access SecureDrop, as Orfox does not provide the same level of security and anonymity as the desktop version.</strong> <a class=\"recommend-tor\" aria-label=\"Learn how to install Tor Browser\" href=\"{tor_browser_url}\" >Learn how to install it</a>, or ignore this warning to continue."
-msgstr ""
+msgstr "<strong>建议使用桌面版 Tor 浏览器来访问 SecureDrop，因 Orfox 不提供和桌面版相同的安全性和匿名性等。.</strong> <a class=\"recommend-tor\" aria-label=\"Learn how to install Tor Browser\" href=\"{tor_browser_url}\" >了解如何安装桌面版</a>，或者忽略此警告继续。"
 
 msgid "{} logo"
 msgstr "{} 图标"
@@ -928,7 +916,7 @@ msgid "First time submitting to our SecureDrop? Start here."
 msgstr "首次提交至我们的 SecureDrop？从此开始。"
 
 msgid "Get Started With Your First Submission"
-msgstr ""
+msgstr "开始第一次提交"
 
 msgid "GET STARTED"
 msgstr "开始入门"
@@ -940,7 +928,7 @@ msgid "Already have a codename? Check for replies or submit something new."
 msgstr "已有代码？查看回复或提交新内容。"
 
 msgid "Log In Using Your Codename"
-msgstr ""
+msgstr "使用代号登录"
 
 msgid "Log in"
 msgstr "登录"
@@ -952,16 +940,16 @@ msgid "Enter your codename"
 msgstr "输入您的代号"
 
 msgid "Cancel and Return to Previous Page"
-msgstr ""
+msgstr "取消并返回上一页"
 
 msgid "CANCEL"
 msgstr "取消"
 
 msgid "Additional Action Required"
-msgstr "需要其他操作"
+msgstr "需要额外操作"
 
 msgid "Log Back In"
-msgstr ""
+msgstr "再次登录"
 
 msgid "One more thing..."
 msgstr "还有一件事..."
@@ -997,10 +985,10 @@ msgid "Anti-spam check. Do not fill this in!"
 msgstr "人机验证：请勿填写此文本框！"
 
 msgid "Cancel and Clear Uploaded Content"
-msgstr ""
+msgstr "取消并清理已上传的内容"
 
 msgid "Submit Uploaded Content"
-msgstr ""
+msgstr "提交已上传的内容"
 
 msgid "Read Replies"
 msgstr "阅读回复"
@@ -1015,7 +1003,7 @@ msgid "Delete reply from {timestamp}?"
 msgstr "删除 {timestamp} 的回复？"
 
 msgid "Delete Reply"
-msgstr ""
+msgstr "删除回复"
 
 msgid "Delete All Replies"
 msgstr "删除所有回复"
@@ -1054,7 +1042,7 @@ msgid "Always use Tor Browser (<code>{}</code>) to access SecureDrop. Valid Secu
 msgstr "请使用 Tor 浏览器(<code>{}</code>) 来连接至 SecureDrop。SecureDrop 网站的地址都以 <code>.onion</code> 结尾。此站点的地址是 ："
 
 msgid "If you are already using Tor Browser, copy the address above and click Tor Browser's <strong>New Identity</strong> button before you access SecureDrop."
-msgstr ""
+msgstr "如果已经在使用 Tor 浏览器，复制上方地址并单击 Tor 浏览器的 <strong>新身份</strong>按钮，然后再访问 SecureDrop."
 
 msgid "If there is a reasonable risk of your Internet traffic being monitored, consider connecting from a different location or network."
 msgstr "如果你认为你的互联网连接可能被监听，请尝试连接到其他网络。"
@@ -1081,7 +1069,7 @@ msgid "Codename"
 msgstr "代号"
 
 msgid "Reveal Codename"
-msgstr ""
+msgstr "揭示代号"
 
 msgid "Show Codename"
 msgstr "显示代号"
