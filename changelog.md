@@ -1,26 +1,6 @@
 # Changelog
 
-## 2.12.0~rc3
-
-### Ubuntu 24.04 (Noble) upgrade
-
-* Correct end-of-life date for Ubuntu 20.04 (Focal) (#7459, #7465)
-* Remove `/etc/apt/sources.list.d/original.list` (#7462, #7467)
-* Remove `systemd-resolved` and explicitly install `systemd-hwe-hwdb` (#7466,
-  #7472)
-* Ignore RUSTSEC-2025-0014 (#7470, #7471)
-
-## 2.12.0~rc2
-
-### Web applications and APIs
-
-* Add support for disabling previously-supported languages (#7443, #7451)
-
-### Development
-
-* Add `libvirt-prod-noble` molecule scenario (#7449)
-
-## 2.12.0~rc1
+## 2.12.0
 
 ### Ubuntu 24.04 (Noble) upgrade
 
@@ -29,6 +9,11 @@
 * Set a fixed machine-id to ensure phased Noble updates are consistent (#7424)
 * Add script to upgrade from Ubuntu 20.04 (Focal) to Noble (#7406)
 * Add support for manual upgrades from Focal to Noble (#7427)
+* Correct end-of-life date for Ubuntu 20.04 (Focal) (#7459, #7465)
+* Remove `/etc/apt/sources.list.d/original.list` (#7462, #7467)
+* Remove `systemd-resolved` and explicitly install `systemd-hwe-hwdb` (#7466,
+  #7472)
+* Ignore RUSTSEC-2025-0014 (#7470, #7471)
 
 ### Web applications and APIs
 
@@ -37,6 +22,7 @@
 * Update Rust toolchain to 1.84.1 (#7423, #7437)
 * Add support for disabling previously-supported languages (#7443)
 * Remove Hindi as a supported language (#7446)
+* Add support for disabling previously-supported languages (#7443, #7451)
 * Ignore Safety alerts:
   * Ignore Safety 73969 in `jinja2` (#7402)
 * Update dependencies: 
@@ -65,6 +51,7 @@
 * Update `testinfra` tests to handle unapplied phased updates (#7420)
 * Update `testinfra` tests to speed up `pam_ecryptfs` check (#7428)
 * Update dependency review documentation to reflect Rust and Python differences (#7436)
+* Add `libvirt-prod-noble` molecule scenario (#7449)
 * Update dependencies:
   * Update `pip` to 25.0 (#7429)
 
