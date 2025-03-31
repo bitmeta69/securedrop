@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.12.1
+
+Note: this is an Admin Workstation-only release. Servers will not receive an update.
+
+### Ubuntu 24.04 (Noble) upgrade
+
+* Make noble-migration playbook smarter for SSH-over-Tor (#7484)
+* Extend reboot timeout to 600 seconds (#7484)
+
 ## 2.12.0
 
 ### Ubuntu 24.04 (Noble) upgrade

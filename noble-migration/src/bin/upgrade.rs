@@ -30,6 +30,8 @@ const EXTRA_APT_SOURCE: &str = "EXTRA_APT_SOURCE";
 ///
 /// Each stage needs to be idempotent so that it can be run multiple times
 /// in case it errors/crashes.
+///
+/// Keep this in sync with the version in noble-migration/tasks/main.yml
 #[derive(Serialize, Deserialize, PartialEq, Eq, Debug)]
 enum Stage {
     None,
