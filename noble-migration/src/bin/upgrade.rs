@@ -299,6 +299,7 @@ fn pending_updates(state: &mut State) -> Result<()> {
 /// we begin
 fn migration_check() -> Result<()> {
     info!("Checking pre-migration steps...");
+    // This should've been caught in should_upgrade() but let's double check
     if noble_migration::os_codename()? != "focal" {
         bail!("not a focal system");
     }
@@ -616,6 +617,13 @@ fn should_upgrade(state: &State) -> Result<bool> {
     if state.finished != Stage::None {
         info!("Upgrade has already started; will keep going");
         return Ok(true);
+    }
+    // Check if we're already on a noble system and we're not mid-upgrade
+    if state.finished == Stage::None
+        && noble_migration::os_codename()? == "noble"
+    {
+        info!("Already on a noble system; no need to upgrade.");
+        return Ok(false);
     }
     let (for_host, host_name) = if is_mon_server() {
         (&config.mon, "mon")
