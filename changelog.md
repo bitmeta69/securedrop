@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.12.2~rc2
+
+### Ubuntu 24.04 (Noble) upgrade
+
+* Update Noble migration check to prevent migration attempt on Noble systems (#7502)
+
 ## 2.12.2~rc1
 
 ### Ubuntu 24.04 (Noble) upgrade
