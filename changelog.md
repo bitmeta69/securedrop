@@ -1,15 +1,10 @@
 # Changelog
 
-## 2.12.2~rc2
+## 2.12.2
 
 ### Ubuntu 24.04 (Noble) upgrade
 
 * Update Noble migration check to prevent migration attempt on Noble systems (#7502)
-
-## 2.12.2~rc1
-
-### Ubuntu 24.04 (Noble) upgrade
-
 * Update Noble migration script to verify state of Ethernet interfaces (#7497)
 * Update OSSEC configuration to suppress erroneous APT messages (#7496)
 * Enable first phase of automated Noble upgrades (#7492)
@@ -23,6 +18,10 @@
 ### Operations
 
 * Update admin tools to trim newlines from inputted GPG fingerprints (#7474)
+
+### Development
+
+* Add version constraint for `setuptools-scm` to 8.1.0 on Focal builds (#7509) 
 
 ## 2.12.1
 
