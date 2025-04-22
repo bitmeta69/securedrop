@@ -6,7 +6,15 @@ set -euxo pipefail
 
 git --no-pager log -1 --oneline --show-signature --no-color
 
-OCI_RUN_ARGUMENTS="--user=root -v $(pwd):/src:Z"
+export UBUNTU_VERSION="${UBUNTU_VERSION:-focal}"
+
+# Setuptools_scm 8.3.0 breaks focal builds - so let's temporarily constrain it to 8.1.0
+TMP_CONSTRAINT="/srv/securedrop/requirements/python3/constraints.txt"
+if [[ $UBUNTU_VERSION == "focal" ]]; then
+    OCI_RUN_ARGUMENTS="-e PIP_CONSTRAINT=${TMP_CONSTRAINT} --user=root -v $(pwd):/src:Z"
+else
+    OCI_RUN_ARGUMENTS="--user=root -v $(pwd):/src:Z"
+fi
 
 # Default to podman if available
 if which podman > /dev/null 2>&1; then
@@ -26,7 +34,6 @@ export OCI_RUN_ARGUMENTS
 export OCI_BIN
 
 WHAT="${WHAT:-securedrop}"
-export UBUNTU_VERSION="${UBUNTU_VERSION:-focal}"
 
 cd "$(git rev-parse --show-toplevel)"
 
