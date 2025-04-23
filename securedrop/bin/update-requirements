@@ -2,23 +2,29 @@
 # shellcheck disable=SC2086
 set -euxo pipefail
 
-COMMON_ARGS="--generate-hashes --python-version 3.8 --python-platform x86_64-unknown-linux-gnu --custom-compile-command ./securedrop/bin/update-requirements"
+# Our $UBUNTU_VERSION is not available at runtime.
+source /etc/os-release
+
+# https://peps.python.org/pep-0508/#environment-markers
+PYTHON_VERSION="$(python3 -c 'import platform; print(".".join(platform.python_version_tuple()[:2]))')"
+
+COMMON_ARGS="--generate-hashes --python-version ${PYTHON_VERSION} --python-platform x86_64-unknown-linux-gnu --custom-compile-command ./securedrop/bin/update-requirements"
 
 cd "$(git rev-parse --show-toplevel)/securedrop"
 
 uv pip compile ${COMMON_ARGS} \
-    --output-file requirements/python3/develop-requirements.txt \
-    requirements/python3/translation-requirements.in \
-    requirements/python3/develop-requirements.in
+    --output-file requirements/${VERSION_CODENAME}/develop-requirements.txt \
+    requirements/translation-requirements.in \
+    requirements/develop-requirements.in
 uv pip compile ${COMMON_ARGS} \
-    --output-file requirements/python3/test-requirements.txt \
-    requirements/python3/test-requirements.in
+    --output-file requirements/${VERSION_CODENAME}/test-requirements.txt \
+    requirements/test-requirements.in
 uv pip compile ${COMMON_ARGS} \
-    --output-file requirements/python3/requirements.txt \
-    requirements/python3/requirements.in
+    --output-file requirements/${VERSION_CODENAME}/requirements.txt \
+    requirements/requirements.in
 uv pip compile ${COMMON_ARGS} \
-    --output-file requirements/python3/bootstrap-requirements.txt \
-    requirements/python3/bootstrap-requirements.in
+    --output-file requirements/${VERSION_CODENAME}/bootstrap-requirements.txt \
+    requirements/bootstrap-requirements.in
 uv pip compile ${COMMON_ARGS} \
-    --output-file requirements/python3/translation-requirements.txt \
-    requirements/python3/translation-requirements.in
+    --output-file requirements/${VERSION_CODENAME}/translation-requirements.txt \
+    requirements/translation-requirements.in
