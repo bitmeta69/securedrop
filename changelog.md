@@ -1,6 +1,15 @@
 # Changelog
 
-## 2.13.0~rc1
+## 2.12.3
+
+### Ubuntu 24.04 (Noble) upgrade
+
+* Do fully automated upgrade of 40% of app servers (#7516)
+* Run migration check first, before disabling unattended-upgrades (#7515)
+
+### Development
+
+* chown packages to host's user after building (#7512)
 
 ## 2.12.2
 
@@ -23,7 +32,7 @@
 
 ### Development
 
-* Add version constraint for `setuptools-scm` to 8.1.0 on Focal builds (#7509) 
+* Add version constraint for `setuptools-scm` to 8.1.0 on Focal builds (#7509)
 
 ## 2.12.1
 
