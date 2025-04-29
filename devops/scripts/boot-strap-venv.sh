@@ -4,8 +4,10 @@
 
 set -eo pipefail
 
-test -e /etc/os-release && source /etc/os-release
-VERSION_CODENAME="${VERSION_CODENAME:-focal}"
+UBUNTU_VERSION="${UBUNTU_VERSION:-focal}"
+
+# https://peps.python.org/pep-0508/#environment-markers
+PYTHON_VERSION="$(python3 -c 'import platform; print(".".join(platform.python_version_tuple()[:2]))')"
 
 get_venv_version() {
     "${1}/bin/python" -c "from __future__ import print_function; import sys; print(sys.version_info[0])"
@@ -20,8 +22,7 @@ venv_instructions() {
 }
 
 function virtualenv_bootstrap() {
-    PYTHON_VERSION="3.8"
-    DEV_CONSTRAINT="securedrop/requirements/${VERSION_CODENAME}/develop-constraints.txt"
+    DEV_CONSTRAINT="securedrop/requirements/${UBUNTU_VERSION}/develop-constraints.txt"
     VIRTUAL_ENV="${VIRTUAL_ENV:-}"  # Just to get around all the "set -u"
     if [ -n "$VIRTUAL_ENV" ]
     then
@@ -63,7 +64,7 @@ function virtualenv_bootstrap() {
             fi
         fi
 
-        PIP_CONSTRAINT=${DEV_CONSTRAINT} "${VENV}/bin/pip" install -q -r "securedrop/requirements/${VERSION_CODENAME}/develop-requirements.txt"
+        PIP_CONSTRAINT=${DEV_CONSTRAINT} "${VENV}/bin/pip" install -q -r "securedrop/requirements/${UBUNTU_VERSION}/develop-requirements.txt"
 
         . "${VENV}/bin/activate"
    fi
