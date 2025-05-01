@@ -7,6 +7,11 @@
     owner: root
     group: root
 
+- name: Disable noble migration
+  copy:
+    content: "{\"finished\":\"None\",\"bucket\":10}"
+    dest: /etc/securedrop-noble-migration-state.json
+
 - name: Install securedrop-config for unattended-upgrades, etc.
   apt:
     pkg: securedrop-config
