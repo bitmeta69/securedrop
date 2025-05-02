@@ -57,6 +57,7 @@ mkdir -p "$TEST_RESULTS"
 : "${TEST_LOCALES:="ar en_US"}"
 export TEST_LOCALES
 export TOR_FORCE_NET_CONFIG=0
+export COVERAGE_CORE=sysmon
 
 pytest \
     --force-flaky --max-runs=3 \
