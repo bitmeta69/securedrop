@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.12.5
+
+* Do fully automated upgrade of 100% of app servers (#7530)
+
 ## 2.12.4
 
 * Do fully automated upgrade of 60% of app servers (#7523)
