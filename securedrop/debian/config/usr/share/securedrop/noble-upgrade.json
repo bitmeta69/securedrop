@@ -5,6 +5,6 @@
     },
     "mon": {
         "enabled": true,
-        "bucket": 1
+        "bucket": 2
     }
 }
