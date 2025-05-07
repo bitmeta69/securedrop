@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.12.7
+
+* Do fully automated upgrade of 40% of mon servers (#7536)
+
 ## 2.12.6
 
 * Do fully automated upgrade of 20% of mon servers (#7531)
