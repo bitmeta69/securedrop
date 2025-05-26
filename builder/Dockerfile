@@ -29,9 +29,9 @@ RUN apt-get -y update && apt-get upgrade -y && apt-get install -y \
         unzip \
         zlib1g-dev
 
-ENV RUST_VERSION 1.84.1
-ENV RUSTUP_VERSION 1.27.1
-ENV RUSTUP_INIT_SHA256 6aeece6993e902708983b209d04c0d1dbb14ebb405ddb87def578d41f920f56d
+ENV RUST_VERSION 1.87.0
+ENV RUSTUP_VERSION 1.28.2
+ENV RUSTUP_INIT_SHA256 20a06e644b0d9bd2fbdbfd52d42540bdde820ea7df86e92e533c073da0cdd43c
 ENV RUSTUP_HOME /opt/rustup
 ENV CARGO_HOME /opt/cargo
 
