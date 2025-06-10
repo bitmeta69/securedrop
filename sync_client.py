@@ -42,6 +42,8 @@ Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 session = Session()
 
+summary = []
+
 
 def sync_entity(entity_cls, endpoint, key_name):
     logging.info(f"Syncing {key_name}")
@@ -103,7 +105,7 @@ def sync_entity(entity_cls, endpoint, key_name):
         f"{key_name.capitalize()} - Added: {added}, Updated: {updated}, Removed: {deleted}, Time: {elapsed:.2f}s"
     )
 
-    # Naive GET request timing to endpoint without '2'
+    naive_elapsed = None
     if endpoint.endswith("2"):
         base_endpoint = endpoint[:-1]
         naive_start = time.time()
@@ -112,6 +114,8 @@ def sync_entity(entity_cls, endpoint, key_name):
         naive_elapsed = time.time() - naive_start
         logging.info(f"Naive GET to {base_endpoint} took {naive_elapsed:.2f}s")
 
+    summary.append((key_name, elapsed, naive_elapsed))
+
 
 # Run sync for all entities
 sync_entity(Source, "http://localhost:8081/api/v1/sources2", "sources")
@@ -119,3 +123,10 @@ sync_entity(Submission, "http://localhost:8081/api/v1/submissions2", "submission
 sync_entity(Reply, "http://localhost:8081/api/v1/replies2", "replies")
 
 session.close()
+
+# Print summary
+print("\nSummary Table")
+print(f"{'Entity':<12} {'Sync Time (s)':<15} {'Naive Time (s)':<17} {'Speed-up':<10}")
+for name, sync_time, naive_time in summary:
+    speedup = f"{naive_time / sync_time:.2f}" if sync_time and naive_time else "N/A"
+    print(f"{name:<12} {sync_time:<15.2f} {naive_time:<17.2f} {speedup:<10}")
