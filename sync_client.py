@@ -58,32 +58,32 @@ def sync_entity(entity_cls, endpoint, key_name):
 
     incoming_uuids = set(items)
     added, updated, deleted = 0, 0, 0
-    changed_uuids = []
+    changed_uuids = set()
+
+    local_versions = {e.uuid: e.version for e in session.query(entity_cls).all()}
 
     for uuid, version in items.items():
+        local_version = local_versions.get(uuid)
+        if local_version is None:
+            session.add(entity_cls(uuid=uuid, version=version))
+            added += 1
+            changed_uuids.add(uuid)
+        elif local_version != version:
+            entity = session.get(entity_cls, uuid)
+            entity.version = version
+            updated += 1
+            changed_uuids.add(uuid)
+
+    for uuid in set(local_versions) - incoming_uuids:
         entity = session.get(entity_cls, uuid)
         if entity:
-            if entity.version != version:
-                entity.version = version
-                updated += 1
-                changed_uuids.append(uuid)
-        else:
-            entity = entity_cls(uuid=uuid, version=version)
-            session.add(entity)
-            added += 1
-            changed_uuids.append(uuid)
-
-    existing_entities = session.query(entity_cls).all()
-    for entity in existing_entities:
-        if entity.uuid not in incoming_uuids:
             session.delete(entity)
             deleted += 1
 
     session.commit()
 
-    # POST changed UUIDs
     if changed_uuids:
-        post_payload = {key_name: changed_uuids}
+        post_payload = {key_name: list(changed_uuids)}
         post_response = requests.post(endpoint, json=post_payload)
         post_response.raise_for_status()
         logging.info(f"Posted {len(changed_uuids)} changed {key_name} UUIDs back to API")
