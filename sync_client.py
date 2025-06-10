@@ -103,6 +103,15 @@ def sync_entity(entity_cls, endpoint, key_name):
         f"{key_name.capitalize()} - Added: {added}, Updated: {updated}, Removed: {deleted}, Time: {elapsed:.2f}s"
     )
 
+    # Naive GET request timing to endpoint without '2'
+    if endpoint.endswith("2"):
+        base_endpoint = endpoint[:-1]
+        naive_start = time.time()
+        naive_response = requests.get(base_endpoint)
+        naive_response.raise_for_status()
+        naive_elapsed = time.time() - naive_start
+        logging.info(f"Naive GET to {base_endpoint} took {naive_elapsed:.2f}s")
+
 
 # Run sync for all entities
 sync_entity(Source, "http://localhost:8081/api/v1/sources2", "sources")
