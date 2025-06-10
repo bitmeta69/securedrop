@@ -1,6 +1,7 @@
 import base64
 import binascii
 import datetime
+import hashlib
 import os
 import uuid
 from hmac import compare_digest
@@ -10,6 +11,7 @@ from typing import Any, Callable, Dict, List, Optional, Union
 import argon2
 
 # Using svg because it doesn't require additional dependencies
+import flask
 import two_factor
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.kdf import scrypt
@@ -128,6 +130,8 @@ class Source(db.Model):
         except GpgKeyNotFoundError:
             return None
 
+    # FIXME: returns a Dict, not JSON
+    # FIXME: should be @property
     def to_json(self) -> "Dict[str, object]":
         docs_msg_count = self.documents_messages_count()
 
@@ -161,6 +165,11 @@ class Source(db.Model):
             "remove_star_url": url_for("api.remove_star", source_uuid=self.uuid),
             "replies_url": url_for("api.all_source_replies", source_uuid=self.uuid),
         }
+
+    @property
+    # TODO: cache on write
+    def version(self) -> str:
+        return hashlib.sha256(flask.json.dumps(self.to_json()).encode()).hexdigest()
 
 
 class Submission(db.Model):
