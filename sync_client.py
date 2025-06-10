@@ -1,6 +1,7 @@
 # This is a prototype for demonstration only.  Co-written with ChatGPT.
 
 import logging
+import os
 import time
 
 import requests
@@ -43,9 +44,11 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 summary = []
+api_host = os.getenv("SD_JOURNALIST_API", "localhost:8081")
 
 
-def sync_entity(entity_cls, endpoint, key_name):
+def sync_entity(entity_cls, endpoint_path, key_name):
+    endpoint = f"http://{api_host}{endpoint_path}"
     logging.info(f"Syncing {key_name}")
     start_time = time.time()
 
@@ -118,9 +121,9 @@ def sync_entity(entity_cls, endpoint, key_name):
 
 
 # Run sync for all entities
-sync_entity(Source, "http://localhost:8081/api/v1/sources2", "sources")
-sync_entity(Submission, "http://localhost:8081/api/v1/submissions2", "submissions")
-sync_entity(Reply, "http://localhost:8081/api/v1/replies2", "replies")
+sync_entity(Source, "/api/v1/sources2", "sources")
+sync_entity(Submission, "/api/v1/submissions2", "submissions")
+sync_entity(Reply, "/api/v1/replies2", "replies")
 
 session.close()
 
