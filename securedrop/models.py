@@ -208,6 +208,8 @@ class Submission(db.Model):
     def is_message(self) -> bool:
         return self.filename.endswith("msg.gpg")
 
+    # FIXME: returns a Dict, not JSON
+    # FIXME: should be @property
     def to_json(self) -> "Dict[str, Any]":
         seen_by = {
             f.journalist.uuid
@@ -251,6 +253,11 @@ class Submission(db.Model):
             ),
             "seen_by": list(seen_by),
         }
+
+    @property
+    # TODO: cache on write
+    def version(self) -> str:
+        return hashlib.sha256(flask.json.dumps(self.to_json()).encode()).hexdigest()
 
     @property
     def seen(self) -> bool:

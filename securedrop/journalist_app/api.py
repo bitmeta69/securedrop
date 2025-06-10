@@ -314,6 +314,21 @@ def make_blueprint() -> Blueprint:
             200,
         )
 
+    @api.route("/submissions2", methods=["GET", "POST"])
+    def submissions() -> Tuple[flask.Response, int]:
+        if request.method == "GET":
+            submissions = Submission.query.all()
+            return jsonify(
+                {"submissions": {submission.uuid: submission.version for submission in submissions}}
+            ), 200
+
+        elif request.method == "POST":
+            data = request.json
+            submissions = Submission.query.filter(Submission.uuid.in_(data["submissions"]))
+            return jsonify(
+                {"submissions": [submission.to_json() for submission in submissions]}
+            ), 200
+
     @api.route("/replies", methods=["GET"])
     def get_all_replies() -> Tuple[flask.Response, int]:
         replies = Reply.query.all()
