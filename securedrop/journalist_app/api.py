@@ -124,10 +124,18 @@ def make_blueprint() -> Blueprint:
         sources = Source.query.filter_by(pending=False, deleted_at=None).all()
         return jsonify({"sources": [source.to_json() for source in sources]}), 200
 
-    @api.route("/sources2", methods=["GET"])
-    def get_all_sources2() -> Tuple[flask.Response, int]:
-        sources = Source.query.filter_by(pending=False, deleted_at=None).all()
-        return jsonify({"sources": {source.uuid: source.version for source in sources}}), 200
+    @api.route("/sources2", methods=["GET", "POST"])
+    def sources() -> Tuple[flask.Response, int]:
+        if request.method == "GET":
+            sources = Source.query.filter_by(pending=False, deleted_at=None).all()
+            return jsonify({"sources": {source.uuid: source.version for source in sources}}), 200
+
+        elif request.method == "POST":
+            data = request.json
+            sources = Source.query.filter_by(pending=False, deleted_at=None).filter(
+                Source.uuid.in_(data["sources"])
+            )
+            return jsonify({"sources": [source.to_json() for source in sources]}), 200
 
     @api.route("/sources/<source_uuid>", methods=["GET", "DELETE"])
     def single_source(source_uuid: str) -> Tuple[flask.Response, int]:
