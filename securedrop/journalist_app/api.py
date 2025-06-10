@@ -337,6 +337,17 @@ def make_blueprint() -> Blueprint:
             200,
         )
 
+    @api.route("/replies2", methods=["GET", "POST"])
+    def replies() -> Tuple[flask.Response, int]:
+        if request.method == "GET":
+            replies = Reply.query.all()
+            return jsonify({"replies": {reply.uuid: reply.version for reply in replies}}), 200
+
+        elif request.method == "POST":
+            data = request.json
+            replies = Reply.query.filter(Reply.uuid.in_(data["replies"]))
+            return jsonify({"replies": [reply.to_json() for reply in replies]}), 200
+
     @api.route("/seen", methods=["POST"])
     def seen() -> Tuple[flask.Response, int]:
         """

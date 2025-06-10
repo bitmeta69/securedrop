@@ -29,6 +29,13 @@ class Submission(Base):
     data = Column(SQLiteJSON, nullable=True)
 
 
+class Reply(Base):
+    __tablename__ = "replies"
+    uuid = Column(String, primary_key=True)
+    version = Column(String, nullable=False)
+    data = Column(SQLiteJSON, nullable=True)
+
+
 # Set up SQLAlchemy engine and session
 engine = create_engine("sqlite:///sources.db")
 Base.metadata.create_all(engine)
@@ -97,8 +104,9 @@ def sync_entity(entity_cls, endpoint, key_name):
     )
 
 
-# Run sync for both entities
+# Run sync for all entities
 sync_entity(Source, "http://localhost:8081/api/v1/sources2", "sources")
 sync_entity(Submission, "http://localhost:8081/api/v1/submissions2", "submissions")
+sync_entity(Reply, "http://localhost:8081/api/v1/replies2", "replies")
 
 session.close()

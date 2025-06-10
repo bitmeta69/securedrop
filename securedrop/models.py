@@ -302,6 +302,8 @@ class Reply(db.Model):
     def __repr__(self) -> str:
         return f"<Reply {self.filename!r}>"
 
+    # FIXME: returns a Dict, not JSON
+    # FIXME: should be @property
     def to_json(self) -> "Dict[str, Any]":
         seen_by = [r.journalist.uuid for r in SeenReply.query.filter(SeenReply.reply_id == self.id)]
         return {
@@ -323,6 +325,11 @@ class Reply(db.Model):
             "is_deleted_by_source": self.deleted_by_source,
             "seen_by": seen_by,
         }
+
+    @property
+    # TODO: cache on write
+    def version(self) -> str:
+        return hashlib.sha256(flask.json.dumps(self.to_json()).encode()).hexdigest()
 
 
 class SourceStar(db.Model):
