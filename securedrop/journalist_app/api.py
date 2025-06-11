@@ -7,6 +7,7 @@ from typing import Optional, Set, Tuple, Union
 from uuid import UUID
 
 import flask
+import redis
 import werkzeug
 from db import db
 from flask import Blueprint, abort, jsonify, request
@@ -22,11 +23,17 @@ from models import (
     Submission,
     WrongPasswordException,
 )
+from sdconfig import SecureDropConfig
 from sqlalchemy import Column
 from sqlalchemy.exc import IntegrityError
 from store import NotEncrypted, Storage
 from two_factor import OtpSecretInvalid, OtpTokenInvalid
 from werkzeug.exceptions import default_exceptions
+
+config = SecureDropConfig.get_current()
+redis_client = redis.Redis(**config.REDIS_KWARGS)
+
+HOUR = 60 * 60  # sec * min
 
 
 def get_or_404(model: db.Model, object_id: str, column: Column) -> db.Model:
@@ -128,22 +135,34 @@ def make_blueprint() -> Blueprint:
     @api.route("/head", methods=["GET"])
     @api.route("/head/<version>", methods=["GET"])
     def head(version: Optional[str] = None) -> Tuple[flask.Response, int]:
-        sources = Source.query.filter_by(pending=False, deleted_at=None).all()
-        submissions = Submission.query.all()
-        replies = Reply.query.all()
-        index = {
-            "sources": {source.uuid: source.version for source in sources},
-            "submissions": {submission.uuid: submission.version for submission in submissions},
-            "replies": {reply.uuid: reply.version for reply in replies},
-        }
+        try:
+            current = redis_client.get("version").decode()
+        except AttributeError:
+            sources = Source.query.filter_by(pending=False, deleted_at=None).all()
+            submissions = Submission.query.all()
+            replies = Reply.query.all()
+            index = {
+                "sources": {source.uuid: source.version for source in sources},
+                "submissions": {submission.uuid: submission.version for submission in submissions},
+                "replies": {reply.uuid: reply.version for reply in replies},
+            }
+            current = hashlib.sha256(json.dumps(index, sort_keys=True).encode()).hexdigest()
+            redis_client.set("version", current, ex=HOUR)
 
-        # FIXME: cache
-        current = hashlib.sha256(json.dumps(index, sort_keys=True).encode()).hexdigest()
         if version is None:
             return jsonify({"version": current}), 200
         elif version == current:
             return jsonify({}), 304
         else:
+            # TODO: DRY
+            sources = Source.query.filter_by(pending=False, deleted_at=None).all()
+            submissions = Submission.query.all()
+            replies = Reply.query.all()
+            index = {
+                "sources": {source.uuid: source.version for source in sources},
+                "submissions": {submission.uuid: submission.version for submission in submissions},
+                "replies": {reply.uuid: reply.version for reply in replies},
+            }
             return jsonify(index), 200
 
     @api.route("/index", methods=["POST"])

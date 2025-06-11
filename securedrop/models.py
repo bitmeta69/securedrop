@@ -12,6 +12,7 @@ import argon2
 
 # Using svg because it doesn't require additional dependencies
 import flask
+import redis
 import two_factor
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.kdf import scrypt
@@ -20,7 +21,18 @@ from encryption import EncryptionManager, GpgKeyNotFoundError
 from flask import url_for
 from flask_babel import gettext, ngettext
 from passphrases import PassphraseGenerator
-from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, LargeBinary, String, Text
+from sdconfig import SecureDropConfig
+from sqlalchemy import (
+    Boolean,
+    Column,
+    DateTime,
+    ForeignKey,
+    Integer,
+    LargeBinary,
+    String,
+    Text,
+    event,
+)
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Query, backref, relationship
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
@@ -29,6 +41,22 @@ from store import Storage
 _default_instance_config: Optional["InstanceConfig"] = None
 
 ARGON2_PARAMS = {"memory_cost": 2**16, "time_cost": 4, "parallelism": 2, "type": argon2.Type.ID}
+
+config = SecureDropConfig.get_current()
+redis_client = redis.Redis(**config.REDIS_KWARGS)
+
+
+class VersionResetMixin:
+    @classmethod
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        event.listen(cls, "after_insert", cls.clear_version_key)
+        event.listen(cls, "after_update", cls.clear_version_key)
+        event.listen(cls, "after_delete", cls.clear_version_key)
+
+    @staticmethod
+    def clear_version_key(mapper, connection, target):
+        redis_client.delete("version")
 
 
 def get_one_or_else(
@@ -44,7 +72,7 @@ def get_one_or_else(
         failure_method(404)
 
 
-class Source(db.Model):
+class Source(VersionResetMixin, db.Model):
     __tablename__ = "sources"
     id = Column(Integer, primary_key=True)
     uuid = Column(String(36), unique=True, nullable=False)
@@ -172,7 +200,7 @@ class Source(db.Model):
         return hashlib.sha256(flask.json.dumps(self.to_json()).encode()).hexdigest()
 
 
-class Submission(db.Model):
+class Submission(VersionResetMixin, db.Model):
     MAX_MESSAGE_LEN = 100000
 
     __tablename__ = "submissions"
@@ -268,7 +296,7 @@ class Submission(db.Model):
         return bool(self.downloaded or self.seen_files.count() or self.seen_messages.count())
 
 
-class Reply(db.Model):
+class Reply(VersionResetMixin, db.Model):
     __tablename__ = "replies"
     id = Column(Integer, primary_key=True)
     uuid = Column(String(36), unique=True, nullable=False)
