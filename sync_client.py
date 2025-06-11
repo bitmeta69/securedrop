@@ -43,21 +43,31 @@ Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 session = Session()
 
-summary = []
 api_host = os.getenv("SD_JOURNALIST_API", "localhost:8081")
+base_url = f"http://{api_host}/api/v1"
 
+# Single GET to collect all entity versions
+logging.info("Fetching all versions from API")
+start_all = time.time()
+get_versions = requests.get(f"{base_url}/index")
+get_versions.raise_for_status()
+all_versions = get_versions.json()
+fetch_all_elapsed = time.time() - start_all
 
-def sync_entity(entity_cls, endpoint_path, key_name):
-    endpoint = f"http://{api_host}{endpoint_path}"
+# Dictionary of entity classes
+entity_map = {
+    "sources": Source,
+    "submissions": Submission,
+    "replies": Reply,
+}
+
+# Collect UUIDs to POST per table
+uuids_to_fetch = {}
+sync_total_start = time.time()
+
+for key_name, entity_cls in entity_map.items():
     logging.info(f"Syncing {key_name}")
-    start_time = time.time()
-
-    # GET current state
-    response = requests.get(endpoint)
-    response.raise_for_status()
-    data = response.json()
-
-    items = data.get(key_name, {})
+    items = all_versions.get(key_name, {})
     if not isinstance(items, dict):
         raise ValueError(f"Expected '{key_name}' to be a dictionary of uuid: version pairs")
 
@@ -85,51 +95,48 @@ def sync_entity(entity_cls, endpoint_path, key_name):
             session.delete(entity)
             deleted += 1
 
+    uuids_to_fetch[key_name] = list(changed_uuids)
     session.commit()
+    logging.info(
+        f"{key_name.capitalize()} - Added: {added}, Updated: {updated}, Removed: {deleted}"
+    )
 
-    if changed_uuids:
-        post_payload = {key_name: list(changed_uuids)}
-        post_response = requests.post(endpoint, json=post_payload)
-        post_response.raise_for_status()
-        logging.info(f"Posted {len(changed_uuids)} changed {key_name} UUIDs back to API")
+# POST once with all UUIDs, if any
+post_payload = {k: v for k, v in uuids_to_fetch.items() if v}
+if post_payload:
+    logging.info("Fetching enriched data for changed entities")
+    post_response = requests.post(f"{base_url}/index", json=post_payload)
+    post_response.raise_for_status()
+    post_data = post_response.json()
 
-        post_data = post_response.json()
-        enriched_items = post_data.get(key_name, [])
-        for item in enriched_items:
+    # Save enriched data
+    for key_name, records in post_data.items():
+        entity_cls = entity_map.get(key_name)
+        if not entity_cls:
+            continue
+        for item in records:
             uuid = item.get("uuid")
             if uuid:
                 entity = session.get(entity_cls, uuid)
                 if entity:
                     entity.data = item
-
     session.commit()
-    elapsed = time.time() - start_time
-    logging.info(
-        f"{key_name.capitalize()} - Added: {added}, Updated: {updated}, Removed: {deleted}, Time: {elapsed:.2f}s"
-    )
 
-    naive_elapsed = None
-    if endpoint.endswith("2"):
-        base_endpoint = endpoint[:-1]
-        naive_start = time.time()
-        naive_response = requests.get(base_endpoint)
-        naive_response.raise_for_status()
-        naive_elapsed = time.time() - naive_start
-        logging.info(f"Naive GET to {base_endpoint} took {naive_elapsed:.2f}s")
+sync_total_elapsed = time.time() - sync_total_start
 
-    summary.append((key_name, elapsed, naive_elapsed))
+# Naive GET to old endpoint for comparison
+naive_total_start = time.time()
+for key in entity_map:
+    naive_url = f"{base_url}/{key}"
+    r = requests.get(naive_url)
+    r.raise_for_status()
+naive_total_elapsed = time.time() - naive_total_start
 
-
-# Run sync for all entities
-sync_entity(Source, "/api/v1/sources2", "sources")
-sync_entity(Submission, "/api/v1/submissions2", "submissions")
-sync_entity(Reply, "/api/v1/replies2", "replies")
-
+# Close session
 session.close()
 
 # Print summary
 print("\nSummary Table")
-print(f"{'Entity':<12} {'Sync Time (s)':<15} {'Naive Time (s)':<17} {'Speed-up':<10}")
-for name, sync_time, naive_time in summary:
-    speedup = f"{naive_time / sync_time:.2f}" if sync_time and naive_time else "N/A"
-    print(f"{name:<12} {sync_time:<15.2f} {naive_time:<17.2f} {speedup:<10}")
+print(f"{'Total Sync Time (s)':<25}: {sync_total_elapsed:.2f}")
+print(f"{'Total Naive GET Time (s)':<25}: {naive_total_elapsed:.2f}")
+print(f"{'Overall Speed-up':<25}: {naive_total_elapsed / sync_total_elapsed:.2f}")
