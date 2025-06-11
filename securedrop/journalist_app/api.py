@@ -1,8 +1,9 @@
 import collections.abc
+import hashlib
 import json
 from datetime import datetime, timezone
 from os import path
-from typing import Set, Tuple, Union
+from typing import Optional, Set, Tuple, Union
 from uuid import UUID
 
 import flask
@@ -124,36 +125,42 @@ def make_blueprint() -> Blueprint:
         sources = Source.query.filter_by(pending=False, deleted_at=None).all()
         return jsonify({"sources": [source.to_json() for source in sources]}), 200
 
-    @api.route("/index", methods=["GET", "POST"])
-    def sources() -> Tuple[flask.Response, int]:
-        if request.method == "GET":
-            sources = Source.query.filter_by(pending=False, deleted_at=None).all()
-            submissions = Submission.query.all()
-            replies = Reply.query.all()
-            return jsonify(
-                {
-                    "sources": {source.uuid: source.version for source in sources},
-                    "submissions": {
-                        submission.uuid: submission.version for submission in submissions
-                    },
-                    "replies": {reply.uuid: reply.version for reply in replies},
-                }
-            ), 200
+    @api.route("/head", methods=["GET"])
+    @api.route("/head/<version>", methods=["GET"])
+    def head(version: Optional[str] = None) -> Tuple[flask.Response, int]:
+        sources = Source.query.filter_by(pending=False, deleted_at=None).all()
+        submissions = Submission.query.all()
+        replies = Reply.query.all()
+        index = {
+            "sources": {source.uuid: source.version for source in sources},
+            "submissions": {submission.uuid: submission.version for submission in submissions},
+            "replies": {reply.uuid: reply.version for reply in replies},
+        }
 
-        elif request.method == "POST":
-            data = request.json
-            sources = Source.query.filter_by(pending=False, deleted_at=None).filter(
-                Source.uuid.in_(data.get("sources", []))
-            )
-            submissions = Submission.query.filter(Submission.uuid.in_(data.get("submissions", [])))
-            replies = Reply.query.filter(Reply.uuid.in_(data.get("replies", [])))
-            return jsonify(
-                {
-                    "sources": [source.to_json() for source in sources],
-                    "submissions": [submission.to_json() for submission in submissions],
-                    "replies": [reply.to_json() for reply in replies],
-                }
-            ), 200
+        # FIXME: cache
+        current = hashlib.sha256(json.dumps(index, sort_keys=True).encode()).hexdigest()
+        if version is None:
+            return jsonify({"version": current}), 200
+        elif version == current:
+            return jsonify({}), 304
+        else:
+            return jsonify(index), 200
+
+    @api.route("/index", methods=["POST"])
+    def sources() -> Tuple[flask.Response, int]:
+        data = request.json
+        sources = Source.query.filter_by(pending=False, deleted_at=None).filter(
+            Source.uuid.in_(data.get("sources", []))
+        )
+        submissions = Submission.query.filter(Submission.uuid.in_(data.get("submissions", [])))
+        replies = Reply.query.filter(Reply.uuid.in_(data.get("replies", [])))
+        return jsonify(
+            {
+                "sources": [source.to_json() for source in sources],
+                "submissions": [submission.to_json() for submission in submissions],
+                "replies": [reply.to_json() for reply in replies],
+            }
+        ), 200
 
     @api.route("/sources/<source_uuid>", methods=["GET", "DELETE"])
     def single_source(source_uuid: str) -> Tuple[flask.Response, int]:
