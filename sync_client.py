@@ -55,14 +55,13 @@ sync_total_start = time.time()
 sync_bytes_sent = 0
 sync_bytes_received = 0
 
-# GET from /head/<version>
+# GET from /head using If-None-Match header
 logging.info("Fetching version comparison from API")
-head_response = requests.get(f"{base_url}/head/{version_hash}")
+headers = {"If-None-Match": version_hash}
+head_response = requests.get(f"{base_url}/head", headers=headers)
 sync_bytes_sent += int(head_response.request.headers.get("Content-Length") or 0)
 sync_bytes_received += len(head_response.content)
-logging.info(
-    f"GET /head/{version_hash} - Sent: {sync_bytes_sent} bytes, Received: {sync_bytes_received} bytes"
-)
+logging.info(f"GET /head - Sent: {sync_bytes_sent} bytes, Received: {sync_bytes_received} bytes")
 
 if head_response.status_code == 304:
     logging.info("Client is current with server. Skipping data POST.")

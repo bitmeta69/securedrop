@@ -83,7 +83,7 @@ participant Client
 participant Server
 
 Client ->> Server: GET /head
-Server ->> Client: ??? bytes
+Server ->> Client: ??? bytes<br>ETag: <version>
 
 Client ->> Server: POST /index (??? bytes)
 Server ->> Client: ??? bytes
@@ -114,7 +114,7 @@ autonumber
 participant Client
 participant Server
 
-Client ->> Server: GET /head/<version>
+Client ->> Server: GET /head<br>If-None-Match: <version>
 Server ->> Client: ??? bytes
 
 Client ->> Server: POST /index (??? bytes)
@@ -141,7 +141,7 @@ autonumber
 participant Client
 participant Server
 
-Client ->> Server: GET /head/<version>
+Client ->> Server: GET /head<br>If-None-Match: <version>
 Server ->> Client: ~250 bytes
 ```
 

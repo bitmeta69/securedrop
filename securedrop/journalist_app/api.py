@@ -133,7 +133,6 @@ def make_blueprint() -> Blueprint:
         return jsonify({"sources": [source.to_json() for source in sources]}), 200
 
     @api.route("/head", methods=["GET"])
-    @api.route("/head/<version>", methods=["GET"])
     def head(version: Optional[str] = None) -> Tuple[flask.Response, int]:
         try:
             current = redis_client.get("version").decode()
@@ -147,19 +146,19 @@ def make_blueprint() -> Blueprint:
             current = hashlib.sha256(json.dumps(index, sort_keys=True).encode()).hexdigest()
             redis_client.set("version", current, ex=HOUR)
 
-        if version is None:
-            return jsonify({"version": current}), 200
-        elif version == current:
+        if request.headers.get("If-None-Match") == current:
             return jsonify({}), 304
-        else:
-            # TODO: DRY
-            sources = Source.query.filter_by(pending=False, deleted_at=None).all()
-            submissions = Submission.query.all()
-            replies = Reply.query.all()
-            index = {
-                "sources": {source.uuid: source.version for source in sources},
-            }
-            return jsonify(index), 200
+
+        # TODO: DRY
+        sources = Source.query.filter_by(pending=False, deleted_at=None).all()
+        submissions = Submission.query.all()
+        replies = Reply.query.all()
+        index = {
+            "sources": {source.uuid: source.version for source in sources},
+        }
+        response = jsonify(index)
+        response.headers["ETag"] = current
+        return response, 200
 
     @api.route("/index", methods=["POST"])
     def sources() -> Tuple[flask.Response, int]:
