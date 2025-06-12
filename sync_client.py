@@ -50,18 +50,25 @@ local_source_versions = {
 local_versions_json = json.dumps({"sources": local_source_versions}, sort_keys=True)
 version_hash = hashlib.sha256(local_versions_json.encode()).hexdigest()
 
-# Start total sync timing from the beginning of GET /head/<version>
+# Start total sync timing from the beginning of GET /head
 sync_total_start = time.time()
 sync_bytes_sent = 0
 sync_bytes_received = 0
 
 # GET from /head using If-None-Match header
 logging.info("Fetching version comparison from API")
-headers = {"If-None-Match": version_hash}
+headers = {
+    "If-None-Match": version_hash,
+    "Accept-Encoding": "gzip",
+}
 head_response = requests.get(f"{base_url}/head", headers=headers)
-sync_bytes_sent += int(head_response.request.headers.get("Content-Length") or 0)
-sync_bytes_received += len(head_response.content)
-logging.info(f"GET /head - Sent: {sync_bytes_sent} bytes, Received: {sync_bytes_received} bytes")
+compressed_request_size = 0  # GET typically has no body
+compressed_response_size = len(head_response.content)
+sync_bytes_sent += compressed_request_size
+sync_bytes_received += compressed_response_size
+logging.info(
+    f"GET /head - Sent: {compressed_request_size} bytes, Received: {compressed_response_size} bytes"
+)
 
 if head_response.status_code == 304:
     logging.info("Client is current with server. Skipping data POST.")
@@ -105,12 +112,19 @@ else:
     post_payload = {"sources": list(sorted(changed_uuids))}
     if post_payload["sources"]:
         logging.info("Fetching enriched data for changed sources")
-        post_response = requests.post(f"{base_url}/index", json=post_payload)
-        bytes_sent = int(post_response.request.headers.get("Content-Length") or 0)
-        bytes_received = len(post_response.content)
-        sync_bytes_sent += bytes_sent
-        sync_bytes_received += bytes_received
-        logging.info(f"POST /index - Sent: {bytes_sent} bytes, Received: {bytes_received} bytes")
+        post_headers = {
+            "Accept-Encoding": "gzip",
+            "Content-Type": "application/json",
+        }
+        post_data = json.dumps(post_payload).encode("utf-8")
+        post_response = requests.post(f"{base_url}/index", data=post_data, headers=post_headers)
+        compressed_request_size = len(post_data)
+        compressed_response_size = len(post_response.content)
+        sync_bytes_sent += compressed_request_size
+        sync_bytes_received += compressed_response_size
+        logging.info(
+            f"POST /index - Sent: {compressed_request_size} bytes, Received: {compressed_response_size} bytes"
+        )
 
         post_response.raise_for_status()
         post_data = post_response.json()
@@ -139,14 +153,17 @@ else:
 naive_total_start = time.time()
 naive_bytes_sent = 0
 naive_bytes_received = 0
+naive_headers = {"Accept-Encoding": "gzip"}
 for key in ["sources", "submissions", "replies"]:
     naive_url = f"{base_url}/{key}"
-    r = requests.get(naive_url)
-    bytes_sent = int(r.request.headers.get("Content-Length") or 0)
-    bytes_received = len(r.content)
-    naive_bytes_sent += bytes_sent
-    naive_bytes_received += bytes_received
-    logging.info(f"GET {naive_url} - Sent: {bytes_sent} bytes, Received: {bytes_received} bytes")
+    r = requests.get(naive_url, headers=naive_headers)
+    compressed_request_size = 0
+    compressed_response_size = len(r.content)
+    naive_bytes_sent += compressed_request_size
+    naive_bytes_received += compressed_response_size
+    logging.info(
+        f"GET {naive_url} - Sent: {compressed_request_size} bytes, Received: {compressed_response_size} bytes"
+    )
     r.raise_for_status()
 naive_total_elapsed = time.time() - naive_total_start
 
