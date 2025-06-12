@@ -67,10 +67,19 @@ version_hash = hashlib.sha256(local_versions_json.encode()).hexdigest()
 
 # Start total sync timing from the beginning of GET /head/<version>
 sync_total_start = time.time()
+sync_bytes_sent = 0
+sync_bytes_received = 0
 
 # GET from /head/<version>
 logging.info("Fetching version comparison from API")
 head_response = requests.get(f"{base_url}/head/{version_hash}")
+sync_bytes_sent += int(head_response.request.headers.get("Content-Length") or 0)
+sync_bytes_received += len(head_response.content)
+logging.info(
+    f"GET /head/{version_hash} - Sent: {sync_bytes_sent} bytes, Received: {sync_bytes_received} bytes"
+)
+sync_bytes_sent += int(head_response.request.headers.get("Content-Length") or 0)
+sync_bytes_received += len(head_response.content)
 
 if head_response.status_code == 304:
     logging.info("Client is current with server. Skipping data POST.")
@@ -123,6 +132,14 @@ else:
     if post_payload:
         logging.info("Fetching enriched data for changed entities")
         post_response = requests.post(f"{base_url}/index", json=post_payload)
+        bytes_sent = int(post_response.request.headers.get("Content-Length") or 0)
+        bytes_received = len(post_response.content)
+        sync_bytes_sent += bytes_sent
+        sync_bytes_received += bytes_received
+        logging.info(f"POST /index - Sent: {bytes_sent} bytes, Received: {bytes_received} bytes")
+        sync_bytes_sent += int(post_response.request.headers.get("Content-Length") or 0)
+        sync_bytes_received += len(post_response.content)
+
         post_response.raise_for_status()
         post_data = post_response.json()
 
@@ -143,9 +160,18 @@ else:
 
 # Naive GET to old endpoint for comparison
 naive_total_start = time.time()
+naive_bytes_sent = 0
+naive_bytes_received = 0
 for key in entity_map:
     naive_url = f"{base_url}/{key}"
     r = requests.get(naive_url)
+    bytes_sent = int(r.request.headers.get("Content-Length") or 0)
+    bytes_received = len(r.content)
+    naive_bytes_sent += bytes_sent
+    naive_bytes_received += bytes_received
+    logging.info(f"GET {naive_url} - Sent: {bytes_sent} bytes, Received: {bytes_received} bytes")
+    naive_bytes_sent += int(r.request.headers.get("Content-Length") or 0)
+    naive_bytes_received += len(r.content)
     r.raise_for_status()
 naive_total_elapsed = time.time() - naive_total_start
 
@@ -154,6 +180,11 @@ session.close()
 
 # Print summary
 print("\nSummary Table")
-print(f"{'Total Sync Time (s)':<25}: {sync_total_elapsed:.2f}")
-print(f"{'Total Naive GET Time (s)':<25}: {naive_total_elapsed:.2f}")
-print(f"{'Overall Speed-up':<25}: {naive_total_elapsed / sync_total_elapsed:.2f}")
+print(f"{'Total Sync Time (s)':<30}: {sync_total_elapsed:.2f}")
+print(f"{'Total Sync Bytes':<30}: {sync_bytes_sent + sync_bytes_received}")
+print(f"{'Total Naive GET Time (s)':<30}: {naive_total_elapsed:.2f}")
+print(f"{'Total Naive GET Bytes':<30}: {naive_bytes_sent + naive_bytes_received}")
+print(f"{'Overall Speed-up (time)':<30}: {naive_total_elapsed / sync_total_elapsed:.2f}")
+print(
+    f"{'Overall Speed-up (bytes)':<30}: {(naive_bytes_sent + naive_bytes_received) / max(sync_bytes_sent + sync_bytes_received, 1):.2f}"
+)
