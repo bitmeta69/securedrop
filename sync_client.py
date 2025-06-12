@@ -21,21 +21,12 @@ Base = declarative_base()
 class Source(Base):
     __tablename__ = "sources"
     uuid = Column(String, primary_key=True)
-    version = Column(String, nullable=False)
     data = Column(SQLiteJSON, nullable=True)
 
 
-class Submission(Base):
-    __tablename__ = "submissions"
+class Item(Base):
+    __tablename__ = "items"
     uuid = Column(String, primary_key=True)
-    version = Column(String, nullable=False)
-    data = Column(SQLiteJSON, nullable=True)
-
-
-class Reply(Base):
-    __tablename__ = "replies"
-    uuid = Column(String, primary_key=True)
-    version = Column(String, nullable=False)
     data = Column(SQLiteJSON, nullable=True)
 
 
@@ -48,21 +39,15 @@ session = Session()
 api_host = os.getenv("SD_JOURNALIST_API", "localhost:8081")
 base_url = f"http://{api_host}/api/v1"
 
-# Dictionary of entity classes
-entity_map = {
-    "sources": Source,
-    "submissions": Submission,
-    "replies": Reply,
+# Construct local {uuid: version} for sources
+local_source_versions = {
+    e.uuid: hashlib.sha256(json.dumps(e.data, sort_keys=True).encode()).hexdigest()
+    for e in session.query(Source)
+    if e.data is not None
 }
 
-# Construct local {entity: {uuid: version}} dict
-local_versions_by_entity = {
-    key_name: {e.uuid: e.version for e in session.query(entity_cls)}
-    for key_name, entity_cls in entity_map.items()
-}
-
-# Compute SHA-256 digest of local versions JSON
-local_versions_json = json.dumps(local_versions_by_entity, sort_keys=True)
+# Compute version hash
+local_versions_json = json.dumps({"sources": local_source_versions}, sort_keys=True)
 version_hash = hashlib.sha256(local_versions_json.encode()).hexdigest()
 
 # Start total sync timing from the beginning of GET /head/<version>
@@ -78,82 +63,75 @@ sync_bytes_received += len(head_response.content)
 logging.info(
     f"GET /head/{version_hash} - Sent: {sync_bytes_sent} bytes, Received: {sync_bytes_received} bytes"
 )
-sync_bytes_sent += int(head_response.request.headers.get("Content-Length") or 0)
-sync_bytes_received += len(head_response.content)
 
 if head_response.status_code == 304:
     logging.info("Client is current with server. Skipping data POST.")
     sync_total_elapsed = time.time() - sync_total_start
 else:
     head_response.raise_for_status()
-    all_versions = head_response.json()
+    all_versions = head_response.json().get("sources", {})
 
-    # Collect UUIDs to POST per table
-    uuids_to_fetch = {}
+    incoming_uuids = set(all_versions)
+    added, updated, deleted = 0, 0, 0
+    changed_uuids = set()
 
-    for key_name, entity_cls in entity_map.items():
-        logging.info(f"Syncing {key_name}")
-        items = all_versions.get(key_name, {})
-        if not isinstance(items, dict):
-            raise ValueError(f"Expected '{key_name}' to be a dictionary of uuid: version pairs")
-
-        incoming_uuids = set(items)
-        added, updated, deleted = 0, 0, 0
-        changed_uuids = set()
-
-        local_versions = local_versions_by_entity[key_name]
-
-        for uuid, version in items.items():
-            local_version = local_versions.get(uuid)
-            if local_version is None:
-                session.add(entity_cls(uuid=uuid, version=version))
-                added += 1
-                changed_uuids.add(uuid)
-            elif local_version != version:
-                entity = session.get(entity_cls, uuid)
-                entity.version = version
-                updated += 1
-                changed_uuids.add(uuid)
-
-        for uuid in set(local_versions) - incoming_uuids:
-            entity = session.get(entity_cls, uuid)
-            if entity:
-                session.delete(entity)
-                deleted += 1
-
-        uuids_to_fetch[key_name] = list(sorted(changed_uuids))
-        session.commit()
-        logging.info(
-            f"{key_name.capitalize()} - Added: {added}, Updated: {updated}, Removed: {deleted}"
+    for uuid, remote_version in all_versions.items():
+        entity = session.get(Source, uuid)
+        local_data = entity.data if entity else None
+        local_version = (
+            hashlib.sha256(
+                json.dumps(local_data, sort_keys=True, separators=(",", ":")).encode()
+            ).hexdigest()
+            if local_data is not None
+            else None
         )
+        if entity is None:
+            session.add(Source(uuid=uuid))
+            added += 1
+            changed_uuids.add(uuid)
+        elif local_version != remote_version:
+            updated += 1
+            changed_uuids.add(uuid)
 
-    # POST once with all UUIDs, if any
-    post_payload = {k: v for k, v in uuids_to_fetch.items() if v}
-    if post_payload:
-        logging.info("Fetching enriched data for changed entities")
+    for uuid in set(local_source_versions) - incoming_uuids:
+        entity = session.get(Source, uuid)
+        if entity:
+            session.delete(entity)
+            deleted += 1
+
+    session.commit()
+    logging.info(f"Sources - Added: {added}, Updated: {updated}, Removed: {deleted}")
+
+    # POST once with only sources
+    post_payload = {"sources": list(sorted(changed_uuids))}
+    if post_payload["sources"]:
+        logging.info("Fetching enriched data for changed sources")
         post_response = requests.post(f"{base_url}/index", json=post_payload)
         bytes_sent = int(post_response.request.headers.get("Content-Length") or 0)
         bytes_received = len(post_response.content)
         sync_bytes_sent += bytes_sent
         sync_bytes_received += bytes_received
         logging.info(f"POST /index - Sent: {bytes_sent} bytes, Received: {bytes_received} bytes")
-        sync_bytes_sent += int(post_response.request.headers.get("Content-Length") or 0)
-        sync_bytes_received += len(post_response.content)
 
         post_response.raise_for_status()
         post_data = post_response.json()
 
-        # Save enriched data
-        for key_name, records in post_data.items():
-            entity_cls = entity_map.get(key_name)
-            if not entity_cls:
-                continue
-            for item in records:
-                uuid = item.get("uuid")
-                if uuid:
-                    entity = session.get(entity_cls, uuid)
-                    if entity:
-                        entity.data = item
+        for item in post_data.get("sources", []):
+            uuid = item.get("uuid")
+            if uuid:
+                entity = session.get(Source, uuid)
+                if entity:
+                    entity.data = item
+
+        for item in post_data.get("items", []):
+            uuid = item.get("uuid")
+            if uuid:
+                entity = session.get(Item, uuid)
+                if entity is None:
+                    entity = Item(uuid=uuid)
+                    session.add(entity)
+                entity.data = item
+
         session.commit()
 
     sync_total_elapsed = time.time() - sync_total_start
@@ -162,7 +140,7 @@ else:
 naive_total_start = time.time()
 naive_bytes_sent = 0
 naive_bytes_received = 0
-for key in entity_map:
+for key in ["sources", "submissions", "replies"]:
     naive_url = f"{base_url}/{key}"
     r = requests.get(naive_url)
     bytes_sent = int(r.request.headers.get("Content-Length") or 0)
@@ -170,8 +148,6 @@ for key in entity_map:
     naive_bytes_sent += bytes_sent
     naive_bytes_received += bytes_received
     logging.info(f"GET {naive_url} - Sent: {bytes_sent} bytes, Received: {bytes_received} bytes")
-    naive_bytes_sent += int(r.request.headers.get("Content-Length") or 0)
-    naive_bytes_received += len(r.content)
     r.raise_for_status()
 naive_total_elapsed = time.time() - naive_total_start
 

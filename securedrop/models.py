@@ -2,6 +2,7 @@ import base64
 import binascii
 import datetime
 import hashlib
+import json
 import os
 import uuid
 from hmac import compare_digest
@@ -175,6 +176,7 @@ class Source(VersionResetMixin, db.Model):
 
         return {
             "uuid": self.uuid,
+            "collection_version": self.collection_version,
             "url": url_for("api.single_source", source_uuid=self.uuid),
             "journalist_designation": self.journalist_designation,
             "is_flagged": False,
@@ -197,7 +199,16 @@ class Source(VersionResetMixin, db.Model):
     @property
     # TODO: cache on write
     def version(self) -> str:
-        return hashlib.sha256(flask.json.dumps(self.to_json()).encode()).hexdigest()
+        return hashlib.sha256(flask.json.dumps(self.to_json(), sort_keys=True).encode()).hexdigest()
+
+    @property
+    def index(self) -> Dict[str, str]:
+        return {item.uuid: item.version for item in self.collection}
+
+    @property
+    # TODO: cache on write
+    def collection_version(self) -> str:
+        return hashlib.sha256(json.dumps(self.index, sort_keys=True).encode()).hexdigest()
 
 
 class Submission(VersionResetMixin, db.Model):

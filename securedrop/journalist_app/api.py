@@ -143,8 +143,6 @@ def make_blueprint() -> Blueprint:
             replies = Reply.query.all()
             index = {
                 "sources": {source.uuid: source.version for source in sources},
-                "submissions": {submission.uuid: submission.version for submission in submissions},
-                "replies": {reply.uuid: reply.version for reply in replies},
             }
             current = hashlib.sha256(json.dumps(index, sort_keys=True).encode()).hexdigest()
             redis_client.set("version", current, ex=HOUR)
@@ -160,8 +158,6 @@ def make_blueprint() -> Blueprint:
             replies = Reply.query.all()
             index = {
                 "sources": {source.uuid: source.version for source in sources},
-                "submissions": {submission.uuid: submission.version for submission in submissions},
-                "replies": {reply.uuid: reply.version for reply in replies},
             }
             return jsonify(index), 200
 
@@ -171,13 +167,13 @@ def make_blueprint() -> Blueprint:
         sources = Source.query.filter_by(pending=False, deleted_at=None).filter(
             Source.uuid.in_(data.get("sources", []))
         )
-        submissions = Submission.query.filter(Submission.uuid.in_(data.get("submissions", [])))
-        replies = Reply.query.filter(Reply.uuid.in_(data.get("replies", [])))
         return jsonify(
             {
                 "sources": [source.to_json() for source in sources],
-                "submissions": [submission.to_json() for submission in submissions],
-                "replies": [reply.to_json() for reply in replies],
+                # TODO: Maybe strengthen link from item to source; maybe
+                # separate by model class; it doesn't matter for prototyping
+                # sync.
+                "items": [item.to_json() for source in sources for item in source.collection],
             }
         ), 200
 

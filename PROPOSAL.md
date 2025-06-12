@@ -70,9 +70,10 @@ When we run for the first time:
 
 1. Tell the Server what we have: nothing.
 2. The server enumerates its current _index_: the UUIDs and versions (hashes) of
-   all sources, submissions, and replies.
+   all sources.
 3. Ask the server for what we're missing: everything.
-4. The server returns the metadata for all sources, submissions, and replies.
+4. The server returns the metadata for all sources and their _collections_
+   (submissions and replies).
 
 ```mermaid
 sequenceDiagram
@@ -82,16 +83,16 @@ participant Client
 participant Server
 
 Client ->> Server: GET /head
-Server ->> Client: 997608 bytes
+Server ->> Client: ??? bytes
 
-Client ->> Server: POST /index (376483 bytes)
-Server ->> Client: 11122931
+Client ->> Server: POST /index (??? bytes)
+Server ->> Client: ??? bytes
 ```
 
-|         | Data     | Time      |
-| ------- | -------- | --------- |
-| Total   | 12.50 MB | 56.10 sec |
-| Speedup | 0.89     | 0.58      |
+|         | Data   | Time      |
+| ------- | ------ | --------- |
+| Total   | ??? MB | 56.10 sec |
+| Speedup | ???    | 0.58      |
 
 #### Something's changed
 
@@ -102,9 +103,9 @@ via `loaddata.py`):
    our own _index_.
 2. The server enumerates its current _index_: it has a different _version_, so
    it sends us the entire _index_.
-3. Ask the server for what we're missing: here, it's 3 new sources and their
-   submissions and replies.
-4. The server returns the metadata for just those resources.
+3. Ask the server for what we're missing: here, it's 3 new sources.
+4. The server returns the metadata for just those sources and their
+   _collections_.
 
 ```mermaid
 sequenceDiagram
@@ -114,16 +115,16 @@ participant Client
 participant Server
 
 Client ->> Server: GET /head/<version>
-Server ->> Client: 999834 bytes
+Server ->> Client: ??? bytes
 
-Client ->> Server: POST /index (883 bytes)
-Server ->> Client: 25099 bytes
+Client ->> Server: POST /index (??? bytes)
+Server ->> Client: ??? bytes
 ```
 
-|         | Data    | Time      |
-| ------- | ------- | --------- |
-| Total   | 1.03 MB | 30.65 sec |
-| Speedup | 10.80   | 1.06      |
+|         | Data   | Time      |
+| ------- | ------ | --------- |
+| Total   | ??? MB | 30.65 sec |
+| Speedup | ???    | 1.06      |
 
 #### Steady state
 
@@ -141,7 +142,7 @@ participant Client
 participant Server
 
 Client ->> Server: GET /head/<version>
-Server ->> Client: ~250 bytes bytes
+Server ->> Client: ~250 bytes
 ```
 
 |         | Data       | Time     |
