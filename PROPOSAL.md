@@ -59,7 +59,7 @@ Server ->> Client: 1374009 bytes
 
 |         | Data     | Time      |
 | ------- | -------- | --------- |
-| Total   | 22.25 MB | 32.65 sec |
+| Total   | 11.12 MB | 32.65 sec |
 | Speedup | 1.00     | 1.00      |
 
 ### Proposal: Hash-based versioning
@@ -86,13 +86,11 @@ Server ->> Client: 997608 bytes
 
 Client ->> Server: POST /index (376483 bytes)
 Server ->> Client: 11122931
-
-Note over Client: 24.99 MB in 56.10 sec
 ```
 
 |         | Data     | Time      |
 | ------- | -------- | --------- |
-| Total   | 24.99 MB | 56.10 sec |
+| Total   | 12.50 MB | 56.10 sec |
 | Speedup | 0.89     | 0.58      |
 
 #### Something's changed
@@ -120,14 +118,12 @@ Server ->> Client: 999834 bytes
 
 Client ->> Server: POST /index (883 bytes)
 Server ->> Client: 25099 bytes
-
-Note over Client: 2.05 MB in 30.65 sec
 ```
 
 |         | Data    | Time      |
 | ------- | ------- | --------- |
-| Total   | 2.05 MB | 30.65 sec |
-| Speedup | 10.85   | 1.00      |
+| Total   | 1.03 MB | 30.65 sec |
+| Speedup | 10.80   | 1.06      |
 
 #### Steady state
 
@@ -145,15 +141,13 @@ participant Client
 participant Server
 
 Client ->> Server: GET /head/<version>
-Server ->> Client: 0 bytes
-
-Note over Client: ~250 bytes in 0.59 sec
+Server ->> Client: ~250 bytes bytes
 ```
 
 |         | Data       | Time     |
 | ------- | ---------- | -------- |
 | Total   | ~250 bytes | 0.59 sec |
-| Speedup | ~99,960    | 55.34    |
+| Speedup | ~44,480    | 55.34    |
 
 ## Implementation suggestions
 
