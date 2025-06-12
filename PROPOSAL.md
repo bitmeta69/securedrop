@@ -69,8 +69,8 @@ Server ->> Client: 1374009 bytes
 When we run for the first time:
 
 1. Tell the Server what we have: nothing.
-2. The server enumerates its current _index_: the UUIDs of all sources,
-   submissions, and replies.
+2. The server enumerates its current _index_: the UUIDs and versions (hashes) of
+   all sources, submissions, and replies.
 3. Ask the server for what we're missing: everything.
 4. The server returns the metadata for all sources, submissions, and replies.
 
