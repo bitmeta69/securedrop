@@ -34,7 +34,7 @@ Initial data on server:
     My test transcripts, in need of some clean-up, are in
     <https://pad.riseup.net/p/iwpOKj8jUgVy3OhVmJic>.
 
-## Status quo: naïve fetch
+### Status quo: naïve fetch
 
 Every time, no matter what has or hasn't changed, the Client asks the Server for
 the metadata about (1–2) _all_ sources, (3–4) _all_ submissions, and (5–6) _all_
@@ -62,9 +62,9 @@ Server ->> Client: 1374009 bytes
 | Total   | 22.25 MB | 32.65 sec |
 | Speedup | 1.00     | 1.00      |
 
-## Proposal: Hash-based versioning
+### Proposal: Hash-based versioning
 
-### Initial fetch
+#### Initial fetch
 
 When we run for the first time:
 
@@ -95,7 +95,7 @@ Note over Client: 24.99 MB in 56.10 sec
 | Total   | 24.99 MB | 56.10 sec |
 | Speedup | 0.89     | 0.58      |
 
-### Something's changed
+#### Something's changed
 
 If _any_ server-side state has changed, whether from a source or journalist (or
 via `loaddata.py`):
@@ -129,7 +129,7 @@ Note over Client: 2.05 MB in 30.65 sec
 | Total   | 2.05 MB | 30.65 sec |
 | Speedup | 10.85   | 1.00      |
 
-### Steady state
+#### Steady state
 
 Next time, and in fact _most_ times, we get lucky:
 
