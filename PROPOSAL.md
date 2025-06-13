@@ -20,19 +20,21 @@
 3. This does not minimize CPU cost—although I demonstrate some caching here, and
    more optimization is possible.
 
-## Overview and benchmarks[^1]
+## Overview and benchmarks
 
 Initial data on server:
 
-| Entity      | Count |
-| ----------- | ----- |
-| Source      | 1347  |
-| Submissions | 5380  |
-| Replies     | 2684  |
+| Entity      | Count                     |
+| ----------- | ------------------------- |
+| Source      | 1362                      |
+| Submissions | 4/source = 5448 (approx.) |
+| Replies     | 2/source = 2724 (approx.) |
+
+In the measurements below, bytes are counted compressed[^1], and times are over Tor.
 
 [^1]:
-    My test transcripts, in need of some clean-up, are in
-    <https://pad.riseup.net/p/iwpOKj8jUgVy3OhVmJic>.
+    Since `requests` automatically decompresses the incoming response, we
+    manually recompress it via `gzip` and take the length.
 
 ### Status quo: naïve fetch
 
@@ -48,19 +50,19 @@ participant Client
 participant Server
 
 Client ->> Server: GET /sources
-Server ->> Client: 7041672 bytes
+Server ->> Client: 4440155 bytes
 
 Client ->> Server: GET /submissions
-Server ->> Client: 2707254 bytes
+Server ->> Client: 283382 bytes
 
 Client ->> Server: GET /replies
-Server ->> Client: 1374009 bytes
+Server ->> Client: 160169 bytes
 ```
 
-|         | Data     | Time      |
-| ------- | -------- | --------- |
-| Total   | 11.12 MB | 32.65 sec |
-| Speedup | 1.00     | 1.00      |
+|         | Data    | Time      |
+| ------- | ------- | --------- |
+| Total   | 4.88 MB | 49.34 sec |
+| Speedup | 1.00    | 1.00      |
 
 ### Proposal: Hash-based versioning
 
@@ -83,16 +85,16 @@ participant Client
 participant Server
 
 Client ->> Server: GET /head
-Server ->> Client: ??? bytes<br>ETag: <version>
+Server ->> Client: 82861 bytes<br>ETag: <version>
 
-Client ->> Server: POST /index (??? bytes)
-Server ->> Client: ??? bytes
+Client ->> Server: POST /index (29865 bytes)
+Server ->> Client: 4855285 bytes
 ```
 
-|         | Data   | Time      |
-| ------- | ------ | --------- |
-| Total   | ??? MB | 56.10 sec |
-| Speedup | ???    | 0.58      |
+|         | Data    | Time      |
+| ------- | ------- | --------- |
+| Total   | 4.97 MB | 70.85 sec |
+| Speedup | 0.98    | 0.69      |
 
 #### Something's changed
 
@@ -115,16 +117,25 @@ participant Client
 participant Server
 
 Client ->> Server: GET /head<br>If-None-Match: <version>
-Server ->> Client: ??? bytes
+Server ->> Client: 83046 bytes
 
-Client ->> Server: POST /index (??? bytes)
-Server ->> Client: ??? bytes
+Client ->> Server: POST /index (125 bytes)
+Server ->> Client: 11562 bytes
 ```
 
-|         | Data   | Time      |
-| ------- | ------ | --------- |
-| Total   | ??? MB | 30.65 sec |
-| Speedup | ???    | 1.06      |
+##### Cache miss: server has to recalculate index
+
+|         | Data    | Time      |
+| ------- | ------- | --------- |
+| Total   | 0.08 MB | 29.23 sec |
+| Speedup | 61.00   | 1.68      |
+
+##### Cache hit: server returns cached version
+
+|         | Data    | Time          |
+| ------- | ------- | ------------- |
+| Total   | 0.08 MB | **18.38** sec |
+| Speedup | 61.00   | **2.68**      |
 
 #### Steady state
 
@@ -142,13 +153,13 @@ participant Client
 participant Server
 
 Client ->> Server: GET /head<br>If-None-Match: <version>
-Server ->> Client: ~250 bytes
+Server ->> Client: 20 bytes
 ```
 
-|         | Data       | Time     |
-| ------- | ---------- | -------- |
-| Total   | ~250 bytes | 0.59 sec |
-| Speedup | ~44,480    | 55.34    |
+|         | Data     | Time     |
+| ------- | -------- | -------- |
+| Total   | 20 bytes | 0.66 sec |
+| Speedup | 244,000  | 74.76    |
 
 ## Implementation suggestions
 
