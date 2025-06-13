@@ -163,19 +163,22 @@ Server ->> Client: 20 bytes
 
 ## Implementation suggestions
 
-1. In the Client, persist the JSON-format metadata directly to SQLite, without
-   further de/serialization. I've been accumulating the hypothesis that this will
-   be the easiest way to consume the Journalist API's JSON responses from a
-   JavaScript/TypeScript app anyway, and this week @legoktm sent me a
-   [testimonial to this
-   approach](https://crawshaw.io/blog/programming-with-agents) (see the section
-   beginning "Example: SQL conventions around JSON").
+### Persistence
 
-2. Instead of maintaining a "job queue" of Client-side writes—and having to
-   retry and reconcile them—make them blocking. For example, block the Client on
-   starring a new source until the Server accepts it; block the Client until a
-   new reply has been sent; etc. Keeping user-initiated actions synchronous will
-   eliminate both technical and UX complexity.
+In the Client, persist the JSON-format metadata directly to SQLite, without
+further de/serialization. I've been accumulating the hypothesis that this will
+be the easiest way to consume the Journalist API's JSON responses from a
+JavaScript/TypeScript app anyway, and this week @legoktm sent me a [testimonial
+to this approach](https://crawshaw.io/blog/programming-with-agents) (see the
+section beginning "Example: SQL conventions around JSON").
+
+### Client-to-Server writes
+
+Instead of maintaining a "job queue" of Client-side writes—and having to retry
+and reconcile them—make them blocking. For example, block the Client on starring
+a new source until the Server accepts it; block the Client until a new reply has
+been sent; etc. Keeping user-initiated actions synchronous will eliminate both
+technical and UX complexity.
 
 ## See also
 
