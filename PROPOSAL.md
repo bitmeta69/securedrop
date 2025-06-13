@@ -68,10 +68,16 @@ When we run for the first time:
 
 1. Tell the Server what we have: nothing.
 2. The server enumerates its current _index_: the UUIDs and versions (hashes) of
-   all sources.
+   all source metadata, plus the current global version in the [`ETag`
+   header][etag].
+   - Each source's metadata includes a `collection_version` property over its
+     `collection` of submissions and replies, also enumerated by UUID and
+     version.
 3. Ask the server for what we're missing: everything.
 4. The server returns the metadata for all sources and their _collections_
    (submissions and replies).
+
+[etag]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/ETag
 
 ```mermaid
 sequenceDiagram
@@ -113,7 +119,7 @@ participant Client
 participant Server
 
 Client ->> Server: GET /head<br>If-None-Match: <version>
-Server ->> Client: 83046 bytes
+Server ->> Client: 83046 bytes<br>ETag: <version>
 
 Client ->> Server: POST /index (125 bytes)
 Server ->> Client: 11562 bytes
@@ -127,6 +133,12 @@ Server ->> Client: 11562 bytes
 | Speedup | 61.00   | 1.68      |
 
 ##### Cache hit: server returns cached version
+
+As prototyped here, the cache is invalidated:
+
+- after inserting, updating, or deleting any `Source`, `Submission`, or `Reply`;
+  or
+- after 1 hour.
 
 |         | Data    | Time          |
 | ------- | ------- | ------------- |
@@ -177,9 +189,9 @@ This proposal seeks to avoid (a) timestamped-based cursors, which are
 challenging to implement robustly for all our queries of interest[^3]; and (b)
 pagination, which introduces new state to track during a given sync iteration.
 
-However, let's consder each of these strategies to be a form of sharding.
+However, let's consider each of these strategies to be a form of sharding.
 Cursors shard across timestamps, and pagination shards over the size of the
-collection. What else can we we shard? One option is the `Source.uuid` field,
+collection. What else can we shard? One option is the `Source.uuid` field,
 which should be uniformly distributed:
 
 ```sh-session
@@ -246,6 +258,7 @@ in the client and then batching them _into_ the sync request, e.g.:
 
 Then the server's response can include both (a) the updated index after these
 changes and (b) the UUIDs of which events have been accepted or rejected.
+(Server wins; client loses.)
 
 ## See also
 

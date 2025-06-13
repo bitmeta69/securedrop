@@ -13,8 +13,7 @@ from collections import defaultdict
 import requests
 from sqlalchemy import Column, String, create_engine
 from sqlalchemy.dialects.sqlite import JSON as SQLiteJSON
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import declarative_base, sessionmaker
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
