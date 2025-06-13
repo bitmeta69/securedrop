@@ -209,11 +209,40 @@ This suggests a future refinement of this sync strategy:
 
 ### Client-to-Server writes
 
+The Journalist API currently accepts the following writes from clients:
+
+| Resource            | Verb         |
+| ------------------- | ------------ |
+| Source (account)    | `DELETE`[^4] |
+| Source conversation | `DELETE`     |
+| Star                | `POST`       |
+| Star                | `DELETE`     |
+| Reply               | `POST`       |
+| "Seen" record       | `POST`       |
+
 Instead of maintaining a "job queue" of Client-side writes—and having to retry
 and reconcile them—make them blocking. For example, block the Client on starring
 a new source until the Server accepts it; block the Client until a new reply has
 been sent; etc. Keeping user-initiated actions synchronous will eliminate both
 technical and UX complexity.
+
+If the UX we want requires asynchronous writes, we could try accumulating them
+in the client and then batching them _into_ the sync request, e.g.:
+
+```json
+{
+   "sources": [],  # to update during fetch
+   "changes":
+   [
+      {"event_uuid": "<uuid>", "event_type": "source_starred", "source_uuid": "<uuid>"},
+      {"event_uuid": "<uuid>", "event_type": "source_deleted", "source_uuid": "<uuid>"},
+      {"event_uuid": "<uuid>", "event_type": "reply_sent", ...}
+   ]
+}
+```
+
+Then the server's response can include both (a) the updated index after these
+changes and (b) the UUIDs of which events have been accepted or rejected.
 
 ## See also
 
@@ -228,3 +257,6 @@ technical and UX complexity.
     paginate data for lazy loading by the front end!
 
 [^3]: https://github.com/freedomofpress/securedrop-client/issues/2462#issuecomment-2967492447
+[^4]:
+    A mechanism for bulk deletion is proposed in
+    <https://github.com/freedomofpress/securedrop/pull/7228>.
