@@ -1,5 +1,6 @@
 # This is a prototype for demonstration only.  Co-written with ChatGPT.
 
+import argparse
 import gzip
 import hashlib
 import io
@@ -7,6 +8,7 @@ import json
 import logging
 import os
 import time
+from collections import defaultdict
 
 import requests
 from sqlalchemy import Column, String, create_engine
@@ -51,6 +53,21 @@ engine = create_engine("sqlite:///sources.db")
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 session = Session()
+
+# Command-line argument parsing
+parser = argparse.ArgumentParser()
+parser.add_argument("--prefix", type=int, help="Group source UUIDs by prefix of given length")
+args = parser.parse_args()
+
+if args.prefix is not None:
+    grouped = defaultdict(int)
+    for source in session.query(Source):
+        prefix = source.uuid[: args.prefix]
+        grouped[prefix] += 1
+    for prefix, count in sorted(grouped.items()):
+        print(f"{prefix}: {count}")
+    session.close()
+    exit()
 
 api_host = os.getenv("SD_JOURNALIST_API", "localhost:8081")
 base_url = f"http://{api_host}/api/v1"

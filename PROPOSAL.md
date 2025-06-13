@@ -32,10 +32,6 @@ Initial data on server:
 
 In the measurements below, bytes are counted compressed[^1], and times are over Tor.
 
-[^1]:
-    Since `requests` automatically decompresses the incoming response, we
-    manually recompress it via `gzip` and take the length.
-
 ### Status quo: naïve fetch
 
 Every time, no matter what has or hasn't changed, the Client asks the Server for
@@ -172,6 +168,45 @@ JavaScript/TypeScript app anyway, and this week @legoktm sent me a [testimonial
 to this approach](https://crawshaw.io/blog/programming-with-agents) (see the
 section beginning "Example: SQL conventions around JSON").
 
+### Limiting response sizes[^2]
+
+This proposal seeks to avoid (a) timestamped-based cursors, which are
+challenging to implement robustly for all our queries of interest[^3]; and (b)
+pagination, which introduces new state to track during a given sync iteration.
+
+However, let's consder each of these strategies to be a form of sharding.
+Cursors shard across timestamps, and pagination shards over the size of the
+collection. What else can we we shard? One option is the `Source.uuid` field,
+which should be uniformly distributed:
+
+```sh-session
+$ python sync_client.py --prefix 0
+: 1368
+$ python sync_client.py --prefix 1
+0: 80
+1: 85
+2: 95
+3: 76
+4: 79
+5: 89
+6: 85
+7: 77
+8: 80
+9: 90
+a: 93
+b: 90
+c: 94
+d: 88
+e: 80
+f: 87
+```
+
+This suggests a future refinement of this sync strategy:
+
+1. `/head`: Server returns a version per shard.
+2. Client determines which of its shards are out of date.
+3. `/index`: Client requests updated indexes for just those shards.
+
 ### Client-to-Server writes
 
 Instead of maintaining a "job queue" of Client-side writes—and having to retry
@@ -183,3 +218,13 @@ technical and UX complexity.
 ## See also
 
 - https://github.com/freedomofpress/securedrop/issues/7498#issuecomment-2843748418
+
+[^1]:
+    Since `requests` automatically decompresses the incoming response, we
+    manually recompress it via `gzip` and take the length.
+
+[^2]:
+    From the Journalist API. The Electron back end is of course free to
+    paginate data for lazy loading by the front end!
+
+[^3]: https://github.com/freedomofpress/securedrop-client/issues/2462#issuecomment-2967492447
