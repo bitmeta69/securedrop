@@ -1,6 +1,8 @@
 # This is a prototype for demonstration only.  Co-written with ChatGPT.
 
+import gzip
 import hashlib
+import io
 import json
 import logging
 import os
@@ -22,8 +24,14 @@ def json_version(d: dict) -> str:
     j = json.dumps(d, sort_keys=True)
     s = j.encode("utf-8")
     h = hashlib.sha256(s).hexdigest()
-
     return h
+
+
+def gzipped_size(data: bytes) -> int:
+    buf = io.BytesIO()
+    with gzip.GzipFile(fileobj=buf, mode="wb") as f:
+        f.write(data)
+    return len(buf.getvalue())
 
 
 class Source(Base):
@@ -68,7 +76,7 @@ headers = {
 }
 head_response = requests.get(f"{base_url}/head", headers=headers)
 compressed_request_size = 0  # GET typically has no body
-compressed_response_size = len(head_response.content)
+compressed_response_size = gzipped_size(head_response.content)
 sync_bytes_sent += compressed_request_size
 sync_bytes_received += compressed_response_size
 logging.info(
@@ -117,8 +125,8 @@ else:
         }
         post_data = json.dumps(post_payload).encode("utf-8")
         post_response = requests.post(f"{base_url}/index", data=post_data, headers=post_headers)
-        compressed_request_size = len(post_data)
-        compressed_response_size = len(post_response.content)
+        compressed_request_size = gzipped_size(post_data)
+        compressed_response_size = gzipped_size(post_response.content)
         sync_bytes_sent += compressed_request_size
         sync_bytes_received += compressed_response_size
         logging.info(
@@ -157,7 +165,7 @@ for key in ["sources", "submissions", "replies"]:
     naive_url = f"{base_url}/{key}"
     r = requests.get(naive_url, headers=naive_headers)
     compressed_request_size = 0
-    compressed_response_size = len(r.content)
+    compressed_response_size = gzipped_size(r.content)
     naive_bytes_sent += compressed_request_size
     naive_bytes_received += compressed_response_size
     logging.info(
