@@ -162,11 +162,14 @@ Server ->> Client: 20 bytes
 ### Persistence
 
 In the Client, persist the JSON-format metadata directly to SQLite, without
-further de/serialization. I've been accumulating the hypothesis that this will
-be the easiest way to consume the Journalist API's JSON responses from a
-JavaScript/TypeScript app anyway, and this week @legoktm sent me a [testimonial
-to this approach](https://crawshaw.io/blog/programming-with-agents) (see the
-section beginning "Example: SQL conventions around JSON").
+further de/serialization apart from [JSON-schema validation][JSON Schema]. I've been
+accumulating the hypothesis that this will be the easiest way to consume the
+Journalist API's JSON responses from a JavaScript/TypeScript app anyway, and
+this week @legoktm sent me a [testimonial to this
+approach](https://crawshaw.io/blog/programming-with-agents) (see the section
+beginning "Example: SQL conventions around JSON").
+
+[JSON Schema]: https://json-schema.org/overview/what-is-jsonschema
 
 ### Limiting response sizes[^2]
 
