@@ -18,6 +18,14 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 Base = declarative_base()
 
 
+def json_version(d: dict) -> str:
+    j = json.dumps(d, sort_keys=True)
+    s = j.encode("utf-8")
+    h = hashlib.sha256(s).hexdigest()
+
+    return h
+
+
 class Source(Base):
     __tablename__ = "sources"
     uuid = Column(String, primary_key=True)
@@ -41,14 +49,11 @@ base_url = f"http://{api_host}/api/v1"
 
 # Construct local {uuid: version} for sources
 local_source_versions = {
-    e.uuid: hashlib.sha256(json.dumps(e.data, sort_keys=True).encode()).hexdigest()
-    for e in session.query(Source)
-    if e.data is not None
+    e.uuid: json_version(e.data) for e in session.query(Source) if e.data is not None
 }
 
 # Compute version hash
-local_versions_json = json.dumps({"sources": local_source_versions}, sort_keys=True)
-version_hash = hashlib.sha256(local_versions_json.encode()).hexdigest()
+version_hash = json_version({"sources": local_source_versions})
 
 # Start total sync timing from the beginning of GET /head
 sync_total_start = time.time()
@@ -84,13 +89,7 @@ else:
     for uuid, remote_version in all_versions.items():
         entity = session.get(Source, uuid)
         local_data = entity.data if entity else None
-        local_version = (
-            hashlib.sha256(
-                json.dumps(local_data, sort_keys=True, separators=(",", ":")).encode()
-            ).hexdigest()
-            if local_data is not None
-            else None
-        )
+        local_version = json_version(local_data) if local_data is not None else None
         if entity is None:
             session.add(Source(uuid=uuid))
             added += 1

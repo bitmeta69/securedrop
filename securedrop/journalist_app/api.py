@@ -1,5 +1,4 @@
 import collections.abc
-import hashlib
 import json
 from datetime import datetime, timezone
 from os import path
@@ -22,6 +21,7 @@ from models import (
     Source,
     Submission,
     WrongPasswordException,
+    json_version,
 )
 from sdconfig import SecureDropConfig
 from sqlalchemy import Column
@@ -143,7 +143,7 @@ def make_blueprint() -> Blueprint:
             index = {
                 "sources": {source.uuid: source.version for source in sources},
             }
-            current = hashlib.sha256(json.dumps(index, sort_keys=True).encode()).hexdigest()
+            current = json_version(index)
             redis_client.set("version", current, ex=HOUR)
 
         if request.headers.get("If-None-Match") == current:

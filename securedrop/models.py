@@ -2,7 +2,6 @@ import base64
 import binascii
 import datetime
 import hashlib
-import json
 import os
 import uuid
 from hmac import compare_digest
@@ -45,6 +44,14 @@ ARGON2_PARAMS = {"memory_cost": 2**16, "time_cost": 4, "parallelism": 2, "type":
 
 config = SecureDropConfig.get_current()
 redis_client = redis.Redis(**config.REDIS_KWARGS)
+
+
+def json_version(d: dict) -> str:
+    j = flask.json.dumps(d, sort_keys=True)
+    s = j.encode("utf-8")
+    h = hashlib.sha256(s).hexdigest()
+
+    return h
 
 
 class VersionResetMixin:
@@ -199,7 +206,7 @@ class Source(VersionResetMixin, db.Model):
     @property
     # TODO: cache on write
     def version(self) -> str:
-        return hashlib.sha256(flask.json.dumps(self.to_json(), sort_keys=True).encode()).hexdigest()
+        return json_version(self.to_json())
 
     @property
     def index(self) -> Dict[str, str]:
@@ -208,7 +215,7 @@ class Source(VersionResetMixin, db.Model):
     @property
     # TODO: cache on write
     def collection_version(self) -> str:
-        return hashlib.sha256(json.dumps(self.index, sort_keys=True).encode()).hexdigest()
+        return json_version(self.index)
 
 
 class Submission(VersionResetMixin, db.Model):
