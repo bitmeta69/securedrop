@@ -20,6 +20,34 @@
 3. This does not minimize CPU cost—although I demonstrate some caching here, and
    more optimization is possible.
 
+## Proof of concept
+
+You can run `sync_client.py` against `make dev` (or the `SD_JOURNALIST_API`
+hostname of your choice) with the following patch to disable the Journalist
+API's token authentication:
+
+```patch
+--- a/securedrop/journalist_app/__init__.py
++++ b/securedrop/journalist_app/__init__.py
+@@ -129,8 +129,7 @@ def create_app(config: SecureDropConfig) -> Flask:
+             app.logger.error("Site logo not found.")
+
+         if request.path.split("/")[1] == "api":
+-            if request.endpoint not in _insecure_api_views and not session.logged_in():
+-                abort(403)
++            pass
+```
+
+```sh-session
+$ python sync_client.py -h
+usage: sync_client.py [-h] [--prefix PREFIX] [-v]
+
+options:
+  -h, --help       show this help message and exit
+  --prefix PREFIX  Group source UUIDs by prefix of given length
+  -v, --verbose    Enable debug logging
+```
+
 ## Overview and benchmarks
 
 Initial data on server:

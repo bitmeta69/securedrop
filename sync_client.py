@@ -1,4 +1,4 @@
-# This is a prototype for demonstration only.  Co-written with ChatGPT.
+# This is a proof of concept for demonstration only.  Co-written with ChatGPT.
 
 import argparse
 import gzip
@@ -35,6 +35,15 @@ def gzipped_size(data: bytes) -> int:
     return len(buf.getvalue())
 
 
+def log_json_preview(label: str, b: bytes):
+    try:
+        parsed = json.loads(b.decode("utf-8"))
+        pretty = json.dumps(parsed, indent=2)[:1024]
+        logging.debug(f"{label} preview (pretty-printed):\n{pretty}")
+    except Exception:
+        logging.debug(f"{label} preview (raw): {b[:1024]!r}")
+
+
 class Source(Base):
     __tablename__ = "sources"
     uuid = Column(String, primary_key=True)
@@ -56,7 +65,11 @@ session = Session()
 # Command-line argument parsing
 parser = argparse.ArgumentParser()
 parser.add_argument("--prefix", type=int, help="Group source UUIDs by prefix of given length")
+parser.add_argument("-v", "--verbose", action="store_true", help="Enable debug logging")
 args = parser.parse_args()
+
+if args.verbose:
+    logging.getLogger().setLevel(logging.DEBUG)
 
 if args.prefix is not None:
     grouped = defaultdict(int)
@@ -96,13 +109,15 @@ headers = {
     "Accept-Encoding": "gzip",
 }
 head_response = requests.get(f"{base_url}/head", headers=headers)
-compressed_request_size = 0  # GET typically has no body
+compressed_request_size = 0
 compressed_response_size = gzipped_size(head_response.content)
 sync_bytes_sent += compressed_request_size
 sync_bytes_received += compressed_response_size
 logging.info(
     f"GET /head - Sent: {compressed_request_size} bytes, Received: {compressed_response_size} bytes"
 )
+if args.verbose:
+    log_json_preview("HEAD response", head_response.content)
 
 if head_response.status_code == 304:
     logging.info("Client is current with server. Skipping data POST.")
@@ -145,7 +160,11 @@ else:
             "Content-Type": "application/json",
         }
         post_data = json.dumps(post_payload).encode("utf-8")
+        if args.verbose:
+            log_json_preview("POST request", post_data)
         post_response = requests.post(f"{base_url}/index", data=post_data, headers=post_headers)
+        if args.verbose:
+            log_json_preview("POST response", post_response.content)
         compressed_request_size = gzipped_size(post_data)
         compressed_response_size = gzipped_size(post_response.content)
         sync_bytes_sent += compressed_request_size
@@ -192,6 +211,8 @@ for key in ["sources", "submissions", "replies"]:
     logging.info(
         f"GET {naive_url} - Sent: {compressed_request_size} bytes, Received: {compressed_response_size} bytes"
     )
+    if args.verbose:
+        log_json_preview(f"{key.upper()} response", r.content)
     r.raise_for_status()
 naive_total_elapsed = time.time() - naive_total_start
 
