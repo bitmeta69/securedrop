@@ -57,7 +57,12 @@ base_url = f"http://{api_host}/api/v1"
 
 # Construct local {uuid: version} for sources
 local_source_versions = {
-    e.uuid: json_version(e.data) for e in session.query(Source) if e.data is not None
+    # TODO: We should derive a fresh Source.collection_version, so that any
+    # discrepancy below the source level will trigger a refresh of the entire
+    # source.
+    e.uuid: json_version(e.data)
+    for e in session.query(Source)
+    if e.data is not None
 }
 
 # Compute version hash
