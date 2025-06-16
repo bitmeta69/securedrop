@@ -250,6 +250,15 @@ This suggests a future refinement of this sync strategy:
 2. Client determines which of its shards are out of date.
 3. `/index`: Client requests updated indexes for just those shards.
 
+> [!NOTE]
+> For synchronizing a more heterogeneous collection (with many types, arbitrary
+> schemas, etc.), this approach basically generalizes to a Merkle tree, at least
+> within each shard. That generalization has some advantages; in particular, it
+> would lay the groundwork for peer-to-peer sync among Workstations using the
+> SecureDrop Protocol, where the server is only a message queue. But that would be
+> overengineered for this "v2" sync strategy, where we can count on a fixed
+> two-level hierarchy between sources and their collections.
+
 ### Client-to-Server writes
 
 The Journalist API currently accepts the following writes from clients:
@@ -290,7 +299,27 @@ changes and (b) the UUIDs of which events have been accepted or rejected.
 
 ## See also
 
-- https://github.com/freedomofpress/securedrop/issues/7498#issuecomment-2843748418
+- [securedrop#7498] laid the groundwork for this proposal.
+- [RFC 3229 "Delta Encoding in HTTP"][RFC 3229] specifies a protocol by which
+  (a) a client tells a server what version of a resource it currently has cached
+  and (b) the server returns a byte-level patch from the cached version to the
+  latest version. It requires that the server either cache or compute previous
+  versions in order to compute patches based on them.
+- [RFCs 6902 "JavaScript Object Notation Patch"][RFC 6902] and [7386 "JSON Merge
+  Patch"][RFC 7386] specify conventions by which a client can send a server a
+  partial update to a resource in JSON format. They offer no mechanism for
+  partial updates from a server to a client.
+- [GraphQL] would enable richer query semantics but doesn't offer any
+  versioning, diffing, or syncing mechanisms. (The ones I've proposed here could
+  be adapted to GraphQL but at higher bandwidth cost.) It's worth looking into
+  from the Client front end to the back end but probably not from the Client back
+  end to the Server.
+
+[GraphQL]: https://en.wikipedia.org/wiki/GraphQL
+[RFC 3229]: https://datatracker.ietf.org/doc/html/rfc3229
+[RFC 6902]: https://datatracker.ietf.org/doc/html/rfc6902
+[RFC 7386]: https://datatracker.ietf.org/doc/html/rfc7386
+[securedrop#7498]: https://github.com/freedomofpress/securedrop/issues/7498#issuecomment-2843748418
 
 [^1]:
     Since `requests` automatically decompresses the incoming response, we
@@ -298,7 +327,8 @@ changes and (b) the UUIDs of which events have been accepted or rejected.
 
 [^2]:
     From the Journalist API. The Electron back end is of course free to
-    paginate data for lazy loading by the front end!
+    paginate data for lazy loading by the front end, including via something
+    fancy like [GraphQL]!
 
 [^3]: https://github.com/freedomofpress/securedrop-client/issues/2462#issuecomment-2967492447
 [^4]:
