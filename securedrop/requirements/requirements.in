@@ -10,6 +10,7 @@ Flask-Babel>=1.0.0
 Flask-SQLAlchemy==2.5.1
 Flask-WTF>=1.0.0
 Flask>=2.0.3,<2.1.0
+flask-smorest<0.43.0  # last version to support Flask < 3.0.0
 Jinja2>=3.1.6
 markupsafe>=2.0
 mod_wsgi>=4.9.3

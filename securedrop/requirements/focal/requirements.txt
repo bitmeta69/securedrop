@@ -3,6 +3,10 @@
 alembic==1.1.0 \
     --hash=sha256:4a4811119efbdc5259d1f4c8f6de977b36ad3bcc919f59a29c2960c5ef9149e4
     # via -r requirements/requirements.in
+apispec==6.6.1 \
+    --hash=sha256:6460315cb38ac6a2ff42d9e2b8dc0435c37d4428d3abeda96ff97b5dc8eb6b94 \
+    --hash=sha256:f5caa47cee75fe03b9c50b5594048b4c052eeca2c212e0dac12dbb6175d9a659
+    # via flask-smorest
 argon2-cffi==20.1.0 \
     --hash=sha256:05a8ac07c7026542377e38389638a8a1e9b78f1cd8439cd7493b39f08dd75fbf \
     --hash=sha256:0bf066bc049332489bb2d75f69216416329d9dc65deee127152caeb16e5ce7d5 \
@@ -125,11 +129,16 @@ flask==2.0.3 \
     # via
     #   -r requirements/requirements.in
     #   flask-babel
+    #   flask-smorest
     #   flask-sqlalchemy
     #   flask-wtf
 flask-babel==2.0.0 \
     --hash=sha256:e6820a052a8d344e178cdd36dd4bb8aea09b4bda3d5f9fa9f008df2c7f2f5468 \
     --hash=sha256:f9faf45cdb2e1a32ea2ec14403587d4295108f35017a7821a2b1acb8cfd9257d
+    # via -r requirements/requirements.in
+flask-smorest==0.42.3 \
+    --hash=sha256:736ef072bd5522de750a5a9d9f1bfb6d750d05c66e1b3702bc7a20e4277af9bf \
+    --hash=sha256:992fadb76d944f25dbf0bfc96fa43666f455b106fa99e58a910e0ce7e98b0c51
     # via -r requirements/requirements.in
 flask-sqlalchemy==2.5.1 \
     --hash=sha256:2bda44b43e7cacb15d4e05ff3cc1f8bc97936cc464623424102bfc2c35e95912 \
@@ -213,9 +222,23 @@ markupsafe==2.1.2 \
     #   mako
     #   werkzeug
     #   wtforms
+marshmallow==3.22.0 \
+    --hash=sha256:4972f529104a220bb8637d595aa4c9762afbe7f7a77d82dc58c1615d70c5823e \
+    --hash=sha256:71a2dce49ef901c3f97ed296ae5051135fd3febd2bf43afe0ae9a82143a494d9
+    # via
+    #   apispec
+    #   flask-smorest
+    #   webargs
 mod-wsgi==4.9.4 \
     --hash=sha256:8e762662ea5b01afc386bbcfbaa079748eb6203ab1d6d3a3dac9237f5666cfc9
     # via -r requirements/requirements.in
+packaging==25.0 \
+    --hash=sha256:29572ef2b1f17581046b3a2227d5c611fb25ec70ca1ba8554b24b0e69331a484 \
+    --hash=sha256:d443872c98d677bf60f6a1f2f8c1cb748e8fe762d2bf9d3148b5599295b0fc4f
+    # via
+    #   apispec
+    #   marshmallow
+    #   webargs
 pip==25.0.1 \
     --hash=sha256:88f96547ea48b940a3a385494e181e29fb8637898f88d88737c5049780f196ea \
     --hash=sha256:c46efd13b6aa8279f33f2864459c8ce587ea6a1a59ee20de055868d8f7688f7f
@@ -281,12 +304,17 @@ sqlalchemy==1.3.3 \
     #   -r requirements/requirements.in
     #   alembic
     #   flask-sqlalchemy
+webargs==8.6.0 \
+    --hash=sha256:83da4d7105643d0a50499b06d98a6ade1a330ce66d039eaa51f715172c704aba \
+    --hash=sha256:b8d098ab92bd74c659eca705afa31d681475f218cb15c1e57271fa2103c0547a
+    # via flask-smorest
 werkzeug==2.2.3 \
     --hash=sha256:2e1ccc9417d4da358b9de6f174e3ac094391ea1d4fbef2d667865d819dfd0afe \
     --hash=sha256:56433961bc1f12533306c624f3be5e744389ac61d722175d543e1751285da612
     # via
     #   -r requirements/requirements.in
     #   flask
+    #   flask-smorest
 wtforms==3.0.0 \
     --hash=sha256:232dbb0094847dca2f45c72136b5ca1d5dca2a3e24ccd2229823b8b74b3c6698 \
     --hash=sha256:4abfbaa1d529a1d0ac927d44af8dbb9833afd910e56448a103f1893b0b176886
