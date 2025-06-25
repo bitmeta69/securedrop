@@ -2,8 +2,8 @@
 
 1. Generalize indexing, versioning, and fetching across entities (API endpoints
    over database models).
-2. Favor strict equality checks (between global and resource-level versions)
-   over pagination or cursors.
+2. Favor strict equality checks (between global, shard-level, and/or
+   resource-level versions) over pagination or cursors.
 3. Minimize both round trips and data cost over Tor.
 4. Optimize for the steady state where there's nothing to do.
 5. Make only non-breaking additions to the Journalist API and ORM layer.
@@ -132,9 +132,9 @@ If _any_ server-side state has changed, whether from a source or journalist (or
 via `loaddata.py`):
 
 1. Tell the Server what we have: some _version_, which is the SHA-256 hash of
-   our own _index_.
+   our own _index_ (or some shard of it by source UUID prefix).
 2. The server enumerates its current _index_: it has a different _version_, so
-   it sends us the entire _index_.
+   it sends us the entire _index_ (or the corresponding shard of it).
 3. Ask the server for what we're missing: here, it's 3 new sources.
 4. The server returns the metadata for just those sources and their
    _collections_.
@@ -146,11 +146,15 @@ autonumber
 participant Client
 participant Server
 
-Client ->> Server: GET /head<br>If-None-Match: <version>
-Server ->> Client: 83046 bytes<br>ETag: <version>
+alt Global
+Client ->> Server: GET /head
+else Sharding by UUID prefix
+Client ->> Server: GET /head/<prefix>
+end
+Server ->> Client: 82861 bytes<br>ETag: <version>
 
-Client ->> Server: POST /index (125 bytes)
-Server ->> Client: 11562 bytes
+Client ->> Server: POST /index (29865 bytes)
+Server ->> Client: 4855285 bytes
 ```
 
 ##### Cache miss: server has to recalculate index
@@ -188,7 +192,11 @@ autonumber
 participant Client
 participant Server
 
+alt Global
 Client ->> Server: GET /head<br>If-None-Match: <version>
+else Sharding by UUID prefix
+Client ->> Server: GET /head/<prefix><br>If-None-Match: <prefix_version>
+end
 Server ->> Client: 20 bytes
 ```
 
@@ -219,8 +227,8 @@ pagination, which introduces new state to track during a given sync iteration.
 
 However, let's consider each of these strategies to be a form of sharding.
 Cursors shard across timestamps, and pagination shards over the size of the
-collection. What else can we shard? One option is the `Source.uuid` field,
-which should be uniformly distributed:
+collection. What else can we shard? The `Source.uuid` field is uniformly
+distributed:
 
 ```sh-session
 $ python sync_client.py --prefix 0
@@ -244,11 +252,13 @@ e: 80
 f: 87
 ```
 
-This suggests a future refinement of this sync strategy:
-
-1. `/head`: Server returns a version per shard.
-2. Client determines which of its shards are out of date.
-3. `/index`: Client requests updated indexes for just those shards.
+The sequence diagrams above include alternate flows that generalize this
+fetching strategy by sharding sources by UUID. For any request `/x` versioned
+with `If-None-Match: <version>`, the client can instead request `/x/<prefix>`
+with `If-None-Match: <prefix_version>`. Since sources' UUIDs are known to both
+the client and the server, the set (shard) of sources with `prefix` can be
+calculated deterministically on each end without any prior negotiation or other
+state, and therefore so can the `prefix_version` for that `prefix`.
 
 > [!NOTE]
 > For synchronizing a more heterogeneous collection (with many types, arbitrary
