@@ -1,7 +1,6 @@
 import base64
 import binascii
 import datetime
-import hashlib
 import os
 import uuid
 from hmac import compare_digest
@@ -11,8 +10,6 @@ from typing import Any, Callable, Dict, List, Optional, Union
 import argon2
 
 # Using svg because it doesn't require additional dependencies
-import flask
-import redis
 import two_factor
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.kdf import scrypt
@@ -21,18 +18,7 @@ from encryption import EncryptionManager, GpgKeyNotFoundError
 from flask import url_for
 from flask_babel import gettext, ngettext
 from passphrases import PassphraseGenerator
-from sdconfig import SecureDropConfig
-from sqlalchemy import (
-    Boolean,
-    Column,
-    DateTime,
-    ForeignKey,
-    Integer,
-    LargeBinary,
-    String,
-    Text,
-    event,
-)
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, LargeBinary, String, Text
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Query, backref, relationship
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
@@ -41,30 +27,6 @@ from store import Storage
 _default_instance_config: Optional["InstanceConfig"] = None
 
 ARGON2_PARAMS = {"memory_cost": 2**16, "time_cost": 4, "parallelism": 2, "type": argon2.Type.ID}
-
-config = SecureDropConfig.get_current()
-redis_client = redis.Redis(**config.REDIS_KWARGS)
-
-
-def json_version(d: dict) -> str:
-    j = flask.json.dumps(d, sort_keys=True)
-    s = j.encode("utf-8")
-    h = hashlib.sha256(s).hexdigest()
-
-    return h
-
-
-class VersionResetMixin:
-    @classmethod
-    def __init_subclass__(cls, **kwargs):
-        super().__init_subclass__(**kwargs)
-        event.listen(cls, "after_insert", cls.clear_version_key)
-        event.listen(cls, "after_update", cls.clear_version_key)
-        event.listen(cls, "after_delete", cls.clear_version_key)
-
-    @staticmethod
-    def clear_version_key(mapper, connection, target):
-        redis_client.delete("version")
 
 
 def get_one_or_else(
@@ -80,7 +42,7 @@ def get_one_or_else(
         failure_method(404)
 
 
-class Source(VersionResetMixin, db.Model):
+class Source(db.Model):
     __tablename__ = "sources"
     id = Column(Integer, primary_key=True)
     uuid = Column(String(36), unique=True, nullable=False)
@@ -166,8 +128,6 @@ class Source(VersionResetMixin, db.Model):
         except GpgKeyNotFoundError:
             return None
 
-    # FIXME: returns a Dict, not JSON
-    # FIXME: should be @property
     def to_json(self) -> "Dict[str, object]":
         docs_msg_count = self.documents_messages_count()
 
@@ -183,7 +143,6 @@ class Source(VersionResetMixin, db.Model):
 
         return {
             "uuid": self.uuid,
-            "collection_version": self.collection_version,
             "url": url_for("api.single_source", source_uuid=self.uuid),
             "journalist_designation": self.journalist_designation,
             "is_flagged": False,
@@ -203,22 +162,8 @@ class Source(VersionResetMixin, db.Model):
             "replies_url": url_for("api.all_source_replies", source_uuid=self.uuid),
         }
 
-    @property
-    # TODO: cache on write
-    def version(self) -> str:
-        return json_version(self.to_json())
 
-    @property
-    def index(self) -> Dict[str, str]:
-        return {item.uuid: item.version for item in self.collection}
-
-    @property
-    # TODO: cache on write
-    def collection_version(self) -> str:
-        return json_version(self.index)
-
-
-class Submission(VersionResetMixin, db.Model):
+class Submission(db.Model):
     MAX_MESSAGE_LEN = 100000
 
     __tablename__ = "submissions"
@@ -254,8 +199,6 @@ class Submission(VersionResetMixin, db.Model):
     def is_message(self) -> bool:
         return self.filename.endswith("msg.gpg")
 
-    # FIXME: returns a Dict, not JSON
-    # FIXME: should be @property
     def to_json(self) -> "Dict[str, Any]":
         seen_by = {
             f.journalist.uuid
@@ -301,11 +244,6 @@ class Submission(VersionResetMixin, db.Model):
         }
 
     @property
-    # TODO: cache on write
-    def version(self) -> str:
-        return hashlib.sha256(flask.json.dumps(self.to_json()).encode()).hexdigest()
-
-    @property
     def seen(self) -> bool:
         """
         If the submission has been downloaded or seen by any journalist, then the submission is
@@ -314,7 +252,7 @@ class Submission(VersionResetMixin, db.Model):
         return bool(self.downloaded or self.seen_files.count() or self.seen_messages.count())
 
 
-class Reply(VersionResetMixin, db.Model):
+class Reply(db.Model):
     __tablename__ = "replies"
     id = Column(Integer, primary_key=True)
     uuid = Column(String(36), unique=True, nullable=False)
@@ -348,8 +286,6 @@ class Reply(VersionResetMixin, db.Model):
     def __repr__(self) -> str:
         return f"<Reply {self.filename!r}>"
 
-    # FIXME: returns a Dict, not JSON
-    # FIXME: should be @property
     def to_json(self) -> "Dict[str, Any]":
         seen_by = [r.journalist.uuid for r in SeenReply.query.filter(SeenReply.reply_id == self.id)]
         return {
@@ -371,11 +307,6 @@ class Reply(VersionResetMixin, db.Model):
             "is_deleted_by_source": self.deleted_by_source,
             "seen_by": seen_by,
         }
-
-    @property
-    # TODO: cache on write
-    def version(self) -> str:
-        return hashlib.sha256(flask.json.dumps(self.to_json()).encode()).hexdigest()
 
 
 class SourceStar(db.Model):

@@ -2,11 +2,10 @@ import collections.abc
 import json
 from datetime import datetime, timezone
 from os import path
-from typing import Optional, Set, Tuple, Union
+from typing import Set, Tuple, Union
 from uuid import UUID
 
 import flask
-import redis
 import werkzeug
 from db import db
 from flask import Blueprint, abort, jsonify, request
@@ -21,19 +20,12 @@ from models import (
     Source,
     Submission,
     WrongPasswordException,
-    json_version,
 )
-from sdconfig import SecureDropConfig
 from sqlalchemy import Column
 from sqlalchemy.exc import IntegrityError
 from store import NotEncrypted, Storage
 from two_factor import OtpSecretInvalid, OtpTokenInvalid
 from werkzeug.exceptions import default_exceptions
-
-config = SecureDropConfig.get_current()
-redis_client = redis.Redis(**config.REDIS_KWARGS)
-
-HOUR = 60 * 60  # sec * min
 
 
 def get_or_404(model: db.Model, object_id: str, column: Column) -> db.Model:
@@ -131,50 +123,6 @@ def make_blueprint() -> Blueprint:
     def get_all_sources() -> Tuple[flask.Response, int]:
         sources = Source.query.filter_by(pending=False, deleted_at=None).all()
         return jsonify({"sources": [source.to_json() for source in sources]}), 200
-
-    @api.route("/head", methods=["GET"])
-    def head(version: Optional[str] = None) -> Tuple[flask.Response, int]:
-        try:
-            current = redis_client.get("version").decode()
-        except AttributeError:
-            sources = Source.query.filter_by(pending=False, deleted_at=None).all()
-            submissions = Submission.query.all()
-            replies = Reply.query.all()
-            index = {
-                "sources": {source.uuid: source.version for source in sources},
-            }
-            current = json_version(index)
-            redis_client.set("version", current, ex=HOUR)
-
-        if request.headers.get("If-None-Match") == current:
-            return jsonify({}), 304
-
-        # TODO: DRY
-        sources = Source.query.filter_by(pending=False, deleted_at=None).all()
-        submissions = Submission.query.all()
-        replies = Reply.query.all()
-        index = {
-            "sources": {source.uuid: source.version for source in sources},
-        }
-        response = jsonify(index)
-        response.headers["ETag"] = current
-        return response, 200
-
-    @api.route("/index", methods=["POST"])
-    def sources() -> Tuple[flask.Response, int]:
-        data = request.json
-        sources = Source.query.filter_by(pending=False, deleted_at=None).filter(
-            Source.uuid.in_(data.get("sources", []))
-        )
-        return jsonify(
-            {
-                "sources": [source.to_json() for source in sources],
-                # TODO: Maybe strengthen link from item to source; maybe
-                # separate by model class; it doesn't matter for prototyping
-                # sync.
-                "items": [item.to_json() for source in sources for item in source.collection],
-            }
-        ), 200
 
     @api.route("/sources/<source_uuid>", methods=["GET", "DELETE"])
     def single_source(source_uuid: str) -> Tuple[flask.Response, int]:
