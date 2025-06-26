@@ -18,7 +18,7 @@
 # goal, this file MAY also produce an OpenAPI specification that can be consumed
 # by a client (or its code-generation toolchain), including for typing and
 # validating requests and responses.
-# - TODO: document
+# - TODO: document OpenAPI + JSON Schema
 #
 #
 # [^1]: https://en.wikipedia.org/wiki/Literate_programming
@@ -203,6 +203,25 @@ class IndexSchema(Schema):
     sources = fields.Dict(keys=fields.UUID, values=fields.String)
 
 
+class SourceDeltaSchema(Schema):
+    """
+    A source delta lists the UUIDs of sources for which to return a source
+    metadata set.
+    """
+
+    sources = fields.List(fields.UUID)
+
+
+class SourceMetadataSetSchema(Schema):
+    """
+    A source metadata set contains the metadata for a set of sources and the
+    items in the union of their collections.
+    """
+
+    sources = fields.Dict(keys=fields.UUID, values=fields.Raw)
+    items = fields.Dict(keys=fields.UUID, values=fields.Raw)
+
+
 # --- 3. API SCAFFOLD/STUBS ---
 
 # TODO: app.register_blueprint() in "__init__.py"
@@ -212,15 +231,14 @@ blp = Blueprint("v2", "v2", url_prefix="/api/v2", description="Journalist API")
 @blp.route("/index")
 @blp.etag
 class Index(MethodView):
-    """
-    Return the index of all sources.
-
-    If the request's `If-None-Match` header matches the new ETag, this view
-    MUST return HTTP 304 with an empty response.
-    """
-
     @blp.response(200, IndexSchema)
     def get():
+        """
+        Return the index of all sources.
+
+        If the request's `If-None-Match` header matches the new ETag, this view
+        MUST return HTTP 304 with an empty response.
+        """
         # These values SHOULD be cached:
         index = {"sources": {}}  # TODO: {uuid: version}
         version = json_version(index)
@@ -235,19 +253,37 @@ class Index(MethodView):
 @blp.route("/index/<string:prefix>")
 @blp.etag
 class PrefixIndex(MethodView):
-    """
-    OPTIONAL: Return the index of all sources whose UUIDs begin with `prefix`.
-
-    If the request's `If-None-Match` header matches the new ETag, this view MUST
-    return HTTP 304 with an empty response.
-    """
-
     @blp.response(200, IndexSchema)
     def get(prefix: str):
+        """
+        OPTIONAL: Return the index of all sources whose UUIDs begin with
+        `prefix`.  The client MAY choose an arbitrary prefix with each request:
+        e.g., a series of requests with the prefixes {0...f} will effectively
+        shard the index into 16 shards.
+
+        If the request's `If-None-Match` header matches the new ETag, this view MUST
+        return HTTP 304 with an empty response.
+        """
         raise NotImplementedError
 
 
-# TODO: /sources
+@blp.route("/sources")
+class Sources(MethodView):
+    @blp.response(200, SourceMetadataSetSchema)
+    def get():
+        """Return the source metadata for all sources."""
+        raise NotImplementedError
+
+    @blp.arguments(SourceDeltaSchema)
+    @blp.response(200, SourceMetadataSetSchema)
+    def post():
+        """
+        Return the source metadata for the sources listed in the source delta.
+        The client MAY choose an arbitrary source delta with each request, e.g.
+        from a shard retrieved from `/index/<prefix>`.
+        """
+        raise NotImplementedError
+
 
 # TODO: authentication
 
