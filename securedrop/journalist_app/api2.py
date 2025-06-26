@@ -48,6 +48,13 @@ def json_version(d: dict) -> str:
     We use BLAKE2s here because SHA-256 is too slow (we don't care about
     cryptographic security) and CRC-32 is too collision-prone (we're not merely
     checksumming for transmission integrity).
+
+    >>> d = {"foo": "bar", "baz": "biz"}
+    >>> json_version(d)
+    '593ffee39176ea092546a7df8247c9b3936102abf539ed212492d817ccdeb19a'
+    >>> d2 = {"baz": "biz", "foo": "bar"}
+    >>> json_version(d2) == json_version(d)
+    True
     """
     s = flask.json.dumps(d, sort_keys=True)
     b = s.encode("utf-8")
@@ -120,6 +127,70 @@ class VersionedCollection(VersionedItem, Protocol):
             }
         """
         ...
+
+
+# --- SECTION 2: TEST VECTORS ---
+
+
+class SubmissionStub(VersionedItem):
+    """
+    Example implementation of a `VersionedItem`---i.e., how `Submission` and
+    `Reply` will implement the `VersionedItem` protocol.
+
+    >>> submission = SubmissionStub("9ca2e0bf-fe06-4407-89eb-fdfd144df72d")
+    >>> submission.to_json()
+    {'uuid': '9ca2e0bf-fe06-4407-89eb-fdfd144df72d'}
+    >>> submission.version
+    '91332efd8e5592f40a7d306eb3d8cd87382e2804c6ab56bd763c1360975d6ce8'
+    """
+
+    def __init__(self, uuid: str):
+        self.uuid = uuid
+
+    @property
+    def version(self):
+        return json_version(self.to_json())
+
+    def to_json(self):
+        return {"uuid": self.uuid}
+
+
+class SourceStub(VersionedCollection):
+    """
+    Example implementation of a `VersionedCollection`---i.e., how `Source` will implement
+    the `VersionedCollection` protocol.
+
+    >>> submission = SubmissionStub("9ca2e0bf-fe06-4407-89eb-fdfd144df72d")
+    >>> source = SourceStub(
+    ...     "b3ef45e6-7e49-4d6e-b039-14870dd870ab",
+    ...     [submission],
+    ... )
+    >>> source.collection_index
+    {'9ca2e0bf-fe06-4407-89eb-fdfd144df72d': '91332efd8e5592f40a7d306eb3d8cd87382e2804c6ab56bd763c1360975d6ce8'}
+    >>> source.to_json()
+    {'uuid': 'b3ef45e6-7e49-4d6e-b039-14870dd870ab', 'collection_version': 'e3016b32ba827e59a8ce525d08c01ff8f742e3b74000b8b07f9f655979c327e3'}
+    >>> source.version
+    '41f366630fb697afc0b55145d43b776a92b98d0c4ce9ae45797c0ee844b52a45'
+    """
+
+    def __init__(self, uuid: str, collection: List[VersionedItem]):
+        self.uuid = uuid
+        self._collection = collection
+
+    @property
+    def collection(self):
+        return self._collection
+
+    @property
+    def collection_index(self):
+        return {item.uuid: item.version for item in self.collection}
+
+    @property
+    def version(self):
+        return json_version(self.to_json())
+
+    def to_json(self):
+        return {"uuid": self.uuid, "collection_version": json_version(self.collection_index)}
 
 
 class IndexSchema(Schema):
