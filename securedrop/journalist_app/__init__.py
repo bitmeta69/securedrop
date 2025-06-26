@@ -9,8 +9,9 @@ import version
 from db import db
 from flask import Flask, abort, g, json, redirect, render_template, request, url_for
 from flask_babel import gettext
+from flask_smorest import Api
 from flask_wtf.csrf import CSRFError, CSRFProtect
-from journalist_app import account, admin, api, col, main
+from journalist_app import account, admin, api, api2, col, main
 from journalist_app.sessions import Session, session
 from journalist_app.utils import get_source
 from models import InstanceConfig
@@ -142,12 +143,25 @@ def create_app(config: SecureDropConfig) -> Flask:
 
         return None
 
+    app.config["API_TITLE"] = "Journalist API"
+    app.config["API_VERSION"] = "v2"
+    app.config["OPENAPI_VERSION"] = "3.0.2"
+    app.config["OPENAPI_URL_PREFIX"] = "/docs"
+    app.config["OPENAPI_REDOC_PATH"] = "/"
+    app.config["OPENAPI_REDOC_URL"] = (
+        "https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js"
+    )
+    api_ext = Api(app)
+
     app.register_blueprint(main.make_blueprint())
     app.register_blueprint(account.make_blueprint(), url_prefix="/account")
     app.register_blueprint(admin.make_blueprint(), url_prefix="/admin")
     app.register_blueprint(col.make_blueprint(), url_prefix="/col")
+
     api_blueprint = api.make_blueprint()
     app.register_blueprint(api_blueprint, url_prefix="/api/v1")
     csrf.exempt(api_blueprint)
+
+    api_ext.register_blueprint(api2.blp)
 
     return app

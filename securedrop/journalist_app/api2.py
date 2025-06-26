@@ -224,8 +224,7 @@ class SourceMetadataSetSchema(Schema):
 
 # --- 3. API SCAFFOLD/STUBS ---
 
-# TODO: app.register_blueprint() in "__init__.py"
-blp = Blueprint("v2", "v2", url_prefix="/api/v2", description="Journalist API")
+blp = Blueprint("v2", __name__, url_prefix="/api/v2")
 
 
 @blp.route("/index")
