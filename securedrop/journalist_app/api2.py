@@ -265,14 +265,26 @@ class PrefixIndex(MethodView):
         e.g., a series of requests with the prefixes {0...f} will effectively
         shard the index into 16 shards.
 
-        If the request's `If-None-Match` header matches the new ETag, this view MUST
-        return HTTP 304 with an empty response.
+        If the request's `If-None-Match` header matches the current ETag, this
+        view MUST return HTTP 304 with an empty response.
         """
         raise NotImplementedError
 
 
 @blp.route("/sources")
 class Sources(MethodView):
+    """
+    Replaces the following v1 Journalist API endpoints:
+    - GET /replies
+    - GET /sources
+    - GET /sources/<source_uuid>
+    - GET /sources/<source_uuid>/replies
+    - GET /sources/<source_uuid>/replies/<reply_uuid>
+    - GET /sources/<source_uuid>/submissions
+    - GET /sources/<source_uuid>/submissions/<submission_uuid>
+    - GET /submissions
+    """
+
     @blp.response(200, SourceMetadataSetSchema)
     def get():
         """Return the source metadata for all sources."""
@@ -289,6 +301,20 @@ class Sources(MethodView):
         raise NotImplementedError
 
 
-# TODO: authentication
-
-# TODO: operations
+# All other Journalist API operations are currently out of the scope of this
+# specification, per
+# <https://github.com/freedomofpress/securedrop/pull/7579#discussion_r2155196682>.
+# In general:
+#
+# 1. The v1 Journalist API endpoints that are not replaced by `Sources` (as
+#    documented above) can be ported directly into this v2 API.  They should be
+#    refactored to take advantage of de/serialization via flask-smorest as
+#    described at the top of this file.
+#
+# 2. Writes from the client to resources that implement the `VersionedItem`
+#    protocol---i.e., to instances of the `Source`, `Submission`, and `Reply`
+#    models---can use flask-smorest's [`check_etag()`][check-etag] to return
+#    HTTP 412 if the client is attempting to write to an out-of-date version of
+#    the resource.
+#
+# [check-etag]: https://flask-smorest.readthedocs.io/en/latest/api_reference.html#flask_smorest.Blueprint.check_etag
