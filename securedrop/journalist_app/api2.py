@@ -3,25 +3,30 @@
 #
 # 1. A semi-[literate] reference implementation in Python of the structures and
 #    algorithms for versioning and diffing resources, which can be easily
-#    replicated in another language (e.g., TypeScript).
+#    replicated in another language (e.g., TypeScript).  You can view this
+#    documentation inside the development shell with:
 #
-# 2. An initial set of test vectors.  To keep this file self-contained,
-#    self-documenting, and self-testing, these are implemented here as doctests,
-#    but they should also be easily replicated in another language.
+#        $ python -m pydoc journalist_app/api2.py
 #
-# 3. Stubs (i.e., signatures that raise `NotImplementedError``) for the
-#    endpoints the new API provides.
+# 2. An initial set of test vectors.  To keep this file self-contained and
+#    self-testing, these are implemented here as doctests, but they should also
+#    be easily replicated in another language.  You can run these tests inside
+#    the development shell with:
 #
-# "Semi-literate" means that this file is (a) be self-sufficient for
-# understanding the API's synchronization strategy and (b) produce reasonable
-# output under a documentation generator like Doxygen or Sphinx.  As a stretch
-# goal, this file MAY also produce an OpenAPI specification that can be consumed
-# by a client (or its code-generation toolchain), including for typing and
-# validating requests and responses.
-# - TODO: document OpenAPI + JSON Schema
+#        $ python -m doctest journalist_app/api2.py`
+#
+# 3. A scaffold (i.e., schemas and stubs) for the endpoints the new API
+#    provides.  Most raise `NotImplementedError`; a few are implemented for
+#    demonstration.  You can view the OpenAPI specification that flask-smorest
+#    generates from this scaffold by running `make dev`, logging into the
+#    Journalist Interface, and navigating to <http://localhost:8081/docs>.
+#
+#    The OpenAPI specification can also be used to generate TypeScript types
+#    including JSON Schema validation (via openapi-typescript) and/or full API
+#    clients (via openapi-generator).
 #
 #
-# [^1]: https://en.wikipedia.org/wiki/Literate_programming
+# [literate]: https://en.wikipedia.org/wiki/Literate_programming
 
 import hashlib
 from typing import Dict, List, Protocol
