@@ -240,14 +240,14 @@ class Index(MethodView):
         """
         Return the index of all sources.
 
-        If the request's `If-None-Match` header matches the new ETag, this view
-        MUST return HTTP 304 with an empty response.
+        If the request's `If-None-Match` header matches the current ETag, this
+        view MUST return HTTP 304 with an empty response.
         """
         # These values SHOULD be cached:
         index = {"sources": {}}  # TODO: {uuid: version}
         version = json_version(index)
 
-        # This is all flask-smorest requires to set the new (and implicitly
+        # This is all flask-smorest requires to set the current (and implicitly
         # check it against the request's) ETag.
         blp.set_etag(version)
 
