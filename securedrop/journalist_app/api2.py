@@ -1,6 +1,6 @@
 """
-This file is a lightweight specification of a v2 Journalist API that implements
-the synchronization strategy proposed in ``PROPOSAL.md``, including:
+This file specifies the synchronization strategy for the v2 Journalist API,
+including:
 
 1. A semi-`literate <https://en.wikipedia.org/wiki/Literate_programming>`_
    reference implementation in Python of the structures and algorithms for
@@ -25,6 +25,62 @@ the synchronization strategy proposed in ``PROPOSAL.md``, including:
    The OpenAPI specification can also be used to generate TypeScript types
    including JSON Schema validation (via openapi-typescript) and/or full API
    clients (via openapi-generator).
+
+
+Overview
+========
+
+Initial synchronization
+-----------------------
+
+.. mermaid::
+
+   sequenceDiagram
+   participant Client
+   participant Server
+
+   alt Global
+       Client -->> Server: GET /index
+   else Sharded by UUID prefix
+       Client -->> Server: GET/index/<prefix>
+   end
+   Server ->> Client: Index<br>ETag: abcdef
+
+   Note over Client: Index.sources.keys()<br>→ SourceDelta.sources
+   Client -->> Server: POST /sources SourceDelta
+   Server ->> Client: SourceMetadataSet
+
+   Note over Client: Fetch new and changed items in SourceMetadataSet.items...
+
+
+Incremental synchronization
+---------------------------
+
+.. mermaid::
+
+   sequenceDiagram
+   participant Client
+   participant Server
+
+   Note over Client: Global version abcdef
+   Note over Client: Shard <prefix> version uvwxyz
+
+   alt Global
+       Client -->> Server: GET /index<br>If-None-Match: abcdef
+   else Sharded by UUID prefix
+       Client -->> Server: GET/index/<prefix><br>If-None-Match: uvwxyz
+   end
+
+   alt Up to date
+       Server ->> Client: HTTP 304
+   else Out of date
+       Server ->> Client: Index<br>ETag: ghjkli
+       Note over Client: Index.sources.keys() ‒ LocalIndex.sources.keys()<br>→ SourceDelta.sources
+       Client -->> Server: POST /sources SourceDelta
+       Server ->> Client: SourceMetadataSet
+   end
+
+   Note over Client: Fetch new and changed items in SourceMetadataSet.items...
 """
 
 import hashlib
