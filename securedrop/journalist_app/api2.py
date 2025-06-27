@@ -257,9 +257,9 @@ class SourceStub(VersionedCollection):
 
 class IndexSchema(Schema):
     """
-    An index lists all sources by ``{uuid: version}``.  Sources may appear in
-    any order; normalization (e.g. for versioning) is the responsibility of the
-    consumer.
+    An index lists all sources by ``{uuid: version}``.  Although normalization
+    (e.g. for versioning) is the responsibility of the consumer, an index SHOULD
+    be sorted lexically, e.g. by the ORM query that populates it.
     """
 
     sources = fields.Dict(keys=fields.UUID, values=fields.String)
