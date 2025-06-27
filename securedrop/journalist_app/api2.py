@@ -1,32 +1,31 @@
-# This file is a lightweight specification of a v2 Journalist API that
-# implements the synchronization strategy proposed in `PROPOSAL.md`, including:
-#
-# 1. A semi-[literate] reference implementation in Python of the structures and
-#    algorithms for versioning and diffing resources, which can be easily
-#    replicated in another language (e.g., TypeScript).  You can view this
-#    documentation inside the development shell with:
-#
-#        $ python -m pydoc journalist_app/api2.py
-#
-# 2. An initial set of test vectors.  To keep this file self-contained and
-#    self-testing, these are implemented here as doctests, but they should also
-#    be easily replicated in another language.  You can run these tests inside
-#    the development shell with:
-#
-#        $ python -m doctest journalist_app/api2.py`
-#
-# 3. A scaffold (i.e., schemas and stubs) for the endpoints the new API
-#    provides.  Most raise `NotImplementedError`; a few are implemented for
-#    demonstration.  You can view the OpenAPI specification that flask-smorest
-#    generates from this scaffold by running `make dev`, logging into the
-#    Journalist Interface, and navigating to <http://localhost:8081/docs>.
-#
-#    The OpenAPI specification can also be used to generate TypeScript types
-#    including JSON Schema validation (via openapi-typescript) and/or full API
-#    clients (via openapi-generator).
-#
-#
-# [literate]: https://en.wikipedia.org/wiki/Literate_programming
+"""
+This file is a lightweight specification of a v2 Journalist API that implements
+the synchronization strategy proposed in ``PROPOSAL.md``, including:
+
+1. A semi-`literate <https://en.wikipedia.org/wiki/Literate_programming>`_
+   reference implementation in Python of the structures and algorithms for
+   versioning and diffing resources, which can be easily replicated in another
+   language (e.g., TypeScript).  You can view this documentation with::
+
+       $ make docs  # then see "build/docs/"
+
+2. An initial set of test vectors.  To keep this file self-contained and
+   self-testing, these are implemented here as doctests, but they should also be
+   easily replicated in another language.  You can run these tests inside the
+   development shell with::
+
+       $ python -m doctest journalist_app/api2.py
+
+3. A scaffold (i.e., schemas and stubs) for the endpoints the new API provides.
+   Most raise ``NotImplementedError``; a few are implemented for demonstration.
+   You can view the OpenAPI specification that flask-smorest generates from this
+   scaffold by running ``make dev``, logging into the Journalist Interface, and
+   navigating to <http://localhost:8081/docs>.
+
+   The OpenAPI specification can also be used to generate TypeScript types
+   including JSON Schema validation (via openapi-typescript) and/or full API
+   clients (via openapi-generator).
+"""
 
 import hashlib
 from typing import Dict, List, Protocol
@@ -48,7 +47,7 @@ from marshmallow import Schema, fields
 def json_version(d: dict) -> str:
     """
     Calculate the version (BLAKE2s digest) of the normalized JSON representation
-    of the dictionary `d`.
+    of the dictionary ``d``.
 
     We use BLAKE2s here because SHA-256 is too slow (we don't care about
     cryptographic security) and CRC-32 is too collision-prone (we're not merely
@@ -71,7 +70,7 @@ class VersionedItem(Protocol):
     A versioned item has a canonical JSON representation that can be hashed to
     version that item.
 
-    The `Submission` and `Reply` models MUST implement the `VersionedItem`
+    The ``Submission`` and ``Reply`` models MUST implement the ``VersionedItem``
     protocol.
     """
 
@@ -88,24 +87,25 @@ class VersionedItem(Protocol):
 
     def to_json(self) -> Dict[str, object]:
         """
-        The existing `to_json()` method.  Since the return value is derived from
-        a given model instance, this should be a property, but it's left as a
-        method here to minimize extraneous changes.
+        The existing ``to_json()`` method.  Since the return value is derived
+        from a given model instance, this should be a property, but it's left as
+        a method here to minimize extraneous changes.
         """
         ...
 
 
 class VersionedCollection(VersionedItem, Protocol):
     """
-    A versioned collection is a `VersionedItem` that has a collection of other
-    `VersionedItems` and provides an index of their IDs and versions.
+    A versioned collection is a :py:class:`VersionedItem` that has a collection
+    of other :py:class:`VersionedItem` instances and provides an index of their
+    IDs and versions.
 
-    The `Source` model MUST implement the `VersionedCollection` protocol.
+    The ``Source`` model MUST implement the ``VersionedCollection`` protocol.
     """
 
     @property
     def collection(self) -> List[VersionedItem]:
-        """The existing `collection` property."""
+        """The existing ``collection`` property."""
         ...
 
     @property
@@ -113,18 +113,18 @@ class VersionedCollection(VersionedItem, Protocol):
         """
         This property SHOULD be cached.  A number of caching strategies are
         possible (on read, on server start-up, etc.), but the cached value for a
-        given model instance and its colleciton MUST be either updated or
+        given model instance and its collection MUST be either updated or
         invalidated on write.
         """
         return {item.uuid: item.version for item in self.collection}
 
     def to_json(self) -> Dict[str, str]:
         """
-        The existing `to_json()` method.  Since the return value is derived from
-        a given model instance, this should be a property, but it's left as a
-        method here to minimize extraneous changes.
+        The existing ``to_json()`` method.  Since the return value is derived
+        from a given model instance, this should be a property, but it's left as
+        a method here to minimize extraneous changes.
 
-        The return value MUST include a `collection_version` key like:
+        The return value MUST include a ``collection_version`` key like::
 
             {
                 ...,
@@ -139,8 +139,9 @@ class VersionedCollection(VersionedItem, Protocol):
 
 class SubmissionStub(VersionedItem):
     """
-    Example implementation of a `VersionedItem`---i.e., how `Submission` and
-    `Reply` will implement the `VersionedItem` protocol.
+    Example implementation of a :py:class:`VersionedItem`---i.e., how
+    ``Submission`` and ``Reply`` will implement the :py:class:`VersionedItem`
+    protocol.
 
     >>> submission = SubmissionStub("9ca2e0bf-fe06-4407-89eb-fdfd144df72d")
     >>> submission.to_json()
@@ -162,8 +163,8 @@ class SubmissionStub(VersionedItem):
 
 class SourceStub(VersionedCollection):
     """
-    Example implementation of a `VersionedCollection`---i.e., how `Source` will implement
-    the `VersionedCollection` protocol.
+    Example implementation of a :py:class:`VersionedCollection`---i.e., how
+    ``Source`` will implement the :py:class:`VersionedCollection` protocol.
 
     >>> submission = SubmissionStub("9ca2e0bf-fe06-4407-89eb-fdfd144df72d")
     >>> source = SourceStub(
@@ -200,8 +201,8 @@ class SourceStub(VersionedCollection):
 
 class IndexSchema(Schema):
     """
-    An index lists all sources by `{uuid: version}`.  Sources may appear in any
-    order; normalization (e.g. for versioning) is the responsibility of the
+    An index lists all sources by ``{uuid: version}``.  Sources may appear in
+    any order; normalization (e.g. for versioning) is the responsibility of the
     consumer.
     """
 
@@ -240,7 +241,7 @@ class Index(MethodView):
         """
         Return the index of all sources.
 
-        If the request's `If-None-Match` header matches the current ETag, this
+        If the request's ``If-None-Match`` header matches the current ETag, this
         view MUST return HTTP 304 with an empty response.
         """
         # These values SHOULD be cached:
@@ -261,11 +262,11 @@ class PrefixIndex(MethodView):
     def get(prefix: str):
         """
         OPTIONAL: Return the index of all sources whose UUIDs begin with
-        `prefix`.  The client MAY choose an arbitrary prefix with each request:
-        e.g., a series of requests with the prefixes {0...f} will effectively
-        shard the index into 16 shards.
+        ``prefix``.  The client MAY choose an arbitrary prefix with each
+        request: e.g., a series of requests with the prefixes ``{0...f}`` will
+        effectively shard the index into 16 shards.
 
-        If the request's `If-None-Match` header matches the current ETag, this
+        If the request's ``If-None-Match`` header matches the current ETag, this
         view MUST return HTTP 304 with an empty response.
         """
         raise NotImplementedError
@@ -275,14 +276,15 @@ class PrefixIndex(MethodView):
 class Sources(MethodView):
     """
     Replaces the following v1 Journalist API endpoints:
-    - GET /replies
-    - GET /sources
-    - GET /sources/<source_uuid>
-    - GET /sources/<source_uuid>/replies
-    - GET /sources/<source_uuid>/replies/<reply_uuid>
-    - GET /sources/<source_uuid>/submissions
-    - GET /sources/<source_uuid>/submissions/<submission_uuid>
-    - GET /submissions
+
+    - ``GET /replies``
+    - ``GET /sources``
+    - ``GET /sources/<source_uuid>``
+    - ``GET /sources/<source_uuid>/replies``
+    - ``GET /sources/<source_uuid>/replies/<reply_uuid>``
+    - ``GET /sources/<source_uuid>/submissions``
+    - ``GET /sources/<source_uuid>/submissions/<submission_uuid>``
+    - ``GET /submissions``
     """
 
     @blp.response(200, SourceMetadataSetSchema)
@@ -296,7 +298,7 @@ class Sources(MethodView):
         """
         Return the source metadata for the sources listed in the source delta.
         The client MAY choose an arbitrary source delta with each request, e.g.
-        from a shard retrieved from `/index/<prefix>`.
+        from a shard retrieved from ``/index/<prefix>``.
         """
         raise NotImplementedError
 
