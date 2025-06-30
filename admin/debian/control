@@ -1,0 +1,12 @@
+Source: securedrop-admin
+Section: web
+Priority: optional
+Maintainer: SecureDrop Team <securedrop@freedom.press>
+Build-Depends: debhelper (>= 11), dh-python, python3-all, python3-setuptools
+Homepage: https://securedrop.org
+Standards-Version: 4.5.1
+
+Package: securedrop-admin
+Architecture: amd64
+Depends: ${dist:Depends}, ${misc:Depends}, ${python3:Depends}, TODO
+Description: SecureDrop admin code
