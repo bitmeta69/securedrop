@@ -11,10 +11,10 @@ fi
 cd "$(git rev-parse --show-toplevel)"
 
 if [[ $ADMIN_CONTAINER -eq 1 ]]; then
-    IMAGE_NAME="fpf.local/sd-admin-builder-${UBUNTU_VERSION}"
+    IMAGE_NAME="fpf.local/sd-admin-builder-${OS_VERSION}"
     DOCKERFILE="builder/AdminDockerfile"
 else
-    IMAGE_NAME="fpf.local/sd-server-builder-${UBUNTU_VERSION}"
+    IMAGE_NAME="fpf.local/sd-server-builder-${OS_VERSION}"
     DOCKERFILE="builder/Dockerfile"
 fi
 
@@ -26,12 +26,12 @@ if $missing; then
     # Build it if it doesn't
     $OCI_BIN build \
         -f "${DOCKERFILE}" \
-        --build-arg=UBUNTU_VERSION="${UBUNTU_VERSION}" \
+        --build-arg=OS_VERSION="${OS_VERSION}" \
         -t "${IMAGE_NAME}" builder/ --no-cache
 fi
 
 # Uncomment the following for fast development on adjusting builder logic
-$OCI_BIN build -f "${DOCKERFILE}" --build-arg=UBUNTU_VERSION="${UBUNTU_VERSION}" -t "${IMAGE_NAME}" builder/
+$OCI_BIN build -f "${DOCKERFILE}" --build-arg=OS_VERSION="${OS_VERSION}" -t "${IMAGE_NAME}" builder/
 
 # Run the dependency check
 status=0
@@ -43,7 +43,7 @@ if [[ $status == 42 ]]; then
     # and try again!
     echo "Rebuilding container to update dependencies"
     $OCI_BIN rmi "${IMAGE_NAME}"
-    $OCI_BIN build -f "${DOCKERFILE}" --build-arg=UBUNTU_VERSION="${UBUNTU_VERSION}" \
+    $OCI_BIN build -f "${DOCKERFILE}" --build-arg=OS_VERSION="${OS_VERSION}" \
         -t "${IMAGE_NAME}" builder/ --no-cache
     # Reset $status and re-run the dependency check
     status=0

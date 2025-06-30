@@ -8,5 +8,5 @@ Standards-Version: 4.5.1
 
 Package: securedrop-admin
 Architecture: amd64
-Depends: ${dist:Depends}, ${misc:Depends}, ${python3:Depends}, python3-virtualenv, python3-yaml, python3-pip, virtualenv, libffi-dev, libssl-dev, libpython3-dev, sq-keyring-linter, netcat-openbsd, tor, rsync
+Depends: python3-virtualenv, python3-yaml, python3-pip, libffi-dev, libssl-dev, libpython3-dev, sq-keyring-linter, netcat-openbsd, tor, rsync
 Description: SecureDrop admin code
