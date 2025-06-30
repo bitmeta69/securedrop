@@ -41,7 +41,13 @@ WHAT="${WHAT:-securedrop}"
 
 cd "$(git rev-parse --show-toplevel)"
 
-. ./builder/image_prep.sh
+if [[ $WHAT == "admin" ]]; then
+    # Build the admin builder
+    . ./builder/image_prep.sh admin
+else
+    # Build the server builder
+    . ./builder/image_prep.sh
+fi
 
 mkdir -p "build/${UBUNTU_VERSION}"
 
@@ -53,6 +59,10 @@ if [[ $WHAT == "ossec" ]]; then
     $OCI_BIN run --rm $OCI_RUN_ARGUMENTS \
         -e VARIANT=server --entrypoint "/build-debs-ossec" \
         fpf.local/sd-server-builder-${UBUNTU_VERSION}
+elif [[ $WHAT == "admin" ]]; then
+    $OCI_BIN run --rm $OCI_RUN_ARGUMENTS \
+        --entrypoint "/build-debs-admin" \
+        fpf.local/sd-admin-builder-${UBUNTU_VERSION}
 else
     $OCI_BIN run --rm $OCI_RUN_ARGUMENTS \
         --entrypoint "/build-debs-securedrop" \
@@ -67,6 +77,8 @@ if [[ $NOTEST == "" ]]; then
 
     if [[ $WHAT == "ossec" ]]; then
         pytest -v builder/tests/test_ossec_package.py
+    elif [[ $WHAT == "admin" ]]; then
+        echo "Skipping tests for admin container..."
     else
         pytest -v builder/tests/test_securedrop_deb_package.py
     fi

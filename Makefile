@@ -499,6 +499,29 @@ build-debs-ossec-notest: ## Build OSSEC Debian packages without running tests
 	@echo "$(SCRIPT_MESSAGE)"
 	@echo "$(OUT)"
 
+.PHONY: build-debs-admin
+build-debs-admin: OUT:=$(SCRIPT_OUTPUT_PREFIX)-securedrop-admin.$(SCRIPT_OUTPUT_EXT)
+build-debs-admin: ## Build admin Debian packages
+	@echo "Building admin Debian packages"
+	@export TERM=dumb
+	@WHAT=admin script \
+		--command $(SDROOT)/builder/build-debs.sh --return \
+		$(OUT)
+	@echo
+	@echo "$(SCRIPT_MESSAGE)"
+	@echo "$(OUT)"
+
+.PHONY: build-debs-admin-notest
+build-debs-admin-notest: OUT:=$(SCRIPT_OUTPUT_PREFIX)-securedrop-admin.$(SCRIPT_OUTPUT_EXT)
+build-debs-admin-notest: ## Build admin Debian packages without running tests
+	@echo "Building admin Debian packages, skipping tests..."
+	@export TERM=dumb
+	@NOTEST=1 WHAT=admin script \
+	       --command $(SDROOT)/builder/build-debs.sh --return \
+	       $(OUT)
+	@echo
+	@echo "$(SCRIPT_MESSAGE)"
+	@echo "$(OUT)"
 
 ########################
 #
