@@ -1,7 +1,7 @@
 coverage>=7.0  # #6091
 flaky
 mock
-packaging==21.3
+packaging==25.0
 pip-tools>=6.13.0
 py>=1.11.0
 pylint>=3.0.0
@@ -10,7 +10,7 @@ requests>=2.26.0
 tox==3.28.0
 pexpect
 urllib3>=1.26.5
-setuptools>=70.0.0
+setuptools>=78.1.1
 
 # If this needs updating, search this repository for other references to "pip"
 # that may be missed by our tools.

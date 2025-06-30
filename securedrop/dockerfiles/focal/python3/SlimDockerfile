@@ -1,5 +1,9 @@
 ARG UBUNTU_VERSION=focal
 FROM ubuntu:${UBUNTU_VERSION}
+# Redeclare $UBUNTU_VERSION after "FROM" so that we can make it available as an
+# environment variable.
+ARG UBUNTU_VERSION=focal
+ENV UBUNTU_VERSION=${UBUNTU_VERSION}
 ARG USER_NAME
 ENV USER_NAME ${USER_NAME:-root}
 ARG USER_ID
@@ -30,9 +34,9 @@ RUN TMPDIR=`mktemp -d` && cd ${TMPDIR} \
 
 COPY requirements requirements
 RUN python3 -m venv /opt/venvs/securedrop-app-code && \
-    /opt/venvs/securedrop-app-code/bin/pip3 install --no-deps --require-hashes -r requirements/python3/bootstrap-requirements.txt && \
-    /opt/venvs/securedrop-app-code/bin/pip3 install --no-deps --require-hashes -r requirements/python3/test-requirements.txt && \
-    /opt/venvs/securedrop-app-code/bin/pip3 install --no-deps --require-hashes -r requirements/python3/requirements.txt
+    /opt/venvs/securedrop-app-code/bin/pip3 install --no-deps --require-hashes -r requirements/${UBUNTU_VERSION}/bootstrap-requirements.txt && \
+    /opt/venvs/securedrop-app-code/bin/pip3 install --no-deps --require-hashes -r requirements/${UBUNTU_VERSION}/test-requirements.txt && \
+    /opt/venvs/securedrop-app-code/bin/pip3 install --no-deps --require-hashes -r requirements/${UBUNTU_VERSION}/requirements.txt
 
 # noble ships with an `ubuntu` user that has id 1000, which conflicts with podman's ID mapping
 RUN if id ubuntu; then deluser ubuntu; fi
