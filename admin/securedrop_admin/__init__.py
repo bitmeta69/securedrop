@@ -1127,19 +1127,6 @@ def get_logs(args: argparse.Namespace) -> int:
     return 0
 
 
-@update_check_required("noble_migration")
-def noble_migration(args: argparse.Namespace) -> int:
-    """Upgrade to Ubuntu Noble"""
-    sdlog.info("Beginning the upgrade to Ubuntu Noble")
-    ansible_cmd = ansible_command() + [
-        os.path.join(args.ansible_path, "securedrop-noble-migration.yml"),
-    ]
-
-    subprocess.check_call(ansible_cmd, cwd=args.ansible_path)
-    sdlog.info("Upgrade to Ubuntu Noble complete!")
-    return 0
-
-
 def set_default_paths(args: argparse.Namespace) -> argparse.Namespace:
     if not args.ansible_path:
         args.ansible_path = args.root + "/install_files/ansible-base"
@@ -1240,9 +1227,6 @@ def parse_argv(argv: List[str]) -> argparse.Namespace:
 
     parse_logs = subparsers.add_parser("logs", help=get_logs.__doc__)
     parse_logs.set_defaults(func=get_logs)
-
-    parse_noble_migration = subparsers.add_parser("noble_migration", help=noble_migration.__doc__)
-    parse_noble_migration.set_defaults(func=noble_migration)
 
     parse_reset_ssh = subparsers.add_parser("reset_admin_access", help=reset_admin_access.__doc__)
     parse_reset_ssh.set_defaults(func=reset_admin_access)
