@@ -28,8 +28,27 @@ case "$1" in
     # And disable Ubuntu Pro's ua-timer and esm-cache (#6773)
     systemctl is-enabled ua-timer.timer && systemctl disable ua-timer.timer
     systemctl mask esm-cache
-    # Migrate the ssh group to sdssh
-    securedrop-migrate-ssh-group.py
+
+    # Disable and remove noble migration timers
+    systemctl is-enabled securedrop-noble-migration-check.timer && \
+	    systemctl disable securedrop-noble-migration-check.timer
+    rm -f lib/systemd/system/securedrop-noble-migration-check.timer
+    systemctl is-enabled securedrop-noble-migration-upgrade.timer && \
+	    systemctl disable securedrop-noble-migration-upgrade.timer
+    rm -f lib/systemd/system/securedrop-noble-migration-upgrade.timer
+
+    # Disable and remove noble migration services
+    systemctl stop securedrop-noble-migration-check.service
+    systemctl is-enabled securedrop-noble-migration-check.service && \
+	    systemctl disable securedrop-noble-migration-check.service
+    rm -f lib/systemd/system/securedrop-noble-migration-check.service
+    systemctl stop securedrop-noble-migration-upgrade.service
+    systemctl is-enabled securedrop-noble-migration-upgrade.service && \
+	    systemctl disable securedrop-noble-migration-upgrade.service
+    rm -f lib/systemd/system/securedrop-noble-migration-upgrade.service
+
+    # reload systemd
+    systemctl daemon-reload
 
     # Should not exist but might because of an Ubuntu installer bug that is
     # now fixed: https://bugs.launchpad.net/subiquity/+bug/2053002
