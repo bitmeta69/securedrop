@@ -16,7 +16,8 @@ RUN apt-get -y update && apt-get upgrade -y && apt-get install -y \
         rsync \
         sudo \
         tzdata \
-        unzip
+        unzip \
+        virtualenv
 
 COPY build-debs-admin.sh /build-debs-admin
 COPY fixup-changelog.sh /fixup-changelog

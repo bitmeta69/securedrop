@@ -1,1 +1,4 @@
-install_files /usr/share/securedrop-admin/
+ansible-base /usr/share/securedrop-admin
+venv /usr/share/securedrop-admin
+bin/securedrop-admin /usr/bin
+bin/validate-gpg-key.sh /usr/bin

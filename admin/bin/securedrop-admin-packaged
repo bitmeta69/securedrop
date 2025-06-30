@@ -1,0 +1,6 @@
+#!/usr/share/securedrop-admin/venv/bin/python3
+import sys
+
+from securedrop_admin import main
+
+main(sys.argv[1:])

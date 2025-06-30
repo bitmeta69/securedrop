@@ -16,9 +16,21 @@ git status --short
 
 # --- END keep this section in sync. ---
 
-export UBUNTU_VERSION="${UBUNTU_VERSION:-noble}"
+if [[ $WHAT == "admin" ]]; then
+    export OS_VERSION="${OS_VERSION:-bookworm}"
+else
+    export OS_VERSION="${OS_VERSION:-noble}"
+fi
 
 OCI_RUN_ARGUMENTS="--user=root -v $(pwd):/src:Z -e HOST_UID=$(id -u) -e HOST_GID=$(id -g)"
+
+if [[ $WHAT != "admin" ]]; then
+    # Setuptools_scm 8.3.0 breaks focal builds - so let's temporarily constrain it to 8.1.0
+    TMP_CONSTRAINT="/srv/securedrop/requirements/${OS_VERSION}/constraints.txt"
+    if [[ $OS_VERSION == "focal" ]]; then
+        OCI_RUN_ARGUMENTS="-e PIP_CONSTRAINT=${TMP_CONSTRAINT} ${OCI_RUN_ARGUMENTS}"
+    fi
+fi
 
 # Default to podman if available
 if which podman > /dev/null 2>&1; then
@@ -49,24 +61,24 @@ else
     . ./builder/image_prep.sh
 fi
 
-mkdir -p "build/${UBUNTU_VERSION}"
+mkdir -p "build/${OS_VERSION}"
 
 if [[ $WHAT == "ossec" ]]; then
     # We need to build each variant separately because it dirties the container
     $OCI_BIN run --rm $OCI_RUN_ARGUMENTS \
         -e VARIANT=agent --entrypoint "/build-debs-ossec" \
-        fpf.local/sd-server-builder-${UBUNTU_VERSION}
+        fpf.local/sd-server-builder-${OS_VERSION}
     $OCI_BIN run --rm $OCI_RUN_ARGUMENTS \
         -e VARIANT=server --entrypoint "/build-debs-ossec" \
-        fpf.local/sd-server-builder-${UBUNTU_VERSION}
+        fpf.local/sd-server-builder-${OS_VERSION}
 elif [[ $WHAT == "admin" ]]; then
     $OCI_BIN run --rm $OCI_RUN_ARGUMENTS \
         --entrypoint "/build-debs-admin" \
-        fpf.local/sd-admin-builder-${UBUNTU_VERSION}
+        fpf.local/sd-admin-builder-${OS_VERSION}
 else
     $OCI_BIN run --rm $OCI_RUN_ARGUMENTS \
         --entrypoint "/build-debs-securedrop" \
-        fpf.local/sd-server-builder-${UBUNTU_VERSION}
+        fpf.local/sd-server-builder-${OS_VERSION}
 fi
 
 NOTEST="${NOTEST:-}"
