@@ -1,0 +1,32 @@
+#!/usr/bin/make -f
+
+DEB_DH_INSTALL_ARGS=-X .git
+PIP_ARGS=--verbose --no-deps --no-binary=:all: --no-cache-dir
+
+%:
+	dh $@ --buildsystem=pybuild
+
+override_dh_auto_install:
+	/usr/bin/python3 -m venv ./debian/securedrop-admin/opt/venvs/securedrop-admin
+	./debian/securedrop-admin/opt/venvs/securedrop-admin/bin/pip install $(PIP_ARGS) \
+		pip==25.0
+	./debian/securedrop-admin/opt/venvs/securedrop-admin/bin/pip install $(PIP_ARGS) \
+		-r requirements.txt
+	# Update paths to point to install destination
+	find ./debian/securedrop-admin/ -type f -exec sed -i "s#$(shell pwd)/debian/securedrop-admin##" {} \;
+	dh_auto_install $@
+
+override_dh_auto_test:
+	# Skip, we don't run tests at package build time
+
+override_dh_install:
+	# Things to exclude
+	find . -type f -name '*requirements.in' -delete
+	dh_install
+
+override_dh_strip_nondeterminism:
+	# Delete non-reproducible things
+	find ./debian/ -type f -name '*.pyc' -delete
+	find ./debian/ -type f -name 'pip-selfcheck.json' -delete
+	find ./debian/ -type f -name 'RECORD' -delete
+	dh_strip_nondeterminism $@
