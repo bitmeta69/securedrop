@@ -1,6 +1,6 @@
 use pyo3::types::{PyAnyMethods, PyBytes, PyTuple};
 use pyo3::{intern, Bound, PyAny, PyResult};
-use std::io::{self, ErrorKind, Read, Write};
+use std::io::{self, Read, Write};
 
 /// Wrapper to implement the `Read` trait around a Python
 /// object that contains a `.read()` function.
@@ -27,7 +27,7 @@ impl Read for Stream<'_> {
             // The PyErr could be a type error (e.g. no "read" method) or an
             // actual I/O failure if the read() call failed, let's just treat
             // all of them as "other" for simplicity.
-            io::Error::new(ErrorKind::Other, err.to_string())
+            io::Error::other(err.to_string())
         })?;
         buf.write(bytes.as_slice())
     }
