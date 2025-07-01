@@ -50,7 +50,7 @@
 # requires the install of admin requirements in whatever virtualenv is activated for running
 # staging (this seems reasonable to me).
 - name: Generate Onion v3 keys if required the Tails admin system
-  command: "python {{ sd_root_dir }}/admin/securedrop_admin/__init__.py --root {{ sd_root_dir }} generate_v3_keys"
+  command: "/usr/bin/securedrop-admin generate_v3_keys"
   delegate_to: localhost
   # Local action, so we don't want elevated privileges
   become: no
@@ -62,7 +62,7 @@
 
 - name: Get the v3 keys locally from the Tails admin system
   set_fact:
-    v3_local_key_info: "{{ lookup('file', role_path+'/../../tor_v3_keys.json')|from_json }}"
+    v3_local_key_info: "{{ lookup('file', config_path+'/tor_v3_keys.json')|from_json }}"
   delegate_to: localhost
   # Local action, so we don't want elevated privileges
   become: no
