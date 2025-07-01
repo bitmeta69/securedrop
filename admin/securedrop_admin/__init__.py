@@ -819,7 +819,7 @@ def sdconfig(args: argparse.Namespace) -> int:
     return 0
 
 
-def generate_new_v3_keys(args: argparse.Namespace) -> Tuple[str, str]:
+def generate_new_v3_keys() -> Tuple[str, str]:
     """This function generate new keys for Tor v3 onion
     services and returns them as as tuple.
 
