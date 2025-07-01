@@ -62,9 +62,10 @@ LIST_SPLIT_RE = re.compile(r"\s*,\s*|\s+")
 I18N_CONF_PATH = "/usr/share/securedrop-admin/i18n.json"
 I18N_DEFAULT_LOCALES = {"en_US"}
 
-ANSIBLE_PATH = "/usr/share/securedrop-admin/ansible-base"
-TRANSLATIONS_PATH = os.path.join(ANSIBLE_PATH, "translations")
-VERSION_PATH = os.path.join(ANSIBLE_PATH, "version.txt")
+READONLY_CONFIG_PATH = "/usr/share/securedrop-admin"
+ANSIBLE_PATH = os.path.join(READONLY_CONFIG_PATH, "ansible-base")
+TRANSLATIONS_PATH = os.path.join(READONLY_CONFIG_PATH, "translations")
+VERSION_PATH = os.path.join(READONLY_CONFIG_PATH, "version.txt")
 CONFIG_PATH = os.path.expanduser("~/.securedrop-admin")
 SITE_CONFIG_PATH = os.path.join(CONFIG_PATH, "site-specific")
 
@@ -616,7 +617,6 @@ class SiteConfig:
             ("ossec_alert_gpg_public_key", "ossec_gpg_fpr"),
             ("journalist_alert_gpg_public_key", "journalist_gpg_fpr"),
         )
-        validate = os.path.join(os.path.dirname(__file__), "..", "bin", "validate-gpg-key.sh")
         for public_key, fingerprint in keys:
             if self.config[public_key] == "" and self.config[fingerprint] == "":
                 continue
@@ -625,7 +625,8 @@ class SiteConfig:
             try:
                 sdlog.debug(
                     subprocess.check_output(
-                        [validate, public_key, fingerprint], stderr=subprocess.STDOUT
+                        ["/usr/bin/validate-gpg-key.sh", public_key, fingerprint],
+                        stderr=subprocess.STDOUT,
                     )
                 )
             except subprocess.CalledProcessError as e:
@@ -806,13 +807,13 @@ def update_check_required(cmd_name: str) -> Callable[[_FuncT], _FuncT]:
 
 
 @update_check_required("sdconfig")
-def sdconfig() -> int:
+def sdconfig(args: argparse.Namespace) -> int:
     """Configure SD site settings"""
     SiteConfig().load_and_update_config(validate=False)
     return 0
 
 
-def generate_new_v3_keys() -> Tuple[str, str]:
+def generate_new_v3_keys(args: argparse.Namespace) -> Tuple[str, str]:
     """This function generate new keys for Tor v3 onion
     services and returns them as as tuple.
 
