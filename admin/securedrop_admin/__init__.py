@@ -962,6 +962,8 @@ def run_local_config(args: argparse.Namespace) -> int:
         sdlog.info("Detected Debian, running Qubes configuration")
         ansible_cmd = ansible_command() + [
             os.path.join(ANSIBLE_PATH, "securedrop-qubes.yml"),
+            "--extra-vars",
+            f"@{SITE_CONFIG_PATH}",
             # Passing an empty inventory file to override the automatic dynamic
             # inventory script, which fails if no site vars are configured.
             "-i",
@@ -977,6 +979,8 @@ def run_local_config(args: argparse.Namespace) -> int:
         ansible_cmd = ansible_command() + [
             os.path.join(ANSIBLE_PATH, "securedrop-tails.yml"),
             "--ask-become-pass",
+            "--extra-vars",
+            f"@{SITE_CONFIG_PATH}",
             # Passing an empty inventory file to override the automatic dynamic
             # inventory script, which fails if no site vars are configured.
             "-i",
