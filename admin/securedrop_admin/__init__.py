@@ -883,7 +883,12 @@ def install_securedrop(args: argparse.Namespace) -> int:
     sdlog.info("The sudo password is only necessary during initial installation.")
     return subprocess.check_call(
         ansible_command()
-        + [os.path.join(ANSIBLE_PATH, "securedrop-prod.yml"), "--ask-become-pass"],
+        + [
+            os.path.join(ANSIBLE_PATH, "securedrop-prod.yml"),
+            "--ask-become-pass",
+            "--extra-vars",
+            f"@{SITE_CONFIG_PATH}",
+        ],
         cwd=ANSIBLE_PATH,
     )
 
@@ -903,7 +908,9 @@ def backup_securedrop(args: argparse.Namespace) -> int:
     back to the Admin Workstation. Future `restore` actions can be performed
     with the backup tarball."""
     sdlog.info("Backing up the Sec Application Server")
-    ansible_cmd = ansible_command() + [os.path.join(ANSIBLE_PATH, "securedrop-backup.yml")]
+    ansible_cmd = ansible_command() + [
+        os.path.join(ANSIBLE_PATH, "securedrop-backup.yml", "--extra-vars", f"@{SITE_CONFIG_PATH}")
+    ]
     return subprocess.check_call(ansible_cmd, cwd=ANSIBLE_PATH)
 
 
@@ -924,6 +931,8 @@ def restore_securedrop(args: argparse.Namespace) -> int:
 
     ansible_cmd = ansible_command() + [
         os.path.join(ANSIBLE_PATH, "securedrop-restore.yml"),
+        "--extra-vars",
+        f"@{SITE_CONFIG_PATH}",
         "-e",
     ]
 
