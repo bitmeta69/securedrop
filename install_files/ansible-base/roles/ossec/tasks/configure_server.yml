@@ -15,8 +15,8 @@
     dest: /var/ossec
   when: item != ''
   with_items:
-    - "{{ ossec_alert_gpg_public_key }}"
-    - "{{ journalist_alert_gpg_public_key }}"
+    - "{{ config_path }}/{{ ossec_alert_gpg_public_key }}"
+    - "{{ config_path }}/{{ journalist_alert_gpg_public_key }}"
   tags:
     - gpg
 

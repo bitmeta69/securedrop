@@ -3,7 +3,7 @@
   # The key is installed as journalist.pub for Sequoia to read. Since this controls
   # who can decrypt things, set it to root-writable, but www-data-readable.
   copy:
-    src: "{{ securedrop_app_gpg_public_key }}"
+    src: "{{ config_path }}/{{ securedrop_app_gpg_public_key }}"
     dest: "{{ securedrop_data }}/journalist.pub"
     owner: "root"
     group: "www-data"
