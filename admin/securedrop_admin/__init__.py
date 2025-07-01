@@ -564,6 +564,10 @@ class SiteConfig:
     def update_config(self, prompt: bool = True) -> bool:
         if prompt:
             self.config.update(self.user_prompt_config())
+
+        # Always add the config path to the config, so ansible can reference it
+        self.config["config_path"] = CONFIG_PATH
+
         self.save()
         self.validate_gpg_keys()
         self.validate_journalist_alert_email()
