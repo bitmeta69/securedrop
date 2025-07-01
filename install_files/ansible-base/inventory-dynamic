@@ -17,10 +17,7 @@ SSH_COMMON_ARGS = "-o ProxyCommand='nc -x 127.0.0.1:9050 %h %p'"
 # Find absolute path to ansible-base directory.
 SECUREDROP_ANSIBLE_DIRECTORY = os.path.abspath(os.path.join(__file__,
                                                             os.path.pardir))
-SECUREDROP_SITE_VARS = os.path.join(SECUREDROP_ANSIBLE_DIRECTORY,
-                                    "group_vars",
-                                    "all",
-                                    "site-specific")
+SECUREDROP_SITE_VARS = os.path.expanduser("~/.securedrop-admin/site-specific")
 SECUREDROP_SUPPORTED_HOSTNAMES = ['app', 'mon']
 
 
