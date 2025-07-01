@@ -1238,6 +1238,8 @@ def parse_argv(argv: List[str]) -> argparse.Namespace:
         parser.print_help()
         sys.exit(1)
 
+    return args
+
 
 def main(argv: List[str]) -> None:
     args = parse_argv(argv)
