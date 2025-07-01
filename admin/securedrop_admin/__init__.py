@@ -1044,74 +1044,6 @@ def get_release_key_from_keyserver(
         subprocess.check_call(get_key_cmd, cwd=args.root)
 
 
-def update(args: argparse.Namespace) -> int:
-    """Verify, and apply latest SecureDrop workstation update"""
-    sdlog.info("Applying SecureDrop updates...")
-
-    update_status, latest_tag = check_for_updates(args)
-
-    if not update_status:
-        # Exit if we're up to date
-        return 0
-
-    sdlog.info("Verifying signature on latest update...")
-
-    # Retrieve key from openpgp.org keyserver
-    get_release_key_from_keyserver(args, keyserver=DEFAULT_KEYSERVER)
-
-    git_verify_tag_cmd = ["git", "tag", "-v", latest_tag]
-    try:
-        sig_result = subprocess.check_output(
-            git_verify_tag_cmd, stderr=subprocess.STDOUT, cwd=args.root
-        ).decode("utf-8")
-
-        good_sig_text = [
-            'Good signature from "SecureDrop Release Signing '
-            + 'Key <securedrop-release-key-2021@freedom.press>"',
-        ]
-        bad_sig_text = "BAD signature"
-        gpg_lines = sig_result.split("\n")
-
-        # Check if any strings in good_sig_text match against gpg_lines[]
-        good_sig_matches = [s for s in gpg_lines if any(xs in s for xs in good_sig_text)]
-
-        # To ensure that an adversary cannot name a malicious key good_sig_text
-        # we check that bad_sig_text does not appear, that the release key
-        # appears on the second line of the output, and that there is a single
-        # match from good_sig_text[]
-        if (
-            any(key in gpg_lines[1] for key in RELEASE_KEYS)
-            and len(good_sig_matches) == 1
-            and bad_sig_text not in sig_result
-        ):
-            # Check for duplicate branch name
-            cmd = ["git", "show-ref", "--heads", "--verify", f"refs/heads/{latest_tag}"]
-            try:
-                subprocess.check_output(cmd, stderr=subprocess.STDOUT, cwd=args.root)
-                sdlog.error("Update failed: Branch name collision detected")
-                return 1
-            except subprocess.CalledProcessError as e:
-                if "not a valid ref" in e.output.decode("utf-8"):
-                    sdlog.info("Signature verification successful.")
-                else:
-                    sdlog.error("Update failed: Git command error")
-                    return 1
-        else:
-            sdlog.error("Update failed: Invalid signature format")
-            return 1
-
-    except subprocess.CalledProcessError:
-        sdlog.error("Update failed: Missing or invalid signature")
-        return 1
-
-    # Only if the proper signature verifies do we check out the latest
-    git_checkout_cmd = ["git", "checkout", latest_tag]
-    subprocess.check_call(git_checkout_cmd, cwd=args.root)
-
-    sdlog.info(f"Updated to SecureDrop {latest_tag}.")
-    return 0
-
-
 @update_check_required("logs")
 def get_logs(args: argparse.Namespace) -> int:
     """Get logs for forensics and debugging purposes"""
@@ -1213,9 +1145,6 @@ def parse_argv(argv: List[str]) -> argparse.Namespace:
         dest="restore_manual_transfer",
         help="Restore using a backup file already present on the server",
     )
-
-    parse_update = subparsers.add_parser("update", help=update.__doc__)
-    parse_update.set_defaults(func=update)
 
     parse_check_updates = subparsers.add_parser("check_for_updates", help=check_for_updates.__doc__)
     parse_check_updates.set_defaults(func=check_for_updates_wrapper)
