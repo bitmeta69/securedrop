@@ -1142,10 +1142,10 @@ def noble_migration(args: argparse.Namespace) -> int:
 
 def set_default_paths(args: argparse.Namespace) -> argparse.Namespace:
     if not args.ansible_path:
-        args.ansible_path = args.root + "/install_files/ansible-base"
+        args.ansible_path = "/usr/share/securedrop-admin/ansible-base"
     args.ansible_path = os.path.realpath(args.ansible_path)
     if not args.site_config:
-        args.site_config = args.ansible_path + "/group_vars/all/site-specific"
+        args.site_config = os.path.expanduser("~/.securedrop-admin/site-specific")
     args.site_config = os.path.realpath(args.site_config)
     if not args.app_path:
         args.app_path = args.root + "/securedrop"
