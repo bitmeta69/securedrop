@@ -181,3 +181,6 @@ securedrop/geckodriver.log
 
 # Rust build artifacts
 target/
+
+# Admin build artifacts
+admin/build/
