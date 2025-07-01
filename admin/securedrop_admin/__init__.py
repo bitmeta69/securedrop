@@ -86,9 +86,11 @@ def openssh_version() -> int:
 
 
 def ansible_command() -> List[str]:
-    cmd = ["ansible-playbook"]
+    ansible_playbook_path = os.path.join(READONLY_CONFIG_PATH, "venv", "bin", "ansible-playbook")
+
+    cmd = [ansible_playbook_path]
     if openssh_version() == 9:
-        cmd = ["ansible-playbook", "--scp-extra-args='-O'"]
+        cmd = [ansible_playbook_path, "--scp-extra-args='-O'"]
     return cmd
 
 
