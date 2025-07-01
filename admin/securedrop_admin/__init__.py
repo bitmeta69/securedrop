@@ -59,8 +59,14 @@ EXIT_INTERRUPT = 2
 MAX_NAMESERVERS = 3
 LIST_SPLIT_RE = re.compile(r"\s*,\s*|\s+")
 
-I18N_CONF = "securedrop/i18n.json"
+I18N_CONF_PATH = "/usr/share/securedrop-admin/i18n.json"
 I18N_DEFAULT_LOCALES = {"en_US"}
+
+ANSIBLE_PATH = "/usr/share/securedrop-admin/ansible-base"
+TRANSLATIONS_PATH = os.path.join(ANSIBLE_PATH, "translations")
+VERSION_PATH = os.path.join(ANSIBLE_PATH, "version.txt")
+CONFIG_PATH = os.path.expanduser("~/.securedrop-admin")
+SITE_CONFIG_PATH = os.path.join(CONFIG_PATH, "site-specific")
 
 
 # Check OpenSSH version - ansible requires an extra argument for scp on OpenSSH 9
@@ -221,19 +227,16 @@ class SiteConfig:
             raise ValidationError(message="Must be an integer")
 
     class Locales:
-        def __init__(self, appdir: str) -> None:
-            self.translation_dir = os.path.realpath(os.path.join(appdir, "translations"))
-
         def get_translations(self) -> Set[str]:
             translations = I18N_DEFAULT_LOCALES
-            for dirname in os.listdir(self.translation_dir):
+            for dirname in os.listdir(TRANSLATIONS_PATH):
                 if dirname != "messages.pot":
                     translations.add(dirname)
             return translations
 
     class ValidateLocales(Validator):
-        def __init__(self, basedir: str, supported: Set[str]) -> None:
-            present = SiteConfig.Locales(basedir).get_translations()
+        def __init__(self, supported: Set[str]) -> None:
+            present = SiteConfig.Locales().get_translations()
             self.available = present & supported
 
             super().__init__()
@@ -284,20 +287,18 @@ class SiteConfig:
                 return True
             return super().validate(document)
 
-    def __init__(self, args: argparse.Namespace) -> None:
-        self.args = args
+    def __init__(self) -> None:
         self.config: dict = {}
         # Hold runtime configuration before save, to support
         # referencing other responses during validation
         self._config_in_progress: dict = {}
 
         supported_locales = I18N_DEFAULT_LOCALES.copy()
-        i18n_conf_path = os.path.join(args.root, I18N_CONF)
-        if os.path.exists(i18n_conf_path):
-            with open(i18n_conf_path) as i18n_conf_file:
+        if os.path.exists(I18N_CONF_PATH):
+            with open(I18N_CONF_PATH) as i18n_conf_file:
                 i18n_conf = json.load(i18n_conf_file)
             supported_locales.update(set(i18n_conf["supported_locales"].keys()))
-        locale_validator = SiteConfig.ValidateLocales(self.args.app_path, supported_locales)
+        locale_validator = SiteConfig.ValidateLocales(supported_locales)
 
         self.desc: List[_DescEntryType] = [
             (
@@ -368,7 +369,7 @@ class SiteConfig:
                 "SecureDrop.asc",
                 str,
                 "Local filepath to public key for " + "SecureDrop Application GPG public key",
-                SiteConfig.ValidatePath(self.args.ansible_path),
+                SiteConfig.ValidatePath(CONFIG_PATH),
                 None,
                 lambda config: True,
             ),
@@ -396,7 +397,7 @@ class SiteConfig:
                 "",
                 str,
                 "Local filepath to HTTPS certificate",
-                SiteConfig.ValidateOptionalPath(self.args.ansible_path),
+                SiteConfig.ValidateOptionalPath(CONFIG_PATH),
                 None,
                 lambda config: config.get("securedrop_app_https_on_source_interface"),
             ),
@@ -405,7 +406,7 @@ class SiteConfig:
                 "",
                 str,
                 "Local filepath to HTTPS certificate key",
-                SiteConfig.ValidateOptionalPath(self.args.ansible_path),
+                SiteConfig.ValidateOptionalPath(CONFIG_PATH),
                 None,
                 lambda config: config.get("securedrop_app_https_on_source_interface"),
             ),
@@ -414,7 +415,7 @@ class SiteConfig:
                 "",
                 str,
                 "Local filepath to HTTPS certificate chain file",
-                SiteConfig.ValidateOptionalPath(self.args.ansible_path),
+                SiteConfig.ValidateOptionalPath(CONFIG_PATH),
                 None,
                 lambda config: config.get("securedrop_app_https_on_source_interface"),
             ),
@@ -432,7 +433,7 @@ class SiteConfig:
                 "ossec.pub",
                 str,
                 "Local filepath to OSSEC alerts GPG public key",
-                SiteConfig.ValidatePath(self.args.ansible_path),
+                SiteConfig.ValidatePath(CONFIG_PATH),
                 None,
                 lambda config: True,
             ),
@@ -459,7 +460,7 @@ class SiteConfig:
                 "",
                 str,
                 "Local filepath to journalist alerts GPG public key (optional)",
-                SiteConfig.ValidateOptionalPath(self.args.ansible_path),
+                SiteConfig.ValidateOptionalPath(CONFIG_PATH),
                 None,
                 lambda config: True,
             ),
@@ -619,7 +620,7 @@ class SiteConfig:
         for public_key, fingerprint in keys:
             if self.config[public_key] == "" and self.config[fingerprint] == "":
                 continue
-            public_key = os.path.join(self.args.ansible_path, self.config[public_key])
+            public_key = os.path.join(CONFIG_PATH, self.config[public_key])
             fingerprint = self.config[fingerprint]
             try:
                 sdlog.debug(
@@ -666,10 +667,10 @@ class SiteConfig:
         return True
 
     def exists(self) -> bool:
-        return os.path.exists(self.args.site_config)
+        return os.path.exists(SITE_CONFIG_PATH)
 
     def save(self) -> None:
-        with open(self.args.site_config, "w") as site_config_file:
+        with open(SITE_CONFIG_PATH, "w") as site_config_file:
             yaml.safe_dump(self.config, site_config_file, default_flow_style=False)
 
     def clean_config(self, config: Dict) -> Dict:
@@ -721,14 +722,14 @@ class SiteConfig:
         to current specifications.
         """
         try:
-            with open(self.args.site_config) as site_config_file:
+            with open(SITE_CONFIG_PATH) as site_config_file:
                 c = yaml.safe_load(site_config_file)
                 return self.clean_config(c) if validate else c
         except OSError:
             sdlog.error("Config file missing, re-run with sdconfig")
             raise
         except yaml.YAMLError:
-            sdlog.error(f"There was an issue processing {self.args.site_config}")
+            sdlog.error(f"There was an issue processing {SITE_CONFIG_PATH}")
             raise
 
 
@@ -805,9 +806,9 @@ def update_check_required(cmd_name: str) -> Callable[[_FuncT], _FuncT]:
 
 
 @update_check_required("sdconfig")
-def sdconfig(args: argparse.Namespace) -> int:
+def sdconfig() -> int:
     """Configure SD site settings"""
-    SiteConfig(args).load_and_update_config(validate=False)
+    SiteConfig().load_and_update_config(validate=False)
     return 0
 
 
@@ -840,7 +841,7 @@ def find_or_generate_new_torv3_keys(args: argparse.Namespace) -> int:
     This method will either read v3 Tor onion service keys if found or generate
     a new public/private keypair.
     """
-    secret_key_path = os.path.join(args.ansible_path, "tor_v3_keys.json")
+    secret_key_path = os.path.join(CONFIG_PATH, "tor_v3_keys.json")
     if os.path.exists(secret_key_path):
         print(f"Tor v3 onion service keys already exist in: {secret_key_path}")
         return 0
@@ -868,15 +869,15 @@ def find_or_generate_new_torv3_keys(args: argparse.Namespace) -> int:
 def install_securedrop(args: argparse.Namespace) -> int:
     """Install/Update SecureDrop"""
 
-    SiteConfig(args).load_and_update_config(prompt=False)
+    SiteConfig().load_and_update_config(prompt=False)
 
     sdlog.info("Now installing SecureDrop on remote servers.")
     sdlog.info("You will be prompted for the sudo password on the servers.")
     sdlog.info("The sudo password is only necessary during initial installation.")
     return subprocess.check_call(
         ansible_command()
-        + [os.path.join(args.ansible_path, "securedrop-prod.yml"), "--ask-become-pass"],
-        cwd=args.ansible_path,
+        + [os.path.join(ANSIBLE_PATH, "securedrop-prod.yml"), "--ask-become-pass"],
+        cwd=ANSIBLE_PATH,
     )
 
 
@@ -895,8 +896,8 @@ def backup_securedrop(args: argparse.Namespace) -> int:
     back to the Admin Workstation. Future `restore` actions can be performed
     with the backup tarball."""
     sdlog.info("Backing up the Sec Application Server")
-    ansible_cmd = ansible_command() + [os.path.join(args.ansible_path, "securedrop-backup.yml")]
-    return subprocess.check_call(ansible_cmd, cwd=args.ansible_path)
+    ansible_cmd = ansible_command() + [os.path.join(ANSIBLE_PATH, "securedrop-backup.yml")]
+    return subprocess.check_call(ansible_cmd, cwd=ANSIBLE_PATH)
 
 
 @update_check_required("restore")
@@ -915,7 +916,7 @@ def restore_securedrop(args: argparse.Namespace) -> int:
     os.environ["ANSIBLE_STDOUT_CALLBACK"] = "debug"
 
     ansible_cmd = ansible_command() + [
-        os.path.join(args.ansible_path, "securedrop-restore.yml"),
+        os.path.join(ANSIBLE_PATH, "securedrop-restore.yml"),
         "-e",
     ]
 
@@ -930,7 +931,7 @@ def restore_securedrop(args: argparse.Namespace) -> int:
         ansible_cmd_extras.append("restore_manual_transfer='True'")
 
     ansible_cmd.append(" ".join(ansible_cmd_extras))
-    return subprocess.check_call(ansible_cmd, cwd=args.ansible_path)
+    return subprocess.check_call(ansible_cmd, cwd=ANSIBLE_PATH)
 
 
 @update_check_required("localconfig")
@@ -944,13 +945,13 @@ def run_local_config(args: argparse.Namespace) -> int:
     if 'NAME="Debian GNU/Linux"' in os_release:
         sdlog.info("Detected Debian, running Qubes configuration")
         ansible_cmd = ansible_command() + [
-            os.path.join(args.ansible_path, "securedrop-qubes.yml"),
+            os.path.join(ANSIBLE_PATH, "securedrop-qubes.yml"),
             # Passing an empty inventory file to override the automatic dynamic
             # inventory script, which fails if no site vars are configured.
             "-i",
             "/dev/null",
         ]
-        return subprocess.check_call(ansible_cmd, cwd=args.ansible_path)
+        return subprocess.check_call(ansible_cmd, cwd=ANSIBLE_PATH)
     elif 'NAME="Tails"' in os_release:
         sdlog.info("Detected Tails, running Tails configuration")
         sdlog.info(
@@ -958,14 +959,14 @@ def run_local_config(args: argparse.Namespace) -> int:
             " which was set on Tails login screen"
         )
         ansible_cmd = ansible_command() + [
-            os.path.join(args.ansible_path, "securedrop-tails.yml"),
+            os.path.join(ANSIBLE_PATH, "securedrop-tails.yml"),
             "--ask-become-pass",
             # Passing an empty inventory file to override the automatic dynamic
             # inventory script, which fails if no site vars are configured.
             "-i",
             "/dev/null",
         ]
-        return subprocess.check_call(ansible_cmd, cwd=args.ansible_path)
+        return subprocess.check_call(ansible_cmd, cwd=ANSIBLE_PATH)
 
     sdlog.error("Unsupported OS detected. Please run the appropriate configuration script.")
     return 1
@@ -1116,10 +1117,10 @@ def get_logs(args: argparse.Namespace) -> int:
     """Get logs for forensics and debugging purposes"""
     sdlog.info("Gathering logs for forensics and debugging")
     ansible_cmd = ansible_command() + [
-        os.path.join(args.ansible_path, "securedrop-logs.yml"),
+        os.path.join(ANSIBLE_PATH, "securedrop-logs.yml"),
     ]
 
-    subprocess.check_call(ansible_cmd, cwd=args.ansible_path)
+    subprocess.check_call(ansible_cmd, cwd=ANSIBLE_PATH)
     sdlog.info(
         "Please send the encrypted logs to securedrop@freedom.press or "
         "upload them to the SecureDrop support portal: " + SUPPORT_URL
@@ -1132,25 +1133,12 @@ def noble_migration(args: argparse.Namespace) -> int:
     """Upgrade to Ubuntu Noble"""
     sdlog.info("Beginning the upgrade to Ubuntu Noble")
     ansible_cmd = ansible_command() + [
-        os.path.join(args.ansible_path, "securedrop-noble-migration.yml"),
+        os.path.join(ANSIBLE_PATH, "securedrop-noble-migration.yml"),
     ]
 
-    subprocess.check_call(ansible_cmd, cwd=args.ansible_path)
+    subprocess.check_call(ansible_cmd, cwd=ANSIBLE_PATH)
     sdlog.info("Upgrade to Ubuntu Noble complete!")
     return 0
-
-
-def set_default_paths(args: argparse.Namespace) -> argparse.Namespace:
-    if not args.ansible_path:
-        args.ansible_path = args.root + "/install_files/ansible-base"
-    args.ansible_path = os.path.realpath(args.ansible_path)
-    if not args.site_config:
-        args.site_config = args.ansible_path + "/group_vars/all/site-specific"
-    args.site_config = os.path.realpath(args.site_config)
-    if not args.app_path:
-        args.app_path = args.root + "/securedrop"
-    args.app_path = os.path.realpath(args.app_path)
-    return args
 
 
 @update_check_required("reset_admin_access")
@@ -1159,9 +1147,9 @@ def reset_admin_access(args: argparse.Namespace) -> int:
     this Admin Workstation."""
     sdlog.info("Resetting SSH access to the SecureDrop servers")
     ansible_cmd = ansible_command() + [
-        os.path.join(args.ansible_path, "securedrop-reset-ssh-key.yml"),
+        os.path.join(ANSIBLE_PATH, "securedrop-reset-ssh-key.yml"),
     ]
-    return subprocess.check_call(ansible_cmd, cwd=args.ansible_path)
+    return subprocess.check_call(ansible_cmd, cwd=ANSIBLE_PATH)
 
 
 def parse_argv(argv: List[str]) -> argparse.Namespace:
@@ -1186,12 +1174,6 @@ def parse_argv(argv: List[str]) -> argparse.Namespace:
         required=False,
         help="force command execution without update check",
     )
-    parser.add_argument(
-        "--root", required=True, help="path to the root of the SecureDrop repository"
-    )
-    parser.add_argument("--site-config", help="path to the YAML site configuration file")
-    parser.add_argument("--ansible-path", help="path to the Ansible root")
-    parser.add_argument("--app-path", help="path to the SecureDrop application root")
     subparsers = parser.add_subparsers()
 
     parse_sdconfig = subparsers.add_parser("sdconfig", help=sdconfig.__doc__)
@@ -1255,7 +1237,6 @@ def parse_argv(argv: List[str]) -> argparse.Namespace:
         print("Please specify an operation.\n")
         parser.print_help()
         sys.exit(1)
-    return set_default_paths(args)
 
 
 def main(argv: List[str]) -> None:
