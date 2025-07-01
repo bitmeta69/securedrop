@@ -1,31 +1,31 @@
 ---
 - name: Check for site specific file
   stat:
-    path: group_vars/all/site-specific
+    path: "{{ config_path }}/site-specific"
   register: site_specific_file
 
 - name: Import variables
-  include_vars: "group_vars/all/site-specific"
+  include_vars: "{{ config_path }}/site-specific"
   when: site_specific_file.stat.exists
 
 - name: Check for v3 Source Interface file
   stat:
-    path: app-sourcev3-ths
+    path: "{{ config_path }}/app-sourcev3-ths"
   register: v3_source_file
 
 - name: Check for v3 Journalist Interface file
   stat:
-    path: app-journalist.auth_private
+    path: "{{ config_path }}/app-journalist.auth_private"
   register: v3_journalist_file
 
 - name: Look up v3 Source Interface URL.
-  command: grep -Po '.{56}\.onion' app-sourcev3-ths
+  command: grep -Po '.{56}\.onion' "{{ config_path }}/app-sourcev3-ths"
   changed_when: false
   register: sourcev3_interface_lookup_result
   when: v3_source_file.stat.exists == true
 
 - name: Look up v3 Journalist Interface URL.
-  command: awk -F ':' '{print $1 ".onion"}' app-journalist.auth_private
+  command: awk -F ':' '{print $1 ".onion"}' "{{ config_path }}/app-journalist.auth_private"
   changed_when: false
   register: journalistv3_interface_lookup_result
   when: v3_source_file.stat.exists == true

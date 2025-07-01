@@ -21,7 +21,7 @@
 - name: Write Tor v3 onion service hostname files to Admin Workstation.
   local_action:
     module: template
-    dest: "{{ role_path }}/../../{{ item.item.filename }}"
+    dest: "{{ config_path }}/{{ item.item.filename }}"
     src: ths_config_v3.j2
   # Local action, so we don't want elevated privileges
   become: no

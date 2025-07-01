@@ -25,7 +25,7 @@
 
 - name: Check for v3 SSH auth files
   stat:
-    path: "{{ role_path }}/../../{{ item }}"
+    path: "{{ config_path }}/{{ item }}"
   register: v3_ssh_auth_files
   with_items:
     - app-ssh.auth_private
@@ -37,17 +37,17 @@
 
 - name: Check for Journalist client auth file
   stat:
-    path: "{{ role_path }}/../../app-journalist.auth_private"
+    path: "{{ config_path }}/app-journalist.auth_private"
   register: v3_journalist_auth_file
 
 - name: Check for Source THS file
   stat:
-    path: "{{ role_path }}/../../app-sourcev3-ths"
+    path: "{{ config_path }}/app-sourcev3-ths"
   register: v3_source_file
 
 - name: Check for Tor v3 key file
   stat:
-    path: "{{ role_path }}/../../tor_v3_keys.json"
+    path: "{{ config_path }}/tor_v3_keys.json"
   register: v3_tor_key
 
 - name: Confirm that a valid set of SSH auth files is present

@@ -63,7 +63,7 @@
         flat: yes
         fail_on_missing: yes
         src: "{{ log_tarball_filename }}"
-        dest: "{{ playbook_dir }}/{{ log_tarball_filename }}"
+        dest: "{{ config_dir }}/{{ log_tarball_filename }}"
 
     - name: Delete tarball from server admin home directory.
       file:
@@ -104,4 +104,4 @@
     - name: Display filenames of local log tarballs.
       debug:
         msg: >-
-          Logs copied successfully, find them at {{ (playbook_dir +'/'+ log_tarball_filename )|realpath }}.gpg .
+          Logs copied successfully, find them at {{ (config_dir +'/'+ log_tarball_filename )|realpath }}.gpg .

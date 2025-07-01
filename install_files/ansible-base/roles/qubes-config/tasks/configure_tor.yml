@@ -2,7 +2,7 @@
 - name: Find V3 Authenticated Onion Service info for SecureDrop interfaces.
   find:
     paths:
-      - "{{ qube_config_ansible_base }}"
+      - "{{ config_path }}"
     patterns:
       # Collect all files that end in `.auth_private` - if there are any present
       # then `torrc` will need a directive added
@@ -18,7 +18,7 @@
     msg: >-
       Failed to find Tor service info locally. Make sure you've installed SecureDrop
       on the servers, and that the `.auth_private` files are located in:
-      `{{ qube_config_ansible_base }}/`.
+      `{{ config_path }}/`.
 
 - name: Create Tor onion auth directory
   become: yes
@@ -38,7 +38,7 @@
     group: debian-tor
     mode: "0600"
   with_fileglob:
-    - "{{ qube_config_ansible_base }}/*.auth_private"
+    - "{{ config_path }}/*.auth_private"
   when: find_v3_aths_info_result.matched >= 1
 
 - name: Copy torrc_additions.sh to /rw/config
