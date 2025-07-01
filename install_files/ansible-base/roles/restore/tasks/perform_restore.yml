@@ -26,7 +26,7 @@
     # Avoid creating an unnecessary local copy
     remote_src: yes
     dest: "{{ torrc_check_dir.path }}/backup/"
-    src: "{{playbook_dir}}/{{ restore_file }}"
+    src: "{{config_dir}}/{{ restore_file }}"
     extra_opts:
       - "etc/tor/torrc"
 

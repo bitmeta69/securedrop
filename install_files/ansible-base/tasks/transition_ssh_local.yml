@@ -3,7 +3,7 @@
     - name: Seek for existing tor aths ssh files
       find:
         paths:
-          - "{{ playbook_dir }}"
+          - "{{ config_dir }}"
         patterns:
           - '*ssh-aths'
           - '*ssh.auth_private'

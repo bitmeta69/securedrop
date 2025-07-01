@@ -18,6 +18,7 @@ path_torrc_backup = "/etc/tor/torrc.bak"
 path_torrc = "/etc/tor/torrc"
 path_desktop = "/home/amnesia/Desktop/"
 path_persistent_desktop = "/lib/live/mount/persistence/TailsData_unlocked/dotfiles/Desktop/"
+path_admin_config = "/home/amnesia/.securedrop-admin"
 path_securedrop_root = "/home/amnesia/Persistent/securedrop"
 path_securedrop_admin_venv = os.path.join(path_securedrop_root, "admin/.venv3/bin/python")
 path_securedrop_admin_init = os.path.join(
@@ -26,15 +27,9 @@ path_securedrop_admin_init = os.path.join(
 path_gui_updater = os.path.join(path_securedrop_root, "journalist_gui/SecureDropUpdater")
 
 paths_v3_authfiles = {
-    "app-journalist": os.path.join(
-        path_securedrop_root, "install_files/ansible-base/app-journalist.auth_private"
-    ),
-    "app-ssh": os.path.join(
-        path_securedrop_root, "install_files/ansible-base/app-ssh.auth_private"
-    ),
-    "mon-ssh": os.path.join(
-        path_securedrop_root, "install_files/ansible-base/mon-ssh.auth_private"
-    ),
+    "app-journalist": os.path.join(path_admin_config, "app-journalist.auth_private"),
+    "app-ssh": os.path.join(path_admin_config, "app-ssh.auth_private"),
+    "mon-ssh": os.path.join(path_admin_config, "mon-ssh.auth_private"),
 }
 path_onion_auth_dir = "/var/lib/tor/onion_auth"
 

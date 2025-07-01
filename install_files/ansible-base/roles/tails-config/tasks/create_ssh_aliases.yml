@@ -1,10 +1,10 @@
 ---
 - name: Import variables
-  include_vars: "group_vars/all/site-specific"
+  include_vars: "{{ config_path }}/site-specific"
 
 - name: Lookup v3 onion ssh files for config template
   stat:
-    path: "{{ item }}-ssh.auth_private"
+    path: "{{ config_path }}/{{ item }}-ssh.auth_private"
   register: "ssh_v3_onion_lookup"
   with_items:
     - app
@@ -17,7 +17,7 @@
 # Add separate lookups for app and mon to avoid unsafe conditional checks
 - name: Lookup app v3 onion ssh file
   stat:
-    path: "app-ssh.auth_private"
+    path: "{{ config_path }}/app-ssh.auth_private"
   register: "ssh_app_auth"
 
 - name: Confirm that either the app v3 onion ssh file exists or site-specific file exists
@@ -26,7 +26,7 @@
 
 - name: Lookup mon v3 onion ssh file
   stat:
-    path: "mon-ssh.auth_private"
+    path: "{{ config_path }}/mon-ssh.auth_private"
   register: "ssh_mon_auth"
 
 - name: Confirm that either the mon v3 onion ssh file exists or site-specific file exists

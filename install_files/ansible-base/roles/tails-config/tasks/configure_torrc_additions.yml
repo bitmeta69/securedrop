@@ -2,7 +2,7 @@
 - name: Find V3 Authenticated Onion Service info for SecureDrop interfaces.
   find:
     paths:
-      - "{{ tails_config_ansible_base }}"
+      - "{{ config_path }}"
     patterns:
       # Collect all files that end in `.auth_private` - if there are any present
       # then `torrc` will need a directive added
