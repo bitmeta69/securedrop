@@ -182,3 +182,6 @@ securedrop/geckodriver.log
 # Rust build artifacts
 target/
 redwood/build/
+
+# Admin build artifacts
+admin/build/
