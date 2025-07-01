@@ -47,11 +47,7 @@ dpkg-buildpackage -us -uc
 # Copy the built artifacts back and print checksums
 source /etc/os-release
 mkdir -p "/src/build/${VERSION_CODENAME}"
-mv -v ../*.{buildinfo,changes,deb,ddeb,tar.gz} "/src/build/${VERSION_CODENAME}"
+mv -v ../*.{buildinfo,changes,deb,tar.gz} "/src/build/${VERSION_CODENAME}"
 cd "/src/build/${VERSION_CODENAME}"
-# Rename "ddeb" packages to just "deb"
-for file in *.ddeb; do
-    mv "$file" "${file%.ddeb}.deb";
-done
 sha256sum ./*
 chown -R "$HOST_UID:$HOST_GID" "/src/build/${VERSION_CODENAME}"
