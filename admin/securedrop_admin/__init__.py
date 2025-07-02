@@ -25,6 +25,7 @@ instances.
 import argparse
 import base64
 import functools
+import http.client
 import ipaddress
 import json
 import logging
@@ -44,12 +45,6 @@ from prompt_toolkit.validation import ValidationError, Validator
 
 sdlog = logging.getLogger(__name__)
 
-# In the event of a key rotation, this list can be added to
-# in order to support a transition period.
-RELEASE_KEYS = [
-    "2359E6538C0613E652955E6C188EDD3B7B22E6A3",
-]
-DEFAULT_KEYSERVER = "hkps://keys.openpgp.org"
 SUPPORT_ONION_URL = "http://sup6h5iyiyenvjkfxbgrjynm5wsgijjoatvnvdgyyi7je3xqm4kh6uqd.onion"
 SUPPORT_URL = "https://support.freedom.press"
 EXIT_SUCCESS = 0
@@ -774,32 +769,17 @@ def update_check_required(cmd_name: str) -> Callable[[_FuncT], _FuncT]:
 
             update_status, latest_tag = check_for_updates(cli_args)
             if update_status is True:
-                # Useful for troubleshooting
-                branch_status = get_git_branch(cli_args)
-
                 sdlog.error(
                     "You are not running the most recent signed SecureDrop release "
                     "on this workstation."
                 )
                 sdlog.error(f"Latest available version: {latest_tag}")
 
-                if branch_status is not None:
-                    sdlog.error(f"Current branch status: {branch_status}")
-                else:
-                    sdlog.error("Problem determining current branch status.")
-
-                sdlog.error(
-                    "Running outdated or mismatched code can cause significant technical issues."
-                )
-                sdlog.error(
-                    "To display more information about your repository state, run:\n\n\t"
-                    "git status\n"
-                )
                 sdlog.error(
                     "If you are certain you want to proceed, run:\n\n\t"
                     f"./securedrop-admin --force {cmd_name}\n"
                 )
-                sdlog.error("To apply the latest updates, run:\n\n\t./securedrop-admin update\n")
+                sdlog.error("To apply the latest updates, install operating system updates.\n")
                 sdlog.error(
                     "If this fails, see the latest upgrade guide on "
                     "https://docs.securedrop.org/ for instructions."
@@ -1004,66 +984,38 @@ def check_for_updates(args: argparse.Namespace) -> Tuple[bool, str]:
     """Check for SecureDrop updates"""
     sdlog.info("Checking for SecureDrop updates...")
 
-    # Determine what tag we are likely to be on. Caveat: git describe
-    # may produce very surprising results, because it will locate the most recent
-    # _reachable_ tag. However, in our current branching model, it can be
-    # relied on to determine if we're on the latest tag or not.
-    current_tag = (
-        subprocess.check_output(["git", "describe"], cwd=args.root).decode("utf-8").rstrip("\n")
-    )
+    # Load the current SecureDrop version
+    with open(VERSION_PATH) as f:
+        current_version = f.read().strip()
 
-    # Fetch all branches
-    git_fetch_cmd = ["git", "fetch", "--all"]
-    subprocess.check_call(git_fetch_cmd, cwd=args.root)
+    # Use the GitHub API to determine the latest release
+    # Using http.client instead of requests to avoid adding a dependency
+    try:
+        conn = http.client.HTTPSConnection("api.github.com", timeout=10)
+        headers = {
+            "User-Agent": "securedrop-admin",
+            "Accept": "application/vnd.github.v3+json",
+        }
+        conn.request("GET", "/repos/freedomofpress/securedrop/releases/latest", headers=headers)
+        response = conn.getresponse()
+        if response.status != 200:
+            raise Exception(f"GitHub API returned status {response.status}")
+        data = response.read().decode("utf-8")
+        latest_release = json.loads(data)
+        conn.close()
+    except Exception as e:
+        sdlog.error(f"Failed to check for updates: {e}")
+        return False, current_version
 
-    # Get latest tag
-    git_all_tags = ["git", "tag"]
-    all_tags = (
-        subprocess.check_output(git_all_tags, cwd=args.root)
-        .decode("utf-8")
-        .rstrip("\n")
-        .split("\n")
-    )
+    latest_version = latest_release.get("tag_name", "")
 
-    # Do not check out any release candidate tags
-    all_prod_tags = [x for x in all_tags if "rc" not in x]
-
-    # We want the tags to be sorted based on semver
-    all_prod_tags.sort(key=Version)
-
-    latest_tag = all_prod_tags[-1]
-
-    if current_tag != latest_tag:
+    if current_version != latest_version:
+        sdlog.info(f"Current version: {current_version}")
+        sdlog.info(f"Latest version: {latest_version}")
         sdlog.info("Update needed")
-        return True, latest_tag
+        return True, latest_version
     sdlog.info("All updates applied")
-    return False, latest_tag
-
-
-def get_git_branch(args: argparse.Namespace) -> Optional[str]:
-    """
-    Returns the starred line of `git branch` output.
-    """
-    git_branch_raw = subprocess.check_output(["git", "branch"], cwd=args.root).decode("utf-8")
-    match = re.search(r"\* (.*)\n", git_branch_raw)
-    if match is not None and len(match.groups()) > 0:
-        return match.group(1)
-    else:
-        return None
-
-
-def get_release_key_from_keyserver(
-    args: argparse.Namespace, keyserver: Optional[str] = None, timeout: int = 45
-) -> None:
-    gpg_recv = ["timeout", str(timeout), "gpg", "--batch", "--no-tty", "--recv-key"]
-    for release_key in RELEASE_KEYS:
-        # We construct the gpg --recv-key command based on optional keyserver arg.
-        if keyserver:
-            get_key_cmd = gpg_recv + ["--keyserver", keyserver] + [release_key]
-        else:
-            get_key_cmd = gpg_recv + [release_key]
-
-        subprocess.check_call(get_key_cmd, cwd=args.root)
+    return False, latest_version
 
 
 @update_check_required("logs")
