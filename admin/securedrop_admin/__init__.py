@@ -909,7 +909,9 @@ def backup_securedrop(args: argparse.Namespace) -> int:
     with the backup tarball."""
     sdlog.info("Backing up the Sec Application Server")
     ansible_cmd = ansible_command() + [
-        os.path.join(ANSIBLE_PATH, "securedrop-backup.yml", "--extra-vars", f"@{SITE_CONFIG_PATH}")
+        os.path.join(ANSIBLE_PATH, "securedrop-backup.yml"),
+        "--extra-vars",
+        f"@{SITE_CONFIG_PATH}",
     ]
     return subprocess.check_call(ansible_cmd, cwd=ANSIBLE_PATH)
 

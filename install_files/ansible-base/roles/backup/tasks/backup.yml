@@ -17,7 +17,7 @@
     checksum: yes
     mode: pull
     src: /tmp/{{ backup_filename }}
-    dest: ./{{ backup_filename }}
+    dest: "{{ config_path }}/{{ backup_filename }}"
     use_ssh_args: true
 
 - name: Delete backup tarball from Application Server (to save disk space).

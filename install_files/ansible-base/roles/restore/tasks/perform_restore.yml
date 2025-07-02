@@ -26,14 +26,14 @@
     # Avoid creating an unnecessary local copy
     remote_src: yes
     dest: "{{ torrc_check_dir.path }}/backup/"
-    src: "{{config_dir}}/{{ restore_file }}"
+    src: "{{config_path}}/{{ restore_file }}"
     extra_opts:
       - "etc/tor/torrc"
 
 - name: Check for Tor configuration differences between the backup and server
   connection: local
   become: no
-  command: "python {{ role_path }}/files/compare_torrc.py {{ torrc_check_dir.path }}"
+  command: "/usr/share/securedrop-admin/venv/bin/python {{ role_path }}/files/compare_torrc.py {{ torrc_check_dir.path }}"
   ignore_errors: yes
   register: compare_result
 
@@ -85,7 +85,7 @@
 
 - name: Copy backup to application server
   synchronize:
-    src: "{{ restore_file }}"
+    src: "{{ config_path }}/{{ restore_file }}"
     dest: /tmp/{{ restore_file }}
     partial: yes
     use_ssh_args: true
