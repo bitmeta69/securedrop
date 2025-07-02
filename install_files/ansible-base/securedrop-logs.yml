@@ -89,19 +89,19 @@
       local_action: >-
         shell
         gpg --encrypt --recipient "{{ fpf_support_gpg_fingerprint }}"
-        --output "{{ log_tarball_filename }}.gpg"
+        --output "{{ config_path }}/{{ log_tarball_filename }}.gpg"
         --trust-model always
         --batch --yes
-        "{{ log_tarball_filename }}"
+        "{{ config_path }}/{{ log_tarball_filename }}"
 
     - name: Delete local unencrypted log tarballs.
       become: no
       local_action:
         module: file
-        path: "{{ log_tarball_filename }}"
+        path: "{{ config_path }}/{{ log_tarball_filename }}"
         state: absent
 
     - name: Display filenames of local log tarballs.
       debug:
         msg: >-
-          Logs copied successfully, find them at {{ (config_path +'/'+ log_tarball_filename )|realpath }}.gpg .
+          Logs copied successfully, find them at {{ config_path +'/'+ log_tarball_filename  }}.gpg .
