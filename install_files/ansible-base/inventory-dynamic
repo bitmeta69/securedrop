@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/share/securedrop-admin/venv/bin/python
 """
 Dynamic inventory script for connecting to a Tor onion service
 for SSH. The THS must already be provisioned on the target host.
