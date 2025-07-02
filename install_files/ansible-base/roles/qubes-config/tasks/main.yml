@@ -5,7 +5,7 @@
 
 - name: Check that we are on an admin workstation
   stat:
-    path: group_vars/all/site-specific
+    path: "{{ config_path }}/site-specific"
   register: site_specific_result
 
 - include_tasks: create_ssh_aliases.yml
