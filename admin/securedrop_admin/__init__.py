@@ -1072,6 +1072,8 @@ def get_logs(args: argparse.Namespace) -> int:
     sdlog.info("Gathering logs for forensics and debugging")
     ansible_cmd = ansible_command() + [
         os.path.join(ANSIBLE_PATH, "securedrop-logs.yml"),
+        "--extra-vars",
+        f"@{SITE_CONFIG_PATH}",
     ]
 
     subprocess.check_call(ansible_cmd, cwd=ANSIBLE_PATH)
@@ -1088,6 +1090,8 @@ def noble_migration(args: argparse.Namespace) -> int:
     sdlog.info("Beginning the upgrade to Ubuntu Noble")
     ansible_cmd = ansible_command() + [
         os.path.join(ANSIBLE_PATH, "securedrop-noble-migration.yml"),
+        "--extra-vars",
+        f"@{SITE_CONFIG_PATH}",
     ]
 
     subprocess.check_call(ansible_cmd, cwd=ANSIBLE_PATH)
@@ -1102,6 +1106,8 @@ def reset_admin_access(args: argparse.Namespace) -> int:
     sdlog.info("Resetting SSH access to the SecureDrop servers")
     ansible_cmd = ansible_command() + [
         os.path.join(ANSIBLE_PATH, "securedrop-reset-ssh-key.yml"),
+        "--extra-vars",
+        f"@{SITE_CONFIG_PATH}",
     ]
     return subprocess.check_call(ansible_cmd, cwd=ANSIBLE_PATH)
 
