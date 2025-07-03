@@ -24,6 +24,8 @@ fi
 
 OCI_RUN_ARGUMENTS="--user=root -v $(pwd):/src:Z -e HOST_UID=$(id -u) -e HOST_GID=$(id -g)"
 
+WHAT="${WHAT:-securedrop}"
+
 if [[ $WHAT != "admin" ]]; then
     # Setuptools_scm 8.3.0 breaks focal builds - so let's temporarily constrain it to 8.1.0
     TMP_CONSTRAINT="/srv/securedrop/requirements/${OS_VERSION}/constraints.txt"
@@ -48,8 +50,6 @@ fi
 
 export OCI_RUN_ARGUMENTS
 export OCI_BIN
-
-WHAT="${WHAT:-securedrop}"
 
 cd "$(git rev-parse --show-toplevel)"
 
