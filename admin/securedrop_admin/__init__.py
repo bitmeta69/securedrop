@@ -37,6 +37,7 @@ from enum import Enum
 from typing import Any, Callable, Dict, List, Optional, Set, Tuple, Type, TypeVar, Union, cast
 
 import prompt_toolkit
+import requests
 import yaml
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import x25519
@@ -1001,25 +1002,35 @@ def check_for_updates(args: argparse.Namespace) -> Tuple[bool, str]:
     """Check for SecureDrop updates"""
     sdlog.info("Checking for SecureDrop updates...")
 
+    # Do we need to proxy over Tor?
+    os_type = OSType.detect()
+    if os_type == OSType.TAILS:
+        proxies = {
+            "http": "socks5h://127.0.0.1:9050",
+            "https": "socks5h://127.0.0.1:9050",
+        }
+    else:
+        proxies = None
+
     # Load the current SecureDrop version
     with open(VERSION_PATH) as f:
         current_version = f.read().strip()
 
     # Use the GitHub API to determine the latest release
-    # Using http.client instead of requests to avoid adding a dependency
     try:
-        conn = http.client.HTTPSConnection("api.github.com", timeout=10)
         headers = {
             "User-Agent": "securedrop-admin",
             "Accept": "application/vnd.github.v3+json",
         }
-        conn.request("GET", "/repos/freedomofpress/securedrop/releases/latest", headers=headers)
-        response = conn.getresponse()
-        if response.status != 200:
-            raise Exception(f"GitHub API returned status {response.status}")
-        data = response.read().decode("utf-8")
-        latest_release = json.loads(data)
-        conn.close()
+        response = requests.get(
+            "https://api.github.com/repos/freedomofpress/securedrop/releases/latest",
+            headers=headers,
+            timeout=10,
+            proxies=proxies,
+        )
+        if response.status_code != 200:
+            raise Exception(f"GitHub API returned status {response.status_code}")
+        latest_release = response.json()
     except Exception as e:
         sdlog.error(f"Failed to check for updates: {e}")
         return False, current_version
