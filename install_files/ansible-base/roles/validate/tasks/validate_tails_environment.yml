@@ -19,7 +19,8 @@
   with_items:
     - /live/persistence/TailsData_unlocked/persistence.conf
     - /live/persistence/TailsData_unlocked/openssh-client
-    - /home/amnesia/Persistent/securedrop
+    - /live/persistence/TailsData_unlocked/dotfiles
+    - /home/amnesia/Persistent
 
 - name: Confirm persistence volume is configured.
   assert:
@@ -27,9 +28,7 @@
       - item.stat.exists
     msg: >-
       Persistence must configured on the Tails device for the Admin
-      Workstation, and the SSH option for persistent dotfiles must be enabled.
-      The SecureDrop git repository should be cloned
-      to `~/Persistent/securedrop`.
+      Workstation, and the SSH client and dotfiles options must be enabled.
   with_items: "{{ tails_persistence_check_result.results }}"
 
 - name: Check for v3 SSH auth files
