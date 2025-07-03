@@ -26,9 +26,6 @@ cp -R /usr/share/securedrop-admin/venv /srv/securedrop-admin/
 cp -R /src/securedrop/translations /srv/securedrop-admin/
 cp /src/securedrop/i18n.json /srv/securedrop-admin/
 
-# Extract the version string
-cat /src/securedrop/version.py | cut -d'"' -f2 > /srv/securedrop-admin/version.txt
-
 # Copy binaries
 mkdir -p /srv/securedrop-admin/bin
 cp /src/admin/bin/validate-gpg-key.sh /srv/securedrop-admin/bin/
