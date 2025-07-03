@@ -45,6 +45,27 @@ from prompt_toolkit.validation import ValidationError, Validator
 
 sdlog = logging.getLogger(__name__)
 
+
+class OSType(Enum):
+    TAILS = "tails"
+    DEBIAN = "debian"
+    OTHER = "other"
+
+    @classmethod
+    def detect(cls) -> "OSType":
+        with open("/etc/os-release") as os_release_file:
+            os_release = os_release_file.read()
+
+        if 'NAME="Debian GNU/Linux"' in os_release:
+            return cls.DEBIAN
+        elif 'NAME="Tails"' in os_release:
+            return cls.TAILS
+
+        return cls.OTHER
+
+
+OS_TYPE = OSType.detect()
+
 SUPPORT_ONION_URL = "http://sup6h5iyiyenvjkfxbgrjynm5wsgijjoatvnvdgyyi7je3xqm4kh6uqd.onion"
 SUPPORT_URL = "https://support.freedom.press"
 EXIT_SUCCESS = 0
@@ -61,7 +82,10 @@ READONLY_CONFIG_PATH = "/usr/share/securedrop-admin"
 ANSIBLE_PATH = os.path.join(READONLY_CONFIG_PATH, "ansible-base")
 TRANSLATIONS_PATH = os.path.join(READONLY_CONFIG_PATH, "translations")
 VERSION_PATH = os.path.join(READONLY_CONFIG_PATH, "version.txt")
-CONFIG_PATH = os.path.expanduser("~/.securedrop-admin")
+if OS_TYPE == OSType.TAILS:
+    CONFIG_PATH = os.path.expanduser("~/Persistent/.securedrop-admin")
+else:
+    CONFIG_PATH = os.path.expanduser("~/.securedrop-admin")
 SITE_CONFIG_PATH = os.path.join(CONFIG_PATH, "site-specific")
 
 
@@ -123,23 +147,6 @@ _FuncT = TypeVar("_FuncT", bound=Callable[..., Any])
 # The mypy type description of the format follows.
 _DescEntryType = Tuple[str, _T, Type[_T], str, Optional[Validator], Optional[Callable], Callable]
 
-
-class OSType(Enum):
-    TAILS = "tails"
-    DEBIAN = "debian"
-    OTHER = "other"
-
-    @classmethod
-    def detect(cls) -> "OSType":
-        with open("/etc/os-release") as os_release_file:
-            os_release = os_release_file.read()
-
-        if 'NAME="Debian GNU/Linux"' in os_release:
-            return cls.DEBIAN
-        elif 'NAME="Tails"' in os_release:
-            return cls.TAILS
-
-        return cls.OTHER
 
 class SiteConfig:
     class ValidateNotEmpty(Validator):
@@ -952,8 +959,7 @@ def run_local_config(args: argparse.Namespace) -> int:
     """Configure either Tails or Qubes environment post SD install"""
     sdlog.info("Configuring local environment")
 
-    os_type = OSType.detect()
-    match os_type:
+    match OS_TYPE:
         case OSType.DEBIAN:
             sdlog.info("Detected Debian, running Qubes configuration")
             ansible_cmd = ansible_command() + [
@@ -1000,8 +1006,7 @@ def check_for_updates(args: argparse.Namespace) -> bool:
 
     # Run playbook to check for updates
     args = [os.path.join(ANSIBLE_PATH, "securedrop-check-for-updates.yml")]
-    os_type = OSType.detect()
-    if os_type == OSType.TAILS:
+    if OS_TYPE == OSType.TAILS:
         args.append("--ask-become-pass")
 
     ansible_cmd = ansible_command() + args
