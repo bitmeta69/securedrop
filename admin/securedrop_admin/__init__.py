@@ -1007,10 +1007,10 @@ def check_for_updates(args: argparse.Namespace) -> bool:
     ansible_cmd = ansible_command() + args
     try:
         subprocess.check_call(ansible_cmd, cwd=ANSIBLE_PATH)
-        return True
+        return False
     except subprocess.CalledProcessError as e:
         sdlog.error(f"Ansible playbook failed with error: {e}")
-        return False
+        return True
 
 
 @update_check_required("logs")
