@@ -39,7 +39,6 @@ import prompt_toolkit
 import yaml
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import x25519
-from pkg_resources import parse_version
 from prompt_toolkit.document import Document
 from prompt_toolkit.validation import ValidationError, Validator
 
