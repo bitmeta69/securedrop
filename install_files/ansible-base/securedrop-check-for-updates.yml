@@ -1,0 +1,43 @@
+---
+# Check for updates to the securedrop-admin package
+- name: Check if securedrop-admin package is up to date
+  hosts: localhost
+  become: yes
+  max_fail_percentage: 0
+  any_errors_fatal: yes
+  connection: local
+  gather_facts: yes
+  environment:
+    LC_ALL: C
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+      register: apt_update
+
+    - name: Check if securedrop-admin package is installed
+      apt:
+        name: securedrop-admin
+        state: present
+      register: securedrop_admin_installed
+
+    - name: Fail if securedrop-admin package is not installed
+      fail:
+        msg: "The securedrop-admin package is not installed."
+      when: securedrop_admin_installed is failed
+
+    - name: Check if securedrop-admin package is up to date
+      apt:
+        name: securedrop-admin
+        state: latest
+      register: securedrop_admin_update
+
+    - name: Fail if securedrop-admin package is not up to date
+      fail:
+        msg: "The securedrop-admin package is not up to date."
+      when: securedrop_admin_update.changed
+
+    - name: Report securedrop-admin package status
+      debug:
+        msg: "The securedrop-admin package is installed and up to date."
+      when: not securedrop_admin_update.changed and not (securedrop_admin_installed is failed)

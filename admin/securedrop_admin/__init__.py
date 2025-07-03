@@ -25,7 +25,6 @@ instances.
 import argparse
 import base64
 import functools
-import http.client
 import ipaddress
 import json
 import logging
@@ -37,7 +36,6 @@ from enum import Enum
 from typing import Any, Callable, Dict, List, Optional, Set, Tuple, Type, TypeVar, Union, cast
 
 import prompt_toolkit
-import requests
 import yaml
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import x25519
@@ -786,14 +784,12 @@ def update_check_required(cmd_name: str) -> Callable[[_FuncT], _FuncT]:
                 sdlog.info("Skipping update check because --force argument was provided.")
                 return func(*args, **kwargs)
 
-            update_status, latest_tag = check_for_updates(cli_args)
+            update_status = check_for_updates(cli_args)
             if update_status is True:
                 sdlog.error(
                     "You are not running the most recent signed SecureDrop release "
                     "on this workstation."
                 )
-                sdlog.error(f"Latest available version: {latest_tag}")
-
                 sdlog.error(
                     "If you are certain you want to proceed, run:\n\n\t"
                     f"./securedrop-admin --force {cmd_name}\n"
@@ -998,52 +994,23 @@ def check_for_updates_wrapper(args: argparse.Namespace) -> int:
     return 0
 
 
-def check_for_updates(args: argparse.Namespace) -> Tuple[bool, str]:
+def check_for_updates(args: argparse.Namespace) -> bool:
     """Check for SecureDrop updates"""
     sdlog.info("Checking for SecureDrop updates...")
 
-    # Do we need to proxy over Tor?
+    # Run playbook to check for updates
+    args = [os.path.join(ANSIBLE_PATH, "securedrop-check-for-updates.yml")]
     os_type = OSType.detect()
     if os_type == OSType.TAILS:
-        proxies = {
-            "http": "socks5h://127.0.0.1:9050",
-            "https": "socks5h://127.0.0.1:9050",
-        }
-    else:
-        proxies = None
+        args.append("--ask-become-pass")
 
-    # Load the current SecureDrop version
-    with open(VERSION_PATH) as f:
-        current_version = f.read().strip()
-
-    # Use the GitHub API to determine the latest release
+    ansible_cmd = ansible_command() + args
     try:
-        headers = {
-            "User-Agent": "securedrop-admin",
-            "Accept": "application/vnd.github.v3+json",
-        }
-        response = requests.get(
-            "https://api.github.com/repos/freedomofpress/securedrop/releases/latest",
-            headers=headers,
-            timeout=10,
-            proxies=proxies,
-        )
-        if response.status_code != 200:
-            raise Exception(f"GitHub API returned status {response.status_code}")
-        latest_release = response.json()
-    except Exception as e:
-        sdlog.error(f"Failed to check for updates: {e}")
-        return False, current_version
-
-    latest_version = latest_release.get("tag_name", "")
-
-    if current_version != latest_version:
-        sdlog.info(f"Current version: {current_version}")
-        sdlog.info(f"Latest version: {latest_version}")
-        sdlog.info("Update needed")
-        return True, latest_version
-    sdlog.info("All updates applied")
-    return False, latest_version
+        subprocess.check_call(ansible_cmd, cwd=ANSIBLE_PATH)
+        return True
+    except subprocess.CalledProcessError as e:
+        sdlog.error(f"Ansible playbook failed with error: {e}")
+        return False
 
 
 @update_check_required("logs")
