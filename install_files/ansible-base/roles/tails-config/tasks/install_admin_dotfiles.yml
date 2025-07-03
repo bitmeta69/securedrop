@@ -4,12 +4,8 @@
     path: "{{ tails_config_securedrop_admin_dotfiles }}"
   register: admin_dotfiles_stat
 
-- name: Move existing "{{ tails_config_securedrop_admin_dotfiles }}" to live dotfiles if it is a directory
-  command: mv "{{ tails_config_securedrop_admin_dotfiles }}" "{{ tails_config_live_dotfiles }}/.securedrop-admin"
-  when: admin_dotfiles_stat.stat.isdir
-  args:
-    removes: "{{ tails_config_securedrop_admin_dotfiles }}"
-    creates: "{{ tails_config_live_dotfiles }}/.securedrop-admin"
+- debug:
+    var: admin_dotfiles_stat
 
 - name: Ensure "{{ tails_config_live_dotfiles }}/.securedrop-admin" directory exists
   file:
@@ -19,11 +15,16 @@
     owner: amnesia
     group: amnesia
 
-- name: Remove "{{ tails_config_securedrop_admin_dotfiles }}" if it exists and is not a symlink
+- name: Copy existing "{{ tails_config_securedrop_admin_dotfiles }}/*" to live dotfiles if it is a directory
+  copy:
+    src: "{{ tails_config_securedrop_admin_dotfiles }}/"
+    dest: "{{ tails_config_live_dotfiles }}/.securedrop-admin/"
+  when: admin_dotfiles_stat.stat.isdir
+
+- name: Remove "{{ tails_config_securedrop_admin_dotfiles }}" if it exists
   file:
     path: "{{ tails_config_securedrop_admin_dotfiles }}"
     state: absent
-  when: admin_dotfiles_stat.stat.exists and not admin_dotfiles_stat.stat.islnk
 
 - name: Ensure "{{ tails_config_securedrop_admin_dotfiles }}" is a symlink to live dotfiles
   file:

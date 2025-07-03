@@ -4,7 +4,7 @@
 
 - include_tasks: copy_dotfiles.yml
 
-- include_tasks: copy_admin_dotfiles.yml
+- include_tasks: install_admin_dotfiles.yml
 
 - include_tasks: configure_torrc_additions.yml
 
