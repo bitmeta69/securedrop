@@ -18,14 +18,7 @@ path_torrc_backup = "/etc/tor/torrc.bak"
 path_torrc = "/etc/tor/torrc"
 path_desktop = "/home/amnesia/Desktop/"
 path_persistent_desktop = "/lib/live/mount/persistence/TailsData_unlocked/dotfiles/Desktop/"
-path_admin_config = "/home/amnesia/.securedrop-admin"
-path_securedrop_root = "/home/amnesia/Persistent/securedrop"
-path_securedrop_admin_venv = os.path.join(path_securedrop_root, "admin/.venv3/bin/python")
-path_securedrop_admin_init = os.path.join(
-    path_securedrop_root, "admin/securedrop_admin/__init__.py"
-)
-path_gui_updater = os.path.join(path_securedrop_root, "journalist_gui/SecureDropUpdater")
-
+path_admin_config = "/home/amnesia/Persistent/.securedrop-admin"
 paths_v3_authfiles = {
     "app-journalist": os.path.join(path_admin_config, "app-journalist.auth_private"),
     "app-ssh": os.path.join(path_admin_config, "app-ssh.auth_private"),
@@ -129,25 +122,6 @@ os.setresuid(0, 0, -1)
 os.setresgid(0, 0, -1)
 success_message = "You can now access the Journalist Interface.\nIf you are an admin, you can now SSH to the servers."  # noqa: E501
 subprocess.call(["tails-notify-user", "SecureDrop successfully auto-configured!", success_message])
-
-# As the amnesia user, check for SecureDrop workstation updates.
-os.setresgid(amnesia_gid, amnesia_gid, -1)
-os.setresuid(amnesia_uid, amnesia_uid, -1)
-output = subprocess.check_output(
-    [
-        path_securedrop_admin_venv,
-        path_securedrop_admin_init,
-        "--root",
-        path_securedrop_root,
-        "check_for_updates",
-    ],
-    env=env,
-)
-
-flag_location = "/home/amnesia/Persistent/.securedrop/securedrop_update.flag"
-if b"Update needed" in output or os.path.exists(flag_location):
-    # Start the SecureDrop updater GUI.
-    subprocess.Popen(["python3", path_gui_updater], env=env)
 
 # Check for Tails < 4.19 and apply a fix to the auto-updater.
 # See https://tails.boum.org/news/version_4.18/
