@@ -27,7 +27,7 @@ def host_is_tails():
         return "NAME=\"Tails\"" in f.read()
 
 if host_is_tails():
-    SECUREDROP_CONFIG_DIR = os.path.expanduser("~/Persistent/.securedrop-admin")
+    SECUREDROP_CONFIG_DIR = "/home/amnesia/Persistent/.securedrop-admin"
 else:
     SECUREDROP_CONFIG_DIR = os.path.expanduser("~/.securedrop-admin")
 

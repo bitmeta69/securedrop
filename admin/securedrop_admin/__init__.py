@@ -1004,7 +1004,7 @@ def check_for_updates(args: argparse.Namespace) -> bool:
 
     # Run playbook to check for updates
     args = [os.path.join(ANSIBLE_PATH, "securedrop-check-for-updates.yml")]
-    if OS_TYPE == OSType.TAILS:
+    if OS_TYPE == OSType.TAILS and os.geteuid() != 0:
         args.append("--ask-become-pass")
 
     ansible_cmd = ansible_command() + args
