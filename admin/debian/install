@@ -2,6 +2,5 @@ ansible-base /usr/share/securedrop-admin
 venv /usr/share/securedrop-admin
 translations /usr/share/securedrop-admin
 i18n.json /usr/share/securedrop-admin
-version.txt /usr/share/securedrop-admin
 bin/securedrop-admin /usr/bin
 bin/validate-gpg-key.sh /usr/bin
