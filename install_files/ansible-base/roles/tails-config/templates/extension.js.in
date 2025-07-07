@@ -78,11 +78,6 @@ class Indicator extends PanelMenu.Button {
             y_align: Clutter.ActorAlign.START,
         });
         
-        let updates = new PopupMenu.PopupMenuItem(_('Check for SecureDrop Updates'));
-        updates.connect('activate', () => {
-            Util.spawn(['python3', '/home/amnesia/Persistent/securedrop/journalist_gui/SecureDropUpdater']);
-        });
-        
         let app_server_ssh = new PopupMenu.PopupMenuItem(_('SSH into the App Server'));
         app_server_ssh.connect('activate', () => {
             Util.trySpawnCommandLine(`kgx -- ssh ${app_server_hostname}`);
@@ -106,12 +101,11 @@ class Indicator extends PanelMenu.Button {
         this.menu.addMenuItem(source);
         this.menu.addMenuItem(journalist);
         this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
-        this.menu.addMenuItem(updates);
         if (is_admin) {
             this.menu.addMenuItem(app_server_ssh);
             this.menu.addMenuItem(mon_server_ssh);
+            this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
         }
-        this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
         this.menu.addMenuItem(keypass);
         this.menu.addMenuItem(filebrowser);
     }
