@@ -32,12 +32,15 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.versions.python }}
-      - name: Build packages
+      - name: Build SecureDrop packages
         run: |
           UBUNTU_VERSION=${{ matrix.versions.ubuntu }} ./builder/build-debs.sh
       - name: Build OSSEC packages
         run: |
           UBUNTU_VERSION=${{ matrix.versions.ubuntu }} WHAT=ossec ./builder/build-debs.sh
+      - name: Build admin packages
+        run: |
+          UBUNTU_VERSION=${{ matrix.versions.ubuntu }} WHAT=admin ./builder/build-debs.sh
       - uses: actions/upload-artifact@v4
         id: upload
         with:
@@ -65,7 +68,7 @@ jobs:
         run: |
           find . -name '*.deb' -exec sha256sum {} \;
           # FIXME: securedrop-app-code isn't reproducible
-          for pkg in ossec-agent ossec-server securedrop-config securedrop-keyring securedrop-ossec-agent securedrop-ossec-server
+          for pkg in ossec-agent ossec-server securedrop-config securedrop-keyring securedrop-ossec-agent securedrop-ossec-server securedrop-admin
           do
               echo "Checking ${pkg}..."
               diffoscope ${{ matrix.ubuntu_version }}-one/${pkg}_*.deb ${{ matrix.ubuntu_version }}-two/${pkg}_*.deb
