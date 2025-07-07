@@ -16,9 +16,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.12.1\n"
 
-msgid "Check for SecureDrop Updates"
-msgstr ""
-
 msgid "Launch Journalist Interface"
 msgstr ""
 
