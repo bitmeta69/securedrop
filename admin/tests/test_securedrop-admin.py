@@ -20,6 +20,7 @@
 import argparse
 import json
 import os
+import shutil
 import subprocess
 import textwrap
 from os.path import basename, dirname, exists, join
@@ -31,6 +32,8 @@ import yaml
 from flaky import flaky
 from prompt_toolkit.validation import ValidationError
 
+CONFIG_DIR = "/root/.securedrop-admin"
+SITE_CONFIG_PATH = join(CONFIG_DIR, "site-specific")
 
 class Document:
     def __init__(self, text):
@@ -168,18 +171,22 @@ class TestSecureDropAdmin:
 
 
 class TestSiteConfig:
-    def test_exists(self, tmpdir):
-        args = argparse.Namespace(
-            site_config="DOES_NOT_EXIST",
-            ansible_path=".",
-            app_path=dirname(__file__),
-            root=tmpdir,
-        )
-        assert not securedrop_admin.SiteConfig(args).exists()
-        args = argparse.Namespace(
-            site_config=__file__, ansible_path=".", app_path=dirname(__file__), root=tmpdir
-        )
-        assert securedrop_admin.SiteConfig(args).exists()
+    def setup_method(self, method):
+        # Make sure config dir exists and is empty
+        shutil.rmtree(CONFIG_DIR, ignore_errors=True)
+        os.makedirs(CONFIG_DIR, exist_ok=True)
+
+    def teardown_method(self, method):
+        # Delete config dir when we're done
+        shutil.rmtree(CONFIG_DIR, ignore_errors=True)
+
+    def test_exists(self):
+        assert not securedrop_admin.SiteConfig().exists()
+
+        with open(SITE_CONFIG_PATH, "w") as f:
+            f.write("fake-config")
+
+        assert securedrop_admin.SiteConfig().exists()
 
     def test_validate_not_empty(self):
         validator = securedrop_admin.SiteConfig.ValidateNotEmpty()
@@ -314,14 +321,8 @@ class TestSiteConfig:
         assert validator.validate(Document("012345678901234567890123456789ABCDEFABCD"))
         assert validator.validate(Document(""))
 
-    def test_sanitize_fingerprint(self, tmpdir):
-        args = argparse.Namespace(
-            site_config="DOES_NOT_EXIST",
-            ansible_path=".",
-            app_path=dirname(__file__),
-            root=tmpdir,
-        )
-        site_config = securedrop_admin.SiteConfig(args)
+    def test_sanitize_fingerprint(self):
+        site_config = securedrop_admin.SiteConfig()
         assert site_config.sanitize_fingerprint("    A bc\n") == "ABC"
 
     def test_validate_int(self):
@@ -331,29 +332,22 @@ class TestSiteConfig:
         assert validator.validate(Document("192"))
 
     def test_locales(self):
-        locales = securedrop_admin.SiteConfig.Locales(dirname(__file__))
+        locales = securedrop_admin.SiteConfig.Locales()
         translations = locales.get_translations()
         assert "en_US" in translations
         assert "fr_FR" in translations
 
     def test_validate_locales(self):
         validator = securedrop_admin.SiteConfig.ValidateLocales(
-            dirname(__file__), {"en_US", "fr_FR"}
+            {"en_US", "fr_FR"}
         )
         assert validator.validate(Document("en_US  fr_FR "))
         with pytest.raises(ValidationError) as e:
             validator.validate(Document("BAD"))
         assert "BAD" in str(e)
 
-    def test_save(self, tmpdir):
-        site_config_path = join(str(tmpdir), "site_config")
-        args = argparse.Namespace(
-            site_config=site_config_path,
-            ansible_path=".",
-            app_path=dirname(__file__),
-            root=tmpdir,
-        )
-        site_config = securedrop_admin.SiteConfig(args)
+    def test_save(self):
+        site_config = securedrop_admin.SiteConfig()
         site_config.config = {"var1": "val1", "var2": "val2"}
         site_config.save()
         expected = textwrap.dedent(
@@ -362,15 +356,14 @@ class TestSiteConfig:
         var2: val2
         """
         )
-        assert expected == open(site_config_path).read()
+        assert expected == open(SITE_CONFIG_PATH).read()
 
-    def test_validate_gpg_key(self, tmpdir, caplog):
-        args = argparse.Namespace(
-            site_config="INVALID",
-            ansible_path="tests/files",
-            app_path=dirname(__file__),
-            root=tmpdir,
-        )
+    def test_validate_gpg_key(self):
+        for file in ["test_journalist_key.pub", "weak_test_key_should_fail_sqlinter.asc"]:
+            shutil.copy(
+                join("tests", "files", file),
+                CONFIG_DIR
+            )
         good_config = {
             "securedrop_app_gpg_public_key": "test_journalist_key.pub",
             "securedrop_app_gpg_fingerprint": "65A1B5FF195B56353CC63DFFCC40EF1228271441",
@@ -379,7 +372,7 @@ class TestSiteConfig:
             "journalist_alert_gpg_public_key": "test_journalist_key.pub",
             "journalist_gpg_fpr": "65A1B5FF195B56353CC63DFFCC40EF1228271441",
         }
-        site_config = securedrop_admin.SiteConfig(args)
+        site_config = securedrop_admin.SiteConfig()
         site_config.config = good_config
         assert site_config.validate_gpg_keys()
 
@@ -406,14 +399,12 @@ class TestSiteConfig:
             site_config.validate_gpg_keys()
         assert "failed sq key validation check" in str(e)
 
-    def test_journalist_alert_email(self, tmpdir):
-        args = argparse.Namespace(
-            site_config="INVALID",
-            ansible_path="tests/files",
-            app_path=dirname(__file__),
-            root=tmpdir,
+    def test_journalist_alert_email(self):
+        shutil.copy(
+            join("tests", "files", "test_journalist_key.pub"),
+            CONFIG_DIR
         )
-        site_config = securedrop_admin.SiteConfig(args)
+        site_config = securedrop_admin.SiteConfig()
         site_config.config = {
             "journalist_alert_gpg_public_key": "",
             "journalist_gpg_fpr": "",
@@ -439,13 +430,12 @@ class TestSiteConfig:
     @mock.patch("securedrop_admin.SiteConfig.validated_input", side_effect=lambda p, d, v, t: d)
     @mock.patch("securedrop_admin.SiteConfig.save")
     def test_update_config(self, mock_save, mock_validate_input):
-        args = argparse.Namespace(
-            site_config="tests/files/site-specific",
-            ansible_path="tests/files",
-            app_path=dirname(__file__),
-            root="tests/files",
-        )
-        site_config = securedrop_admin.SiteConfig(args)
+        for file in ["site-specific", "key.asc"]:
+            shutil.copy(
+                join("tests", "files", file),
+                CONFIG_DIR
+            )
+        site_config = securedrop_admin.SiteConfig()
 
         assert site_config.load_and_update_config()
         assert "user_defined_variable" in site_config.config
@@ -454,50 +444,35 @@ class TestSiteConfig:
 
     @mock.patch("securedrop_admin.SiteConfig.validated_input", side_effect=lambda p, d, v, t: d)
     @mock.patch("securedrop_admin.SiteConfig.validate_gpg_keys")
-    def test_update_config_no_site_specific(self, validate_gpg_keys, mock_validate_input, tmpdir):
-        site_config_path = join(str(tmpdir), "site_config")
-        args = argparse.Namespace(
-            site_config=site_config_path,
-            ansible_path=".",
-            app_path=dirname(__file__),
-            root=tmpdir,
-        )
-        site_config = securedrop_admin.SiteConfig(args)
+    def test_update_config_no_site_specific(self, validate_gpg_keys, mock_validate_input):
+        site_config = securedrop_admin.SiteConfig()
         assert site_config.load_and_update_config()
         mock_validate_input.assert_called()
         validate_gpg_keys.assert_called_once()
-        assert exists(site_config_path)
+        assert exists(SITE_CONFIG_PATH)
 
-    def test_load_and_update_config(self, tmpdir):
-        args = argparse.Namespace(
-            site_config="tests/files/site-specific",
-            ansible_path="tests/files",
-            app_path=dirname(__file__),
-            root=tmpdir,
-        )
-        site_config = securedrop_admin.SiteConfig(args)
+    def test_load_and_update_config(self):
+        for file in ["site-specific", "key.asc"]:
+            shutil.copy(
+                join("tests", "files", file),
+                CONFIG_DIR
+            )
+        site_config = securedrop_admin.SiteConfig()
         with mock.patch("securedrop_admin.SiteConfig.update_config"):
             site_config.load_and_update_config()
             assert site_config.config != {}
 
-        args = argparse.Namespace(
-            site_config="tests/files/site-specific-missing-entries",
-            ansible_path="tests/files",
-            app_path=dirname(__file__),
-            root=tmpdir,
+        shutil.copy(
+            join("tests", "files", "site-specific-missing-entries"),
+            SITE_CONFIG_PATH
         )
-        site_config = securedrop_admin.SiteConfig(args)
+        site_config = securedrop_admin.SiteConfig()
         with mock.patch("securedrop_admin.SiteConfig.update_config"):
             site_config.load_and_update_config()
             assert site_config.config != {}
 
-        args = argparse.Namespace(
-            site_config="UNKNOWN",
-            ansible_path="tests/files",
-            app_path=dirname(__file__),
-            root=tmpdir,
-        )
-        site_config = securedrop_admin.SiteConfig(args)
+        os.remove(SITE_CONFIG_PATH)
+        site_config = securedrop_admin.SiteConfig()
         with mock.patch("securedrop_admin.SiteConfig.update_config"):
             site_config.load_and_update_config()
             assert site_config.config == {}
@@ -526,11 +501,16 @@ class TestSiteConfig:
         assert site_config.user_prompt_config_one(desc, "YES") is True
         assert site_config.user_prompt_config_one(desc, "NO") is False
 
-    def test_desc_conditional(self, tmpdir):
+    def test_desc_conditional(self):
         """Ensure that conditional prompts behave correctly.
 
         Prompts which depend on another question should only be
         asked if the prior question was answered appropriately."""
+        for file in ["site-specific", "key.asc"]:
+            shutil.copy(
+                join("tests", "files", file),
+                CONFIG_DIR
+            )
 
         questions = [
             (
@@ -552,13 +532,7 @@ class TestSiteConfig:
                 lambda config: config.get("first_question", False),
             ),
         ]
-        args = argparse.Namespace(
-            site_config="tests/files/site-specific",
-            ansible_path="tests/files",
-            app_path=dirname(__file__),
-            root=tmpdir,
-        )
-        site_config = securedrop_admin.SiteConfig(args)
+        site_config = securedrop_admin.SiteConfig()
         site_config.desc = questions
 
         def auto_prompt(prompt, default, **kwargs):
@@ -635,14 +609,13 @@ class TestSiteConfig:
         with pytest.raises(ValidationError):
             site_config.user_prompt_config_one(desc, "wrong")
 
-    def test_user_prompt_config_one(self, tmpdir):
-        args = argparse.Namespace(
-            site_config="UNKNOWN",
-            ansible_path="tests/files",
-            app_path=dirname(__file__),
-            root=tmpdir,
-        )
-        site_config = securedrop_admin.SiteConfig(args)
+    def test_user_prompt_config_one(self):
+        for file in ["SecureDrop.asc", "ossec.pub"]:
+            shutil.copy(
+                join("tests", "files", file),
+                CONFIG_DIR
+            )
+        site_config = securedrop_admin.SiteConfig()
 
         def auto_prompt(prompt, default, **kwargs):
             if "validator" in kwargs and kwargs["validator"]:
@@ -656,14 +629,8 @@ class TestSiteConfig:
                 print("checking " + method)
                 getattr(self, method)(site_config, desc)
 
-    def test_validated_input(self, tmpdir):
-        args = argparse.Namespace(
-            site_config="UNKNOWN",
-            ansible_path="tests/files",
-            app_path=dirname(__file__),
-            root=tmpdir,
-        )
-        site_config = securedrop_admin.SiteConfig(args)
+    def test_validated_input(self):
+        site_config = securedrop_admin.SiteConfig()
 
         def auto_prompt(prompt, default, **kwargs):
             return default
@@ -678,35 +645,28 @@ class TestSiteConfig:
             assert site_config.validated_input("", ["a", "b"], lambda: True, None) == "a b"
             assert site_config.validated_input("", {}, lambda: True, None) == "{}"
 
-    def test_load(self, tmpdir, caplog):
-        args = argparse.Namespace(
-            site_config="tests/files/site-specific",
-            ansible_path="tests/files",
-            app_path=dirname(__file__),
-            root=tmpdir,
-        )
-        site_config = securedrop_admin.SiteConfig(args)
+    def test_load(self, caplog):
+        for file in ["site-specific", "key.asc"]:
+            shutil.copy(
+                join("tests", "files", file),
+                CONFIG_DIR
+            )
+        site_config = securedrop_admin.SiteConfig()
         assert "app_hostname" in site_config.load()
 
-        args = argparse.Namespace(
-            site_config="UNKNOWN",
-            ansible_path="tests/files",
-            app_path=dirname(__file__),
-            root=tmpdir,
-        )
-        site_config = securedrop_admin.SiteConfig(args)
+        shutil.rmtree(CONFIG_DIR, ignore_errors=True)
+        os.makedirs(CONFIG_DIR, exist_ok=True)
+        site_config = securedrop_admin.SiteConfig()
         with pytest.raises(IOError) as e:
             site_config.load()
         assert "No such file" in e.value.strerror
         assert "Config file missing" in caplog.text
 
-        args = argparse.Namespace(
-            site_config="tests/files/corrupted",
-            ansible_path="tests/files",
-            app_path=dirname(__file__),
-            root=tmpdir,
+        shutil.copy(
+            join("tests", "files", "corrupted"),
+            SITE_CONFIG_PATH
         )
-        site_config = securedrop_admin.SiteConfig(args)
+        site_config = securedrop_admin.SiteConfig()
         with pytest.raises(yaml.YAMLError) as e:
             site_config.load()
         assert "issue processing" in caplog.text
@@ -721,16 +681,17 @@ def test_generate_new_v3_keys():
         assert len(key) == 52
 
 
-def test_find_or_generate_new_torv3_keys_first_run(tmpdir, capsys):
-    args = argparse.Namespace(ansible_path=str(tmpdir))
+def test_find_or_generate_new_torv3_keys_first_run(capsys):
+    os.makedirs(CONFIG_DIR, exist_ok=True)
 
+    args = argparse.Namespace()
     return_code = securedrop_admin.find_or_generate_new_torv3_keys(args)
 
     out, err = capsys.readouterr()
     assert "Tor v3 onion service keys generated" in out
     assert return_code == 0
 
-    secret_key_path = os.path.join(args.ansible_path, "tor_v3_keys.json")
+    secret_key_path = join(CONFIG_DIR, "tor_v3_keys.json")
 
     with open(secret_key_path) as f:
         v3_onion_service_keys = json.load(f)
@@ -747,10 +708,11 @@ def test_find_or_generate_new_torv3_keys_first_run(tmpdir, capsys):
         assert key in v3_onion_service_keys
 
 
-def test_find_or_generate_new_torv3_keys_subsequent_run(tmpdir, capsys):
-    args = argparse.Namespace(ansible_path=str(tmpdir))
+def test_find_or_generate_new_torv3_keys_subsequent_run(capsys):
+    os.makedirs(CONFIG_DIR, exist_ok=True)
 
-    secret_key_path = os.path.join(args.ansible_path, "tor_v3_keys.json")
+    args = argparse.Namespace()
+    secret_key_path = join(CONFIG_DIR, "tor_v3_keys.json")
     old_keys = {"foo": "bar"}
     with open(secret_key_path, "w") as f:
         json.dump(old_keys, f)
