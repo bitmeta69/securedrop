@@ -1002,11 +1002,11 @@ def check_for_updates(args: argparse.Namespace) -> bool:
     sdlog.info("Checking for SecureDrop updates...")
 
     # Run playbook to check for updates
-    args = [os.path.join(ANSIBLE_PATH, "securedrop-check-for-updates.yml")]
+    ansible_args = [os.path.join(ANSIBLE_PATH, "securedrop-check-for-updates.yml")]
     if OS_TYPE == OSType.TAILS and os.geteuid() != 0:
-        args.append("--ask-become-pass")
+        ansible_args.append("--ask-become-pass")
 
-    ansible_cmd = ansible_command() + args
+    ansible_cmd = ansible_command() + ansible_args
     try:
         subprocess.check_call(ansible_cmd, cwd=ANSIBLE_PATH)
         return False
