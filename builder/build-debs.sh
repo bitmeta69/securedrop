@@ -16,6 +16,8 @@ git status --short
 
 # --- END keep this section in sync. ---
 
+WHAT="${WHAT:-securedrop}"
+
 if [[ $WHAT == "admin" ]]; then
     export OS_VERSION="${OS_VERSION:-bookworm}"
 else
@@ -23,8 +25,6 @@ else
 fi
 
 OCI_RUN_ARGUMENTS="--user=root -v $(pwd):/src:Z -e HOST_UID=$(id -u) -e HOST_GID=$(id -g)"
-
-WHAT="${WHAT:-securedrop}"
 
 if [[ $WHAT != "admin" ]]; then
     # Setuptools_scm 8.3.0 breaks focal builds - so let's temporarily constrain it to 8.1.0
