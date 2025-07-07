@@ -17,14 +17,11 @@ if test -t 0; then
 fi
 
 function docker_image() {
-    local out
-    out="$(mktemp)"
     cd "${TOPLEVEL}"
     if ! docker build \
            --build-arg=USER_ID="$(id -u)" \
            --build-arg=USER_NAME="${USER:-root}" \
-           ${DOCKER_BUILD_ARGUMENTS:-} -t securedrop-admin -f admin/Dockerfile . >& "$out" ; then
-        cat "$out"
+           ${DOCKER_BUILD_ARGUMENTS:-} -t securedrop-admin -f admin/Dockerfile . ; then
         status=1
     else
         status=0
