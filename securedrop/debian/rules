@@ -95,8 +95,6 @@ override_dh_systemd_enable:
 	dh_systemd_enable --no-enable securedrop-remove-packages.service
 	dh_systemd_enable --no-enable securedrop-cleanup-ossec.service
 	dh_systemd_enable --no-enable securedrop-reboot-required.service
-	dh_systemd_enable --no-enable securedrop-noble-migration-check.service
-	dh_systemd_enable --no-enable securedrop-noble-migration-upgrade.service
 	dh_systemd_enable
 
 # This is basically the same as the enable stanza above, just whether the
@@ -108,7 +106,4 @@ override_dh_systemd_start:
 	dh_systemd_start --no-start securedrop-remove-packages.service
 	dh_systemd_start --no-start securedrop-cleanup-ossec.service
 	dh_systemd_start --no-start securedrop-reboot-required.service
-	dh_systemd_start --no-start securedrop-noble-migration-check.service
-	dh_systemd_start --no-start --no-restart-after-upgrade \
-		securedrop-noble-migration-upgrade.service
 	dh_systemd_start
