@@ -4,7 +4,7 @@
 {% set alias = svc.item %}
 {% set hostname = hostnames.get(alias) %}
 Host {{ [alias,hostname]|unique|join(' ') }}
-  {% set svc_awk = "awk -F ':' '{print $1 \".onion\"}' "+svc.item+"-ssh.auth_private" -%}
+  {% set svc_awk = "awk -F ':' '{print $1 \".onion\"}' " + config_path + "/" + svc.item + "-ssh.auth_private" -%}
   {% set direct_ip = hostvars[inventory_hostname][svc.item+'_ip'] -%}
   User {{ ssh_users }}
   Hostname {{ lookup('pipe', svc_awk) if (svc.stat.exists and enable_ssh_over_tor) else direct_ip }}
