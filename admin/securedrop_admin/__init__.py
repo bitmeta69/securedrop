@@ -1009,9 +1009,11 @@ def check_for_updates(args: argparse.Namespace) -> bool:
     ansible_cmd = ansible_command() + ansible_args
     try:
         subprocess.check_call(ansible_cmd, cwd=ANSIBLE_PATH)
+        sdlog.info("All updates applied")
         return False
     except subprocess.CalledProcessError as e:
         sdlog.error(f"Ansible playbook failed with error: {e}")
+        sdlog.info("Update needed")
         return True
 
 

@@ -56,11 +56,13 @@ class TestSecureDropAdmin:
     def test_openssh_detection(self):
         with mock.patch("securedrop_admin.openssh_version", side_effect=[9]):
             assert securedrop_admin.ansible_command() == [
-                "ansible-playbook",
+                "/usr/share/securedrop-admin/venv/bin/ansible-playbook",
                 "--scp-extra-args='-O'",
             ]
         with mock.patch("securedrop_admin.openssh_version", side_effect=[8]):
-            assert securedrop_admin.ansible_command() == ["ansible-playbook"]
+            assert securedrop_admin.ansible_command() == [
+                "/usr/share/securedrop-admin/venv/bin/ansible-playbook"
+            ]
 
     def test_update_check_decorator_when_no_update_needed(self, caplog):
         """
@@ -73,10 +75,8 @@ class TestSecureDropAdmin:
           And the decorated function should be run
         """
         with mock.patch(
-            "securedrop_admin.check_for_updates", side_effect=[[False, "1.5.0"]]
-        ) as mocked_check, mock.patch(
-            "securedrop_admin.get_git_branch", side_effect=["develop"]
-        ), mock.patch("sys.exit") as mocked_exit:
+            "securedrop_admin.check_for_updates", side_effect=[False]
+        ) as mocked_check, mock.patch("sys.exit") as mocked_exit:
             # The decorator itself interprets --force
             args = argparse.Namespace(force=False)
             rv = securedrop_admin.update_check_required("update_check_test")(lambda _: 100)(args)
@@ -96,17 +96,14 @@ class TestSecureDropAdmin:
           And the program should exit
         """
         with mock.patch(
-            "securedrop_admin.check_for_updates", side_effect=[[True, "1.5.0"]]
-        ) as mocked_check, mock.patch(
-            "securedrop_admin.get_git_branch", side_effect=["bad_branch"]
-        ), mock.patch("sys.exit") as mocked_exit:
+            "securedrop_admin.check_for_updates", side_effect=[True]
+        ) as mocked_check, mock.patch("sys.exit") as mocked_exit:
             # The decorator itself interprets --force
             args = argparse.Namespace(force=False)
             securedrop_admin.update_check_required("update_check_test")(lambda _: _)(args)
             assert mocked_check.called
             assert mocked_exit.called
             assert "update_check_test" in caplog.text
-            assert "bad_branch" in caplog.text
 
     def test_update_check_decorator_when_skipped(self, caplog):
         """
@@ -118,10 +115,8 @@ class TestSecureDropAdmin:
           And the decorated function should be run
         """
         with mock.patch(
-            "securedrop_admin.check_for_updates", side_effect=[[True, "1.5.0"]]
-        ) as mocked_check, mock.patch(
-            "securedrop_admin.get_git_branch", side_effect=["develop"]
-        ), mock.patch("sys.exit") as mocked_exit:
+            "securedrop_admin.check_for_updates", side_effect=[True]
+        ) as mocked_check, mock.patch("sys.exit") as mocked_exit:
             # The decorator itself interprets --force
             args = argparse.Namespace(force=True)
             rv = securedrop_admin.update_check_required("update_check_test")(lambda _: 100)(args)
@@ -130,355 +125,32 @@ class TestSecureDropAdmin:
             assert "--force" in caplog.text
             assert rv == 100
 
-    def test_check_for_updates_update_needed(self, tmpdir, caplog):
-        git_repo_path = str(tmpdir)
-        args = argparse.Namespace(root=git_repo_path)
-        current_tag = b"0.6"
-        tags_available = b"0.6\n0.6-rc1\n0.6.1\n"
+    def test_check_for_updates_update_needed(self, caplog):
+        args = argparse.Namespace()
 
         with mock.patch("subprocess.check_call"):
-            with mock.patch("subprocess.check_output", side_effect=[current_tag, tags_available]):
-                update_status, tag = securedrop_admin.check_for_updates(args)
+            with mock.patch(
+                "subprocess.check_call", side_effect=subprocess.CalledProcessError(1, "git")
+            ):
+                update_status = securedrop_admin.check_for_updates(args)
                 assert "Update needed" in caplog.text
                 assert update_status is True
-                assert tag == "0.6.1"
 
-    def test_check_for_updates_higher_version(self, tmpdir, caplog):
-        git_repo_path = str(tmpdir)
-        args = argparse.Namespace(root=git_repo_path)
-        current_tag = b"0.6"
-        tags_available = b"0.1\n0.10.0\n0.6.2\n0.6\n0.6-rc1\n0.9.0\n"
+    def test_check_for_updates_update_not_needed(self, caplog):
+        args = argparse.Namespace()
 
         with mock.patch("subprocess.check_call"):
-            with mock.patch("subprocess.check_output", side_effect=[current_tag, tags_available]):
-                update_status, tag = securedrop_admin.check_for_updates(args)
-                assert "Update needed" in caplog.text
-                assert update_status is True
-                assert tag == "0.10.0"
-
-    def test_check_for_updates_ensure_newline_stripped(self, tmpdir, caplog):
-        """Regression test for #3426"""
-        git_repo_path = str(tmpdir)
-        args = argparse.Namespace(root=git_repo_path)
-        current_tag = b"0.6.1\n"
-        tags_available = b"0.6\n0.6-rc1\n0.6.1\n"
-
-        with mock.patch("subprocess.check_call"):
-            with mock.patch("subprocess.check_output", side_effect=[current_tag, tags_available]):
-                update_status, tag = securedrop_admin.check_for_updates(args)
+            with mock.patch("subprocess.check_output", return_value=0):
+                update_status = securedrop_admin.check_for_updates(args)
                 assert "All updates applied" in caplog.text
                 assert update_status is False
-                assert tag == "0.6.1"
 
-    def test_check_for_updates_update_not_needed(self, tmpdir, caplog):
-        git_repo_path = str(tmpdir)
-        args = argparse.Namespace(root=git_repo_path)
-        current_tag = b"0.6.1"
-        tags_available = b"0.6\n0.6-rc1\n0.6.1\n"
-
-        with mock.patch("subprocess.check_call"):
-            with mock.patch("subprocess.check_output", side_effect=[current_tag, tags_available]):
-                update_status, tag = securedrop_admin.check_for_updates(args)
-                assert "All updates applied" in caplog.text
-                assert update_status is False
-                assert tag == "0.6.1"
-
-    def test_check_for_updates_if_most_recent_tag_is_rc(self, tmpdir, caplog):
-        """During pre-release QA, the most recent tag ends in *-rc. Let's
-        verify that users will not accidentally check out this tag."""
-        git_repo_path = str(tmpdir)
-        args = argparse.Namespace(root=git_repo_path)
-        current_tag = b"0.6.1"
-        tags_available = b"0.6\n0.6-rc1\n0.6.1\n0.6.1-rc1\n"
-
-        with mock.patch("subprocess.check_call"):
-            with mock.patch("subprocess.check_output", side_effect=[current_tag, tags_available]):
-                update_status, tag = securedrop_admin.check_for_updates(args)
-                assert "All updates applied" in caplog.text
-                assert update_status is False
-                assert tag == "0.6.1"
-
-    @pytest.mark.parametrize(
-        ("git_output", "expected_rv"),
-        [
-            (b"* develop\n", "develop"),
-            (b" develop\n" b"* release/1.7.0\n", "release/1.7.0"),
-            (
-                b"* (HEAD detached at 1.7.0)\n" b"  develop\n" b"  release/1.7.0\n",
-                "(HEAD detached at 1.7.0)",
-            ),
-            (b"  main\n" b"* valid_+!@#$%&_branch_name\n", "valid_+!@#$%&_branch_name"),
-            (b"Unrecognized output.", None),
-        ],
-    )
-    def test_get_git_branch(self, git_output, expected_rv):
-        """
-        When `git branch` completes with exit code 0
-          And the output conforms to the expected format
-          Then `get_git_branch` should return a description of the current HEAD
-
-        When `git branch` completes with exit code 0
-          And the output does not conform to the expected format
-          Then `get_git_branch` should return `None`
-        """
-        args = argparse.Namespace(root=None)
-        with mock.patch("subprocess.check_output", side_effect=[git_output]):
-            rv = securedrop_admin.get_git_branch(args)
-            assert rv == expected_rv
-
-    def test_update_exits_if_not_needed(self, tmpdir, caplog):
-        git_repo_path = str(tmpdir)
-        args = argparse.Namespace(root=git_repo_path)
-
-        with mock.patch("securedrop_admin.check_for_updates", return_value=(False, "0.6.1")):
-            ret_code = securedrop_admin.update(args)
-            assert "Applying SecureDrop updates..." in caplog.text
-            assert "Updated to SecureDrop" not in caplog.text
-            assert ret_code == 0
-
-    def test_get_release_key_from_valid_keyserver(self, tmpdir, caplog):
-        git_repo_path = str(tmpdir)
-        args = argparse.Namespace(root=git_repo_path)
-        with mock.patch("subprocess.check_call"):
-            # Check that no exception is raised when the process is fast
-            securedrop_admin.get_release_key_from_keyserver(args)
-
-            # Check that use of the keyword arg also raises no exception
-            securedrop_admin.get_release_key_from_keyserver(args, keyserver="test.com")
-
-    @pytest.mark.parametrize(
-        "git_output",
-        [
-            b"gpg: Signature made Thu 20 Jul "
-            b"2022 08:12:25 PM EDT\n"
-            b"gpg:                using RSA key "
-            b"2359E6538C0613E652955E6C188EDD3B7B22E6A3\n"
-            b'gpg: Good signature from "SecureDrop Release '
-            b"Signing Key "
-            b'<securedrop-release-key-2021@freedom.press>" [unknown]\n',
-        ],
-    )
-    def test_update_signature_verifies(self, tmpdir, caplog, git_output):
-        git_repo_path = str(tmpdir)
-        args = argparse.Namespace(root=git_repo_path)
-        patchers = [
-            mock.patch("securedrop_admin.check_for_updates", return_value=(True, "0.6.1")),
-            mock.patch("subprocess.check_call"),
-            # securedrop-admin checks if there is a branch with the same name as a tag
-            # that is being verified, and bails if there is. To ensure the verification
-            # succeeds, we have to mock the "not a valid ref" output it looks for.
-            mock.patch(
-                "subprocess.check_output",
-                side_effect=[
-                    git_output,
-                    subprocess.CalledProcessError(1, "cmd", b"not a valid ref"),
-                ],
-            ),
-        ]
-
-        for patcher in patchers:
-            patcher.start()
-
-        try:
-            ret_code = securedrop_admin.update(args)
-            assert "Applying SecureDrop updates..." in caplog.text
-            assert "Signature verification successful." in caplog.text
-            assert "Updated to SecureDrop" in caplog.text
-            assert ret_code == 0
-        finally:
-            for patcher in patchers:
-                patcher.stop()
-
-    def test_update_unexpected_exception_git_refs(self, tmpdir, caplog):
-        git_repo_path = str(tmpdir)
-        args = argparse.Namespace(root=git_repo_path)
-
-        git_output = (
-            b"gpg: Signature made Tue 13 Mar 2022 01:14:11 AM UTC\n"
-            b"gpg:                using RSA key "
-            b"2359E6538C0613E652955E6C188EDD3B7B22E6A3\n"
-            b'gpg: Good signature from "SecureDrop Release '
-            b'Signing Key <securedrop-release-key-2021@freedom.press>" [unknown]\n'
-        )
-
-        patchers = [
-            mock.patch("securedrop_admin.check_for_updates", return_value=(True, "0.6.1")),
-            mock.patch("subprocess.check_call"),
-            mock.patch(
-                "subprocess.check_output",
-                side_effect=[
-                    git_output,
-                    subprocess.CalledProcessError(1, "cmd", b"a random error"),
-                ],
-            ),
-        ]
-
-        for patcher in patchers:
-            patcher.start()
-
-        try:
-            ret_code = securedrop_admin.update(args)
-            assert "Applying SecureDrop updates..." in caplog.text
-            assert "Signature verification successful." not in caplog.text
-            assert "Updated to SecureDrop" not in caplog.text
-            assert ret_code == 1
-        finally:
-            for patcher in patchers:
-                patcher.stop()
-
-    def test_outdated_signature_does_not_verify(self, tmpdir, caplog):
-        """
-        When a tag is signed with a release key that is no longer valid
-            Then the signature of a current tag should not verify
-        """
-
-        git_repo_path = str(tmpdir)
-        args = argparse.Namespace(root=git_repo_path)
-
-        git_output = (
-            b"gpg: Signature made Tue 13 Mar 2022 01:14:11 AM UTC\n"
-            b"gpg:                using RSA key "
-            b"22245C81E3BAEB4138B36061310F561200F4AD77\n"
-            b'gpg: Good signature from "SecureDrop Release '
-            b'Signing Key" [unknown]\n'
-        )
-
-        patchers = [
-            mock.patch("securedrop_admin.check_for_updates", return_value=(True, "0.6.1")),
-            mock.patch("subprocess.check_call"),
-            mock.patch(
-                "subprocess.check_output",
-                side_effect=[
-                    git_output,
-                    subprocess.CalledProcessError(1, "cmd", b"not a valid ref"),
-                ],
-            ),
-        ]
-
-        for patcher in patchers:
-            patcher.start()
-
-        try:
-            ret_code = securedrop_admin.update(args)
-            assert "Applying SecureDrop updates..." in caplog.text
-            assert "Signature verification successful." not in caplog.text
-            assert "Updated to SecureDrop" not in caplog.text
-            assert ret_code == 1
-        finally:
-            for patcher in patchers:
-                patcher.stop()
-
-    def test_update_signature_does_not_verify(self, tmpdir, caplog):
-        git_repo_path = str(tmpdir)
-        args = argparse.Namespace(root=git_repo_path)
-
-        git_output = (
-            b"gpg: Signature made Tue 13 Mar 2022 01:14:11 AM UTC\n"
-            b"gpg:                using RSA key "
-            b"2359E6538C0613E652955E6C188EDD3B7B22E6A3\n"
-            b'gpg: BAD signature from "SecureDrop Release '
-            b'Signing Key <securedrop-release-key-2021@freedom.press>" [unknown]\n'
-        )
-
-        with mock.patch("securedrop_admin.check_for_updates", return_value=(True, "0.6.1")):
-            with mock.patch("subprocess.check_call"):
-                with mock.patch("subprocess.check_output", return_value=git_output):
-                    ret_code = securedrop_admin.update(args)
-                    assert "Applying SecureDrop updates..." in caplog.text
-                    assert "Update failed: Invalid signature format" in caplog.text
-                    assert "Updated to SecureDrop" not in caplog.text
-                    assert ret_code != 0
-
-    def test_update_malicious_key_named_fingerprint(self, tmpdir, caplog):
-        git_repo_path = str(tmpdir)
-        args = argparse.Namespace(root=git_repo_path)
-
-        git_output = (
-            b"gpg: Signature made Tue 13 Mar 2022 01:14:11 AM UTC\n"
-            b"gpg:                using RSA key "
-            b"1234567812345678123456781234567812345678\n"
-            b'gpg: Good signature from "2359E6538C0613E652'
-            b'955E6C188EDD3B7B22E6A3" [unknown]\n'
-        )
-
-        with mock.patch("securedrop_admin.check_for_updates", return_value=(True, "0.6.1")):
-            with mock.patch("subprocess.check_call"):
-                with mock.patch("subprocess.check_output", return_value=git_output):
-                    ret_code = securedrop_admin.update(args)
-                    assert "Applying SecureDrop updates..." in caplog.text
-                    assert "Update failed: Invalid signature format" in caplog.text
-                    assert "Updated to SecureDrop" not in caplog.text
-                    assert ret_code != 0
-
-    def test_update_malicious_key_named_good_sig(self, tmpdir, caplog):
-        git_repo_path = str(tmpdir)
-        args = argparse.Namespace(root=git_repo_path)
-
-        git_output = (
-            b"gpg: Signature made Tue 13 Mar 2022 01:14:11 AM UTC\n"
-            b"gpg:                using RSA key "
-            b"1234567812345678123456781234567812345678\n"
-            b"gpg: Good signature from Good signature from "
-            b'"SecureDrop Release Signing Key <securedrop-release-key-2021@freedom.press>" '
-            b"[unknown]\n"
-        )
-
-        with mock.patch("securedrop_admin.check_for_updates", return_value=(True, "0.6.1")):
-            with mock.patch("subprocess.check_call"):
-                with mock.patch("subprocess.check_output", return_value=git_output):
-                    ret_code = securedrop_admin.update(args)
-                    assert "Applying SecureDrop updates..." in caplog.text
-                    assert "Update failed: Invalid signature format" in caplog.text
-                    assert "Updated to SecureDrop" not in caplog.text
-                    assert ret_code != 0
-
-    def test_update_malicious_key_named_good_sig_fingerprint(self, tmpdir, caplog):
-        git_repo_path = str(tmpdir)
-        args = argparse.Namespace(root=git_repo_path)
-
-        git_output = (
-            b"gpg: Signature made Tue 13 Mar 2022 01:14:11 AM UTC\n"
-            b"gpg:                using RSA key "
-            b"1234567812345678123456781234567812345678\n"
-            b"gpg: Good signature from 22245C81E3BAEB4138"
-            b"955E6C188EDD3B7B22E6A3 Good signature from "
-            b'"SecureDrop Release Signing Key <securedrop-release-key-2021@freedom.press>" '
-            b"[unknown]\n"
-        )
-
-        with mock.patch("securedrop_admin.check_for_updates", return_value=(True, "0.6.1")):
-            with mock.patch("subprocess.check_call"):
-                with mock.patch("subprocess.check_output", return_value=git_output):
-                    ret_code = securedrop_admin.update(args)
-                    assert "Applying SecureDrop updates..." in caplog.text
-                    assert "Update failed: Invalid signature format" in caplog.text
-                    assert "Updated to SecureDrop" not in caplog.text
-                    assert ret_code != 0
-
-    def test_no_signature_on_update(self, tmpdir, caplog):
-        git_repo_path = str(tmpdir)
-        args = argparse.Namespace(root=git_repo_path)
-
-        with mock.patch("securedrop_admin.check_for_updates", return_value=(True, "0.6.1")):
-            with mock.patch("subprocess.check_call"):
-                with mock.patch(
-                    "subprocess.check_output",
-                    side_effect=subprocess.CalledProcessError(
-                        1, "git", "error: no signature found"
-                    ),
-                ):
-                    ret_code = securedrop_admin.update(args)
-                    assert "Applying SecureDrop updates..." in caplog.text
-                    assert "Update failed: Missing or invalid signature" in caplog.text
-                    assert "Updated to SecureDrop" not in caplog.text
-                    assert ret_code != 0
-
-    def test_exit_codes(self, tmpdir):
+    def test_exit_codes(self):
         """Ensure that securedrop-admin returns the correct
         exit codes for success or failure."""
         with mock.patch("securedrop_admin.install_securedrop", return_value=0):
             with pytest.raises(SystemExit) as e:
-                securedrop_admin.main(["--root", str(tmpdir), "install"])
+                securedrop_admin.main(["install"])
             assert e.value.code == securedrop_admin.EXIT_SUCCESS
 
         with mock.patch(
@@ -486,12 +158,12 @@ class TestSecureDropAdmin:
             side_effect=subprocess.CalledProcessError(1, "TestError"),
         ):
             with pytest.raises(SystemExit) as e:
-                securedrop_admin.main(["--root", str(tmpdir), "install"])
+                securedrop_admin.main(["install"])
             assert e.value.code == securedrop_admin.EXIT_SUBPROCESS_ERROR
 
         with mock.patch("securedrop_admin.install_securedrop", side_effect=KeyboardInterrupt):
             with pytest.raises(SystemExit) as e:
-                securedrop_admin.main(["--root", str(tmpdir), "install"])
+                securedrop_admin.main(["install"])
             assert e.value.code == securedrop_admin.EXIT_INTERRUPT
 
 
