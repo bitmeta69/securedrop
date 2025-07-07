@@ -35,6 +35,7 @@ from prompt_toolkit.validation import ValidationError
 CONFIG_DIR = "/root/.securedrop-admin"
 SITE_CONFIG_PATH = join(CONFIG_DIR, "site-specific")
 
+
 class Document:
     def __init__(self, text):
         self.text = text
@@ -338,9 +339,7 @@ class TestSiteConfig:
         assert "fr_FR" in translations
 
     def test_validate_locales(self):
-        validator = securedrop_admin.SiteConfig.ValidateLocales(
-            {"en_US", "fr_FR"}
-        )
+        validator = securedrop_admin.SiteConfig.ValidateLocales({"en_US", "fr_FR"})
         assert validator.validate(Document("en_US  fr_FR "))
         with pytest.raises(ValidationError) as e:
             validator.validate(Document("BAD"))
@@ -360,10 +359,7 @@ class TestSiteConfig:
 
     def test_validate_gpg_key(self):
         for file in ["test_journalist_key.pub", "weak_test_key_should_fail_sqlinter.asc"]:
-            shutil.copy(
-                join("tests", "files", file),
-                CONFIG_DIR
-            )
+            shutil.copy(join("tests", "files", file), CONFIG_DIR)
         good_config = {
             "securedrop_app_gpg_public_key": "test_journalist_key.pub",
             "securedrop_app_gpg_fingerprint": "65A1B5FF195B56353CC63DFFCC40EF1228271441",
@@ -400,10 +396,7 @@ class TestSiteConfig:
         assert "failed sq key validation check" in str(e)
 
     def test_journalist_alert_email(self):
-        shutil.copy(
-            join("tests", "files", "test_journalist_key.pub"),
-            CONFIG_DIR
-        )
+        shutil.copy(join("tests", "files", "test_journalist_key.pub"), CONFIG_DIR)
         site_config = securedrop_admin.SiteConfig()
         site_config.config = {
             "journalist_alert_gpg_public_key": "",
@@ -431,10 +424,7 @@ class TestSiteConfig:
     @mock.patch("securedrop_admin.SiteConfig.save")
     def test_update_config(self, mock_save, mock_validate_input):
         for file in ["site-specific", "key.asc"]:
-            shutil.copy(
-                join("tests", "files", file),
-                CONFIG_DIR
-            )
+            shutil.copy(join("tests", "files", file), CONFIG_DIR)
         site_config = securedrop_admin.SiteConfig()
 
         assert site_config.load_and_update_config()
@@ -453,19 +443,13 @@ class TestSiteConfig:
 
     def test_load_and_update_config(self):
         for file in ["site-specific", "key.asc"]:
-            shutil.copy(
-                join("tests", "files", file),
-                CONFIG_DIR
-            )
+            shutil.copy(join("tests", "files", file), CONFIG_DIR)
         site_config = securedrop_admin.SiteConfig()
         with mock.patch("securedrop_admin.SiteConfig.update_config"):
             site_config.load_and_update_config()
             assert site_config.config != {}
 
-        shutil.copy(
-            join("tests", "files", "site-specific-missing-entries"),
-            SITE_CONFIG_PATH
-        )
+        shutil.copy(join("tests", "files", "site-specific-missing-entries"), SITE_CONFIG_PATH)
         site_config = securedrop_admin.SiteConfig()
         with mock.patch("securedrop_admin.SiteConfig.update_config"):
             site_config.load_and_update_config()
@@ -507,10 +491,7 @@ class TestSiteConfig:
         Prompts which depend on another question should only be
         asked if the prior question was answered appropriately."""
         for file in ["site-specific", "key.asc"]:
-            shutil.copy(
-                join("tests", "files", file),
-                CONFIG_DIR
-            )
+            shutil.copy(join("tests", "files", file), CONFIG_DIR)
 
         questions = [
             (
@@ -611,10 +592,7 @@ class TestSiteConfig:
 
     def test_user_prompt_config_one(self):
         for file in ["SecureDrop.asc", "ossec.pub"]:
-            shutil.copy(
-                join("tests", "files", file),
-                CONFIG_DIR
-            )
+            shutil.copy(join("tests", "files", file), CONFIG_DIR)
         site_config = securedrop_admin.SiteConfig()
 
         def auto_prompt(prompt, default, **kwargs):
@@ -647,10 +625,7 @@ class TestSiteConfig:
 
     def test_load(self, caplog):
         for file in ["site-specific", "key.asc"]:
-            shutil.copy(
-                join("tests", "files", file),
-                CONFIG_DIR
-            )
+            shutil.copy(join("tests", "files", file), CONFIG_DIR)
         site_config = securedrop_admin.SiteConfig()
         assert "app_hostname" in site_config.load()
 
@@ -662,10 +637,7 @@ class TestSiteConfig:
         assert "No such file" in e.value.strerror
         assert "Config file missing" in caplog.text
 
-        shutil.copy(
-            join("tests", "files", "corrupted"),
-            SITE_CONFIG_PATH
-        )
+        shutil.copy(join("tests", "files", "corrupted"), SITE_CONFIG_PATH)
         site_config = securedrop_admin.SiteConfig()
         with pytest.raises(yaml.YAMLError) as e:
             site_config.load()
