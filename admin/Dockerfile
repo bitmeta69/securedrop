@@ -12,12 +12,14 @@ RUN apt-get update && \
     apt-get install -y python3 sudo gnupg2 git sq
 RUN if test $USER_NAME != root ; then useradd --no-create-home --home-dir /tmp --uid $USER_ID $USER_NAME && echo "$USER_NAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers ; fi
 
-WORKDIR /opt/admin
+WORKDIR /opt
 COPY . /opt
-RUN rm -rf /opt/admin/.venv3
-RUN cd /opt/admin && python3 bootstrap.py -v
-ENV VIRTUAL_ENV /opt/admin/.venv3
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-RUN pip3 install --no-deps --require-hashes -r /opt/admin/requirements-dev.txt
+
+# Install the securedrop-admin package
+RUN apt-get install -y ./build/bookworm/securedrop-admin_*+bookworm_amd64.deb
+RUN /usr/share/securedrop-admin/venv/bin/pip install --no-deps --require-hashes -r /opt/admin/requirements-dev.txt
+RUN ln -s /opt/admin/tests/files/ /root/.securedrop-admin
+
+WORKDIR /opt/admin
 
 RUN chown -R $USER_NAME /opt

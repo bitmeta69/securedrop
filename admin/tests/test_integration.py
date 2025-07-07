@@ -2,23 +2,23 @@ import os
 import re
 import shutil
 import subprocess
-import tempfile
 
 import pexpect
 import pytest
 import requests
 from flaky import flaky
 
-SD_DIR = ""
 CURRENT_DIR = os.path.dirname(__file__)
-ANSIBLE_BASE = ""
+CONFIG_DIR = "/root/.securedrop-admin"
+ANSIBLE_BASE = "/usr/share/securedrop-admin/ansible-base/"
 # Regex to strip ANSI escape chars
 # https://stackoverflow.com/questions/14693701/how-can-i-remove-the-ansi-escape-sequences-from-a-string-in-python
 ANSI_ESCAPE = re.compile(r"\x1B\[[0-?]*[ -/]*[@-~]")
-
+SECUREDROP_ADMIN_CMD = "/usr/bin/securedrop-admin"
 
 OUTPUT1 = """app_hostname: app
 app_ip: 10.20.2.2
+config_path: /root/.securedrop-admin
 daily_reboot_time: 5
 dns_server:
 - 8.8.8.8
@@ -52,6 +52,7 @@ ssh_users: sdadmin
 
 JOURNALIST_ALERT_OUTPUT = """app_hostname: app
 app_ip: 10.20.2.2
+config_path: /root/.securedrop-admin
 daily_reboot_time: 5
 dns_server:
 - 8.8.8.8
@@ -85,6 +86,7 @@ ssh_users: sdadmin
 
 HTTPS_OUTPUT_NO_POW = """app_hostname: app
 app_ip: 10.20.2.2
+config_path: /root/.securedrop-admin
 daily_reboot_time: 5
 dns_server:
 - 8.8.8.8
@@ -116,37 +118,17 @@ smtp_relay_port: 587
 ssh_users: sdadmin
 """
 
-
 def setup_function(function):
-    global SD_DIR
-    SD_DIR = tempfile.mkdtemp()
-    ANSIBLE_BASE = f"{SD_DIR}/install_files/ansible-base"
-
-    for name in ["roles", "tasks"]:
-        shutil.copytree(
-            os.path.join(CURRENT_DIR, "../../install_files/ansible-base", name),
-            os.path.join(ANSIBLE_BASE, name),
-        )
-
-    for name in ["ansible.cfg", "securedrop-prod.yml"]:
-        shutil.copy(
-            os.path.join(CURRENT_DIR, "../../install_files/ansible-base", name), ANSIBLE_BASE
-        )
-
-    cmd = f"mkdir -p {ANSIBLE_BASE}/group_vars/all".split()
-    subprocess.check_call(cmd)
+    os.makedirs(CONFIG_DIR, exist_ok=True)
     for name in ["sd_admin_test.pub", "ca.crt", "sd.crt", "key.asc"]:
-        subprocess.check_call(f"cp -r {CURRENT_DIR}/files/{name} {ANSIBLE_BASE}".split())
-    for name in ["de_DE", "es_ES", "fr_FR", "pt_BR"]:
-        dircmd = f"mkdir -p {SD_DIR}/securedrop/translations/{name}"
-        subprocess.check_call(dircmd.split())
-    subprocess.check_call(
-        f"cp {CURRENT_DIR}/files/securedrop/i18n.json {SD_DIR}/securedrop".split()
-    )
+        shutil.copy(
+            os.path.join(CURRENT_DIR, "files", name),
+            CONFIG_DIR
+        )
 
 
 def teardown_function(function):
-    subprocess.check_call(f"rm -rf {SD_DIR}".split())
+    shutil.rmtree(CONFIG_DIR)
 
 
 def verify_username_prompt(child):
@@ -284,8 +266,7 @@ def verify_install_has_valid_config():
     """
     Checks that securedrop-admin install validates the configuration.
     """
-    cmd = os.path.join(os.path.dirname(CURRENT_DIR), "securedrop_admin/__init__.py")
-    child = pexpect.spawn(f"python {cmd} --force --root {SD_DIR} install")
+    child = pexpect.spawn(f"{SECUREDROP_ADMIN_CMD} --force install")
     child.expect(b"SUDO password:", timeout=5)
     child.close()
 
@@ -294,8 +275,7 @@ def test_install_with_no_config():
     """
     Checks that securedrop-admin install complains about a missing config file.
     """
-    cmd = os.path.join(os.path.dirname(CURRENT_DIR), "securedrop_admin/__init__.py")
-    child = pexpect.spawn(f"python {cmd} --force --root {SD_DIR} install")
+    child = pexpect.spawn(f"{SECUREDROP_ADMIN_CMD} --force install")
     child.expect(b'ERROR: Please run "securedrop-admin sdconfig" first.', timeout=5)
     child.expect(pexpect.EOF, timeout=5)
     child.close()
@@ -304,8 +284,7 @@ def test_install_with_no_config():
 
 
 def test_sdconfig_on_first_run():
-    cmd = os.path.join(os.path.dirname(CURRENT_DIR), "securedrop_admin/__init__.py")
-    child = pexpect.spawn(f"python {cmd} --force --root {SD_DIR} sdconfig")
+    child = pexpect.spawn(f"{SECUREDROP_ADMIN_CMD} --force sdconfig")
     verify_username_prompt(child)
     child.sendline("")
     verify_reboot_prompt(child)
@@ -361,7 +340,7 @@ def test_sdconfig_on_first_run():
     assert child.signalstatus is None
 
     with open(
-        os.path.join(SD_DIR, "install_files/ansible-base/group_vars/all/site-specific")
+        os.path.join(CONFIG_DIR, "site-specific")
     ) as fobj:
         data = fobj.read()
     assert data == OUTPUT1
@@ -370,8 +349,7 @@ def test_sdconfig_on_first_run():
 
 
 def test_sdconfig_enable_journalist_alerts():
-    cmd = os.path.join(os.path.dirname(CURRENT_DIR), "securedrop_admin/__init__.py")
-    child = pexpect.spawn(f"python {cmd} --force --root {SD_DIR} sdconfig")
+    child = pexpect.spawn(f"{SECUREDROP_ADMIN_CMD} --force sdconfig")
     verify_username_prompt(child)
     child.sendline("")
     verify_reboot_prompt(child)
@@ -431,7 +409,7 @@ def test_sdconfig_enable_journalist_alerts():
     assert child.signalstatus is None
 
     with open(
-        os.path.join(SD_DIR, "install_files/ansible-base/group_vars/all/site-specific")
+        os.path.join(CONFIG_DIR, "site-specific")
     ) as fobj:
         data = fobj.read()
     assert data == JOURNALIST_ALERT_OUTPUT
@@ -440,8 +418,7 @@ def test_sdconfig_enable_journalist_alerts():
 
 
 def test_sdconfig_enable_https_disable_pow_on_source_interface():
-    cmd = os.path.join(os.path.dirname(CURRENT_DIR), "securedrop_admin/__init__.py")
-    child = pexpect.spawn(f"python {cmd} --force --root {SD_DIR} sdconfig")
+    child = pexpect.spawn(f"{SECUREDROP_ADMIN_CMD} --force sdconfig")
     verify_username_prompt(child)
     child.sendline("")
     verify_reboot_prompt(child)
@@ -508,7 +485,7 @@ def test_sdconfig_enable_https_disable_pow_on_source_interface():
     assert child.signalstatus is None
 
     with open(
-        os.path.join(SD_DIR, "install_files/ansible-base/group_vars/all/site-specific")
+        os.path.join(CONFIG_DIR, "site-specific")
     ) as fobj:
         data = fobj.read()
     assert data == HTTPS_OUTPUT_NO_POW

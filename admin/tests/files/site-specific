@@ -1,5 +1,6 @@
 app_hostname: app
 app_ip: 10.20.2.2
+config_path: /root/.securedrop-admin
 dns_server:
 - 8.8.8.8
 monitor_hostname: mon
@@ -18,4 +19,4 @@ securedrop_supported_locales:
 smtp_relay: smtp.gmail.com
 smtp_relay_port: 587
 ssh_users: sdadmin
-user_defined_variable: "must not be discarded"
+user_defined_variable: must not be discarded
