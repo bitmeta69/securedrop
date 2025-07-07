@@ -1,5 +1,25 @@
 # Changelog
 
+## 2.12.9~rc1
+
+### Ubuntu 24.04 (Noble) upgrade
+
+* Disable automated upgrades from Ubuntu 20.04 (Focal) to Noble (#7595)
+
+### Web Applications and API
+
+* Update Tor Browser safety level guidance in Source Interface (#7587, #7592)
+* Dependency updates:
+  * `setuptools` from 70.3.0 to 79.0.0 (#7506)
+  * Rust from 1.84.1 to 1.87.0, `rustup-init` from 1.27.1 to 1.28.2 (#7561)
+* Ignore safety alerts:
+  * 77323 (#7564)
+
+### Development
+
+* Dependency updates:
+  * `h11` from 0.14.0 to 0.16.0 (#7535)
+
 ## 2.12.8
 
 * Do fully automated upgrade of 100% of mon servers (#7540)
