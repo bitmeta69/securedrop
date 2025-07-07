@@ -114,13 +114,11 @@ smtp_relay_port: 587
 ssh_users: sdadmin
 """
 
+
 def setup_function(function):
     os.makedirs(CONFIG_DIR, exist_ok=True)
     for name in ["sd_admin_test.pub", "ca.crt", "sd.crt", "key.asc"]:
-        shutil.copy(
-            os.path.join(CURRENT_DIR, "files", name),
-            CONFIG_DIR
-        )
+        shutil.copy(os.path.join(CURRENT_DIR, "files", name), CONFIG_DIR)
 
 
 def teardown_function(function):
@@ -335,9 +333,7 @@ def test_sdconfig_on_first_run():
     assert child.exitstatus == 0
     assert child.signalstatus is None
 
-    with open(
-        os.path.join(CONFIG_DIR, "site-specific")
-    ) as fobj:
+    with open(os.path.join(CONFIG_DIR, "site-specific")) as fobj:
         data = fobj.read()
     assert data == OUTPUT1
 
@@ -404,9 +400,7 @@ def test_sdconfig_enable_journalist_alerts():
     assert child.exitstatus == 0
     assert child.signalstatus is None
 
-    with open(
-        os.path.join(CONFIG_DIR, "site-specific")
-    ) as fobj:
+    with open(os.path.join(CONFIG_DIR, "site-specific")) as fobj:
         data = fobj.read()
     assert data == JOURNALIST_ALERT_OUTPUT
 
@@ -480,9 +474,7 @@ def test_sdconfig_enable_https_disable_pow_on_source_interface():
     assert child.exitstatus == 0
     assert child.signalstatus is None
 
-    with open(
-        os.path.join(CONFIG_DIR, "site-specific")
-    ) as fobj:
+    with open(os.path.join(CONFIG_DIR, "site-specific")) as fobj:
         data = fobj.read()
     assert data == HTTPS_OUTPUT_NO_POW
 
