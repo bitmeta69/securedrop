@@ -34,13 +34,13 @@ jobs:
           python-version: ${{ matrix.versions.python }}
       - name: Build SecureDrop packages
         run: |
-          UBUNTU_VERSION=${{ matrix.versions.ubuntu }} ./builder/build-debs.sh
+          OS_VERSION=${{ matrix.versions.ubuntu }} ./builder/build-debs.sh
       - name: Build OSSEC packages
         run: |
-          UBUNTU_VERSION=${{ matrix.versions.ubuntu }} WHAT=ossec ./builder/build-debs.sh
+          OS_VERSION=${{ matrix.versions.ubuntu }} WHAT=ossec ./builder/build-debs.sh
       - name: Build admin packages
         run: |
-          UBUNTU_VERSION=${{ matrix.versions.ubuntu }} WHAT=admin ./builder/build-debs.sh
+          OS_VERSION=${{ matrix.versions.ubuntu }} WHAT=admin ./builder/build-debs.sh
       - uses: actions/upload-artifact@v4
         id: upload
         with:
