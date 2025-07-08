@@ -9,6 +9,7 @@ SECUREDROP_ROOT = Path(
 )
 BUILD_DIRECTORY = SECUREDROP_ROOT / f"build/{OS_VERSION}"
 
+
 def test_admin_paths_are_present():
     """
     Ensures the `securedrop-admin` package contains the specified paths
