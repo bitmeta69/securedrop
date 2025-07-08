@@ -1,0 +1,1 @@
+# only securedrop-admin uses bookworm, and it does not need any python development requirements

@@ -63,6 +63,7 @@ fi
 
 mkdir -p "build/${OS_VERSION}"
 
+echo "::group::Building container image"
 if [[ $WHAT == "ossec" ]]; then
     # We need to build each variant separately because it dirties the container
     $OCI_BIN run --rm $OCI_RUN_ARGUMENTS \
@@ -80,18 +81,26 @@ else
         --entrypoint "/build-debs-securedrop" \
         fpf.local/sd-server-builder-${OS_VERSION}
 fi
+echo "::endgroup::"
 
 NOTEST="${NOTEST:-}"
 
 if [[ $NOTEST == "" ]]; then
+    echo "::group::Running tests"
     . ./devops/scripts/boot-strap-venv.sh
     virtualenv_bootstrap
 
     if [[ $WHAT == "ossec" ]]; then
         pytest -v builder/tests/test_ossec_package.py
     elif [[ $WHAT == "admin" ]]; then
-        echo "Skipping tests for admin container..."
+        pytest -v builder/tests/test_admin_package.py
     else
         pytest -v builder/tests/test_securedrop_deb_package.py
     fi
+    echo "::endgroup::"
 fi
+
+# Display files in build, for debug purposes
+echo "::group::Files in build"
+find build
+echo "::endgroup::"
