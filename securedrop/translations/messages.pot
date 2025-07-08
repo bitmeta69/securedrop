@@ -905,7 +905,7 @@ msgstr ""
 msgid "Click <b>Settings</b> to open Security Level preferences"
 msgstr ""
 
-msgid "Click <b>Change...</b> and select <b>Safest</b>"
+msgid "Click <b>Change…</b> and select <b>Safest</b>"
 msgstr ""
 
 msgid "Click <b>Save and restart.</b>"

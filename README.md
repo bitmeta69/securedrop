@@ -4,7 +4,6 @@
 
 > [There are many ways to contribute to SecureDrop, and we welcome your help!](CONTRIBUTING.md) By contributing to this project, you agree to abide by our [Code of Conduct](https://github.com/freedomofpress/.github/blob/main/CODE_OF_CONDUCT.md).
 
-[![CircleCI branch](https://img.shields.io/circleci/project/github/freedomofpress/securedrop/develop.svg)](https://circleci.com/gh/freedomofpress/workflows/securedrop/tree/develop)
 [![codecov](https://codecov.io/gh/freedomofpress/securedrop/branch/develop/graph/badge.svg)](https://codecov.io/gh/freedomofpress/securedrop)
 [![Translation status](https://weblate.securedrop.org/widgets/securedrop/-/svg-badge.svg)](https://weblate.securedrop.org)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/freedomofpress/securedrop)
@@ -50,13 +49,27 @@ See our [contribution page](CONTRIBUTING.md).
 
 ## Developer Quickstart
 
-Ensure you have Docker installed and:
+To run SecureDrop locally, ensure you have Docker installed and:
 
 ```
 make dev
 ```
 
 This will start the source interface on `127.0.0.1:8080` and the journalist interface on `127.0.0.1:8081`. The credentials to login are printed in the Terminal. To login to the journalist interface, you must also [generate a two-factor code](https://developers.securedrop.org/en/latest/setup_development.html#using-the-docker-environment).
+
++To run SecureDrop locally, ensure you have Docker installed and:
+
+ ```
+ make dev
+ ```
+
+ This will start the source interface on `127.0.0.1:8080` and the journalist interface on `127.0.0.1:8081`. The credentials to login are printed in the Terminal. To login to the journalist interface, you must also [generate a two-factor code](https://developers.securedrop.org/en/latest/setup_development.html#using-the-docker-environment).
+
+To provision a Python 3 virtual environment for development:
+
+```
+make venv && source ./venv/bin/activate
+```
 
 ## License
 
