@@ -13,7 +13,7 @@ TOPLEVEL="$(git rev-parse --show-toplevel)"
 export TOPLEVEL
 GCE_CREDS_FILE="${TOPLEVEL}/.gce.creds"
 export GCE_CREDS_FILE
-export UBUNTU_VERSION="${UBUNTU_VERSION:-focal}"
+export OS_VERSION="${OS_VERSION:-focal}"
 export BUILD_NUM="${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
 export PROJECT_ID="securedrop-ci"
 export JOB_NAME="sd-ci-nested"
@@ -21,7 +21,7 @@ export GCLOUD_MACHINE_TYPE="c2-standard-8"
 export GCLOUD_CONTAINER_VER
 export CLOUDSDK_COMPUTE_ZONE="us-west1-c"
 export EPHEMERAL_DIRECTORY="/tmp/gce-nested"
-export FULL_JOB_ID="${JOB_NAME}-${UBUNTU_VERSION}-${BUILD_NUM}"
+export FULL_JOB_ID="${JOB_NAME}-${OS_VERSION}-${BUILD_NUM}"
 export SSH_USER_NAME=sdci
 export SSH_PRIVKEY="${EPHEMERAL_DIRECTORY}/gce"
 export SSH_PUBKEY="${SSH_PRIVKEY}.pub"

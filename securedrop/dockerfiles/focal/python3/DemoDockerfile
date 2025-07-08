@@ -1,7 +1,7 @@
-ARG UBUNTU_VERSION=noble
-FROM ubuntu:${UBUNTU_VERSION}
-ARG UBUNTU_VERSION=noble
-ENV UBUNTU_VERSION=${UBUNTU_VERSION}
+ARG OS_VERSION=noble
+FROM ubuntu:${OS_VERSION}
+ARG OS_VERSION=noble
+ENV OS_VERSION=${OS_VERSION}
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata && \
@@ -31,8 +31,8 @@ RUN TMPDIR=`mktemp -d` && cd ${TMPDIR} \
 
 COPY . /opt/securedrop
 RUN python3 -m venv /opt/venvs/securedrop-app-code && \
-    /opt/venvs/securedrop-app-code/bin/pip3 install --no-deps --require-hashes -r /opt/securedrop/securedrop/requirements/${UBUNTU_VERSION}/bootstrap-requirements.txt && \
-    /opt/venvs/securedrop-app-code/bin/pip3 install --no-deps --require-hashes -r /opt/securedrop/securedrop/requirements/${UBUNTU_VERSION}/requirements.txt
+    /opt/venvs/securedrop-app-code/bin/pip3 install --no-deps --require-hashes -r /opt/securedrop/securedrop/requirements/${OS_VERSION}/bootstrap-requirements.txt && \
+    /opt/venvs/securedrop-app-code/bin/pip3 install --no-deps --require-hashes -r /opt/securedrop/securedrop/requirements/${OS_VERSION}/requirements.txt
 RUN PATH="$PATH:/opt/cargo/bin/" \
     python3 "/opt/securedrop/redwood/build-wheel.py" \
         --release \

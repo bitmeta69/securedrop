@@ -1,5 +1,5 @@
-ARG UBUNTU_VERSION=focal
-FROM ubuntu:${UBUNTU_VERSION}
+ARG OS_VERSION=focal
+FROM ubuntu:${OS_VERSION}
 
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get -y update && apt-get upgrade -y && apt-get install -y \

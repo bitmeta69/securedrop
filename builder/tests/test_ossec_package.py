@@ -5,11 +5,11 @@ from pathlib import Path
 
 OSSEC_VERSION = "3.6.0"
 
-UBUNTU_VERSION = os.environ.get("UBUNTU_VERSION", "focal")
+OS_VERSION = os.environ.get("OS_VERSION", "focal")
 SECUREDROP_ROOT = Path(
     subprocess.check_output(["git", "rev-parse", "--show-toplevel"]).decode().strip()
 )
-BUILD_DIRECTORY = SECUREDROP_ROOT / f"build/{UBUNTU_VERSION}"
+BUILD_DIRECTORY = SECUREDROP_ROOT / f"build/{OS_VERSION}"
 
 
 def test_ossec_binaries_are_present_agent():
@@ -27,7 +27,7 @@ def test_ossec_binaries_are_present_agent():
         "/var/ossec/bin/util.sh",
         "/var/ossec/bin/ossec-execd",
     ]
-    path = BUILD_DIRECTORY / f"ossec-agent_{OSSEC_VERSION}+{UBUNTU_VERSION}_amd64.deb"
+    path = BUILD_DIRECTORY / f"ossec-agent_{OSSEC_VERSION}+{OS_VERSION}_amd64.deb"
     contents = subprocess.check_output(["dpkg-deb", "-c", str(path)]).decode()
     for wanted_file in wanted_files:
         assert re.search(
@@ -69,7 +69,7 @@ def test_ossec_binaries_are_present_server():
         "/var/ossec/bin/ossec-execd",
         "/var/ossec/bin/ossec-authd",
     ]
-    path = BUILD_DIRECTORY / f"ossec-server_{OSSEC_VERSION}+{UBUNTU_VERSION}_amd64.deb"
+    path = BUILD_DIRECTORY / f"ossec-server_{OSSEC_VERSION}+{OS_VERSION}_amd64.deb"
     contents = subprocess.check_output(["dpkg-deb", "-c", str(path)]).decode()
     for wanted_file in wanted_files:
         assert re.search(
