@@ -34,7 +34,7 @@ update-admin-pip-requirements:  ## Update admin requirements.
 .PHONY: update-python3-requirements
 update-python3-requirements:  ## Update Python 3 requirements with pip-compile.
 	@echo "███ Updating Python 3 requirements files..."
-	@SLIM_BUILD=1 UBUNTU_VERSION=noble $(DEVSHELL) $(SDBIN)/update-requirements
+	@SLIM_BUILD=1 OS_VERSION=noble $(DEVSHELL) $(SDBIN)/update-requirements
 
 .PHONY: update-pip-requirements
 update-pip-requirements: update-admin-pip-requirements update-python3-requirements ## Update all requirements with pip-compile.

@@ -1,4 +1,7 @@
+<<<<<<< HEAD:securedrop/dockerfiles/noble/python3/Dockerfile
 FROM securedrop-slim-noble-py3
+=======
+FROM securedrop-slim-${OS_VERSION}-py3
 
 RUN apt-get update  && apt-get install -y \
     libgtk2.0 devscripts xvfb x11vnc \

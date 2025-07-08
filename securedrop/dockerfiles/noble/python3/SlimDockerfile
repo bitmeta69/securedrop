@@ -1,4 +1,10 @@
+<<<<<<< HEAD:securedrop/dockerfiles/noble/python3/SlimDockerfile
 FROM ubuntu:noble
+=======
+FROM ubuntu:${OS_VERSION}
+# Redeclare $OS_VERSION after "FROM" so that we can make it available as an
+# environment variable.
+ENV OS_VERSION=${OS_VERSION}
 ARG USER_NAME
 ENV USER_NAME ${USER_NAME:-root}
 ARG USER_ID
@@ -29,9 +35,14 @@ RUN TMPDIR=`mktemp -d` && cd ${TMPDIR} \
 
 COPY requirements requirements
 RUN python3 -m venv /opt/venvs/securedrop-app-code && \
+<<<<<<< HEAD:securedrop/dockerfiles/noble/python3/SlimDockerfile
     /opt/venvs/securedrop-app-code/bin/pip3 install --no-deps --require-hashes -r requirements/bootstrap-requirements.txt && \
     /opt/venvs/securedrop-app-code/bin/pip3 install --no-deps --require-hashes -r requirements/test-requirements.txt && \
     /opt/venvs/securedrop-app-code/bin/pip3 install --no-deps --require-hashes -r requirements/requirements.txt
+=======
+    /opt/venvs/securedrop-app-code/bin/pip3 install --no-deps --require-hashes -r requirements/${OS_VERSION}/bootstrap-requirements.txt && \
+    /opt/venvs/securedrop-app-code/bin/pip3 install --no-deps --require-hashes -r requirements/${OS_VERSION}/test-requirements.txt && \
+    /opt/venvs/securedrop-app-code/bin/pip3 install --no-deps --require-hashes -r requirements/${OS_VERSION}/requirements.txt
 
 # noble ships with an `ubuntu` user that has id 1000, which conflicts with podman's ID mapping
 RUN if id ubuntu; then deluser ubuntu; fi

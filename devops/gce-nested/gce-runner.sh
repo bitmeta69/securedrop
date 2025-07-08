@@ -4,6 +4,7 @@
 # for storage as artifacts on the build, so devs can review via web.
 set -e
 set -u
+OS_VERSION="${OS_VERSION:-focal}"
 
 UBUNTU_VERSION="noble"
 
@@ -56,6 +57,6 @@ copy_securedrop_repo
 # so register a trap to ensure the fetch always runs.
 trap fetch_junit_test_results EXIT
 
-ssh_gce "UBUNTU_VERSION=\"${UBUNTU_VERSION}\" make build-debs-notest"
-ssh_gce "UBUNTU_VERSION=\"${UBUNTU_VERSION}\" make build-debs-ossec-notest"
-ssh_gce "UBUNTU_VERSION=\"${UBUNTU_VERSION}\" make staging"
+ssh_gce "OS_VERSION=\"${OS_VERSION}\" make build-debs-notest"
+ssh_gce "OS_VERSION=\"${OS_VERSION}\" make build-debs-ossec-notest"
+ssh_gce "OS_VERSION=\"${OS_VERSION}\" make staging"

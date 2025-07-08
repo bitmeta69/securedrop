@@ -13,7 +13,7 @@ USE_TOR="${USE_TOR:-}"
 USE_PODMAN="${USE_PODMAN:-}"
 SLIM_BUILD="${SLIM_BUILD:-}"
 DOCKER_RUN_ARGUMENTS="${DOCKER_RUN_ARGUMENTS:-}"
-UBUNTU_VERSION="${UBUNTU_VERSION:-noble}"
+OS_VERSION="${OS_VERSION:-noble}"
 
 # Allow opting into using podman with USE_PODMAN=1
 if  [[ -n "${USE_PODMAN}" ]]; then
@@ -58,7 +58,7 @@ function docker_image() {
            ${DOCKER_BUILD_ARGUMENTS:-} \
            --build-arg=USER_ID="$(id -u)" \
            --build-arg=USER_NAME="${USER:-root}" \
-           --build-arg=UBUNTU_VERSION="${UBUNTU_VERSION}" \
+           --build-arg=OS_VERSION="${OS_VERSION}" \
            -t "${1}" \
            --file "${TOPLEVEL}/securedrop/dockerfiles/noble/python3/${2}" \
            "${TOPLEVEL}/securedrop" > $out
@@ -146,7 +146,7 @@ function docker_run() {
 
     # The --shm-size argument sets up dedicated shared memory for the
     # container. Our tests can fail with the default of 64m.
-    echo "Starting ${UBUNTU_VERSION} container..."
+    echo "Starting ${OS_VERSION} container..."
     $DOCKER_BIN run $ci_env \
            --shm-size 2g \
            --rm \
@@ -170,10 +170,10 @@ function docker_run() {
            $DOCKER_RUN_ARGUMENTS "${1}" "${@:2}"
 }
 
-image="securedrop-slim-${UBUNTU_VERSION}-py3"
+image="securedrop-slim-${OS_VERSION}-py3"
 docker_image "$image" "SlimDockerfile"
 if  [[ -z "${SLIM_BUILD}" ]]; then
-    image="securedrop-test-${UBUNTU_VERSION}-py3"
+    image="securedrop-test-${OS_VERSION}-py3"
     docker_image "$image" "Dockerfile"
 fi
 

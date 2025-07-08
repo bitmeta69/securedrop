@@ -5,13 +5,17 @@ from pathlib import Path
 
 import pytest
 
+OS_VERSION = os.environ.get("OS_VERSION", "focal")
 SECUREDROP_ROOT = Path(
     subprocess.check_output(["git", "rev-parse", "--show-toplevel"]).decode().strip()
 )
 DEB_PATHS = [
-    pkg for pkg in (SECUREDROP_ROOT / "build/noble").glob("*.deb") if "dbgsym" not in pkg.name
+    pkg
+    for pkg in (SECUREDROP_ROOT / f"build/{OS_VERSION}").glob("*.deb")
+    if "dbgsym" not in pkg.name
 ]
-SITE_PACKAGES = "/opt/venvs/securedrop-app-code/lib/python3.12/site-packages"
+PYTHON_VERSION = {"focal": "8", "noble": "12"}[OS_VERSION]
+SITE_PACKAGES = f"/opt/venvs/securedrop-app-code/lib/python3.{PYTHON_VERSION}/site-packages"
 
 
 @pytest.fixture(scope="module")
@@ -119,7 +123,11 @@ def test_apparmor_conditional():
     for line in info.splitlines():
         if line.startswith(" Depends:"):
             found = True
-            assert "apparmor (>=" in line, "noble has versioned apparmor dependency"
+            if OS_VERSION == "focal":
+                assert "apparmor (>=" not in line, "focal has no versioned apparmor dependency"
+            else:
+                assert "apparmor (>=" in line, "noble has versioned apparmor dependency"
+
     print(info)
     assert found, "Depends: line wasn't found"
 
@@ -134,7 +142,10 @@ def test_systemd_conditional():
     for line in info.splitlines():
         if line.startswith(" Depends:"):
             found = True
-            assert "systemd-hwe-hwdb" in line, "noble has systemd-hwe-hwdb dependency"
+            if OS_VERSION == "focal":
+                assert "systemd-hwe-hwdb" not in line, "focal has no systemd-hwe-hwdb dependency"
+            else:
+                assert "systemd-hwe-hwdb" in line, "noble has systemd-hwe-hwdb dependency"
 
     print(info)
     assert found, "Depends: line wasn't found"

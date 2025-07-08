@@ -14,7 +14,7 @@ set -o pipefail
 
 . ./devops/scripts/boot-strap-venv.sh
 
-export PLATFORM="noble"
+export PLATFORM="${OS_VERSION:-noble}"
 
 securedrop_staging_scenario="$(./devops/scripts/select-staging-env "${PLATFORM}")"
 
