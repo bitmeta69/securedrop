@@ -51,8 +51,17 @@ fi
 export OCI_RUN_ARGUMENTS
 export OCI_BIN
 
+echo "::group::Environment"
+echo "Running build-debs.sh with the follow environment:"
+echo "OS_VERSION='$OS_VERSION'"
+echo "WHAT='$WHAT'"
+echo "OCI_BIN='$OCI_BIN'"
+echo "OCI_RUN_ARGUMENTS='$OCI_RUN_ARGUMENTS'"
+echo "::endgroup::"
+
 cd "$(git rev-parse --show-toplevel)"
 
+echo "::group::Building the builder image"
 if [[ $WHAT == "admin" ]]; then
     # Build the admin builder
     . ./builder/image_prep.sh admin
@@ -60,10 +69,11 @@ else
     # Build the server builder
     . ./builder/image_prep.sh
 fi
+echo "::endgroup::"
 
 mkdir -p "build/${OS_VERSION}"
 
-echo "::group::Building container image"
+echo "::group::Building debian packages"
 if [[ $WHAT == "ossec" ]]; then
     # We need to build each variant separately because it dirties the container
     $OCI_BIN run --rm $OCI_RUN_ARGUMENTS \
@@ -83,6 +93,11 @@ else
 fi
 echo "::endgroup::"
 
+# Display files in build, for debug purposes
+echo "::group::Contents of build directory"
+find build
+echo "::endgroup::"
+
 NOTEST="${NOTEST:-}"
 
 if [[ $NOTEST == "" ]]; then
@@ -99,8 +114,3 @@ if [[ $NOTEST == "" ]]; then
     fi
     echo "::endgroup::"
 fi
-
-# Display files in build, for debug purposes
-echo "::group::Files in build"
-find build
-echo "::endgroup::"
