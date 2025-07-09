@@ -1,5 +1,5 @@
-ARG OS_VERSION=focal
-FROM ubuntu:${OS_VERSION}
+ARG BASE_IMAGE=ubuntu:focal
+FROM ${BASE_IMAGE}
 
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get -y update && apt-get upgrade -y && apt-get install -y \
