@@ -12,6 +12,11 @@ cd "$(git rev-parse --show-toplevel)"
 
 if [[ $ADMIN_CONTAINER -eq 1 ]]; then
     IMAGE_NAME="fpf.local/sd-admin-builder-${OS_VERSION}"
+    if [[ $OS_VERSION == "bookworm" ]]; then
+        BASE_IMAGE="debian:${OS_VERSION}"
+    else
+        BASE_IMAGE="ubuntu:${OS_VERSION}"
+    fi
     DOCKERFILE="builder/AdminDockerfile"
 else
     IMAGE_NAME="fpf.local/sd-server-builder-${OS_VERSION}"
