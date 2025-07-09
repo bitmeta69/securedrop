@@ -10,13 +10,14 @@ fi
 
 cd "$(git rev-parse --show-toplevel)"
 
+if [[ $OS_VERSION == "bookworm" ]]; then
+    BASE_IMAGE="debian:${OS_VERSION}"
+else
+    BASE_IMAGE="ubuntu:${OS_VERSION}"
+fi
+
 if [[ $ADMIN_CONTAINER -eq 1 ]]; then
     IMAGE_NAME="fpf.local/sd-admin-builder-${OS_VERSION}"
-    if [[ $OS_VERSION == "bookworm" ]]; then
-        BASE_IMAGE="debian:${OS_VERSION}"
-    else
-        BASE_IMAGE="ubuntu:${OS_VERSION}"
-    fi
     DOCKERFILE="builder/AdminDockerfile"
 else
     IMAGE_NAME="fpf.local/sd-server-builder-${OS_VERSION}"
@@ -31,12 +32,12 @@ if $missing; then
     # Build it if it doesn't
     $OCI_BIN build \
         -f "${DOCKERFILE}" \
-        --build-arg=OS_VERSION="${OS_VERSION}" \
+        --build-arg=BASE_IMAGE="${BASE_IMAGE}" \
         -t "${IMAGE_NAME}" builder/ --no-cache
 fi
 
 # Uncomment the following for fast development on adjusting builder logic
-$OCI_BIN build -f "${DOCKERFILE}" --build-arg=OS_VERSION="${OS_VERSION}" -t "${IMAGE_NAME}" builder/
+$OCI_BIN build -f "${DOCKERFILE}" --build-arg=BASE_IMAGE="${BASE_IMAGE}" -t "${IMAGE_NAME}" builder/
 
 # Run the dependency check
 status=0
@@ -48,7 +49,7 @@ if [[ $status == 42 ]]; then
     # and try again!
     echo "Rebuilding container to update dependencies"
     $OCI_BIN rmi "${IMAGE_NAME}"
-    $OCI_BIN build -f "${DOCKERFILE}" --build-arg=OS_VERSION="${OS_VERSION}" \
+    $OCI_BIN build -f "${DOCKERFILE}" --build-arg=BASE_IMAGE="${BASE_IMAGE}" \
         -t "${IMAGE_NAME}" builder/ --no-cache
     # Reset $status and re-run the dependency check
     status=0
