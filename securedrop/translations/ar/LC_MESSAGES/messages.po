@@ -4,7 +4,20 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
 # Ahmad Gharbeia أحمد غربية <ahmad@gharbeia.org>, 2017.
 msgid ""
-msgstr "Project-Id-Version: SecureDrop 0.3.12\nReport-Msgid-Bugs-To: securedrop@freedom.press\nPOT-Creation-Date: 2017-09-02 07:28+0000\nPO-Revision-Date: 2025-03-11 17:34+0000\nLast-Translator: anonymous <noreply@weblate.org>\nLanguage-Team: Arabic <https://weblate.securedrop.org/projects/securedrop/securedrop/ar/>\nLanguage: ar\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\nX-Generator: Weblate 5.10\nGenerated-By: Babel 2.4.0\n"
+msgstr ""
+"Project-Id-Version: SecureDrop 0.3.12\n"
+"Report-Msgid-Bugs-To: securedrop@freedom.press\n"
+"POT-Creation-Date: 2017-09-02 07:28+0000\n"
+"PO-Revision-Date: 2025-03-11 17:34+0000\n"
+"Last-Translator: anonymous <noreply@weblate.org>\n"
+"Language-Team: Arabic <https://weblate.securedrop.org/projects/securedrop/securedrop/ar/>\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"X-Generator: Weblate 5.10\n"
+"Generated-By: Babel 2.4.0\n"
 
 msgid "Name too long"
 msgstr "الاسم طويلٌ جداً"
@@ -946,14 +959,17 @@ msgstr "كيفية تغيير مستوى الأمان الخاص بك"
 msgid "Click the <img src=\"{icon}\" alt=\"&quot;Security Level&quot; button\"> in the toolbar above"
 msgstr "اضغط على زرّ <img src=\"{icon}\" alt=\"&quot;مستوى الأمان&quot; زرر\"> في شريط الأدوات أعلاه"
 
-msgid "Click <b>Change</b> to open Security Level preferences"
-msgstr "انقر فوق <b>Change</b> لفتح تفضيلات مستوى الأمان"
+msgid "Click <b>Settings</b> to open Security Level preferences"
+msgstr ""
 
-msgid "Select <b>Safest</b> and close the preferences tab"
-msgstr "حدد <b>Safest</b> وأغلق علامة تبويب التفضيلات"
+msgid "Click <b>Change…</b> and select <b>Safest</b>"
+msgstr ""
 
-msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
-msgstr "<a href=\"/\" aria-label=\"اتبع هذه التعليمات ثم قم بانعاش هذه الصفحة\">أنعش هذه الصفحة</a> فتكون قد أنجزت!"
+msgid "Click <b>Save and restart.</b>"
+msgstr ""
+
+msgid "Tor Browser will restart, with its security level set to <b>Safest</b>. After the restart, come back to this site."
+msgstr ""
 
 msgid "<strong>It is recommended to use Tor Browser to access SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Learn how to install it</a>, or ignore this warning to continue."
 msgstr "<strong>نوصي باستخدام متصفح تور للنفاذ إلى سِكيوردرُپ :</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">طالع خطوات التنصيب</a> أو تجاهل هذا التحذير للمواصلة."
@@ -1169,6 +1185,15 @@ msgstr "<strong>هام:</strong> إذا كنت ترغب في البقاء مجه
 
 msgid "Back to submission page"
 msgstr "الرجوع إلى صفحة الإيداع"
+
+#~ msgid "Click <b>Change</b> to open Security Level preferences"
+#~ msgstr "انقر فوق <b>Change</b> لفتح تفضيلات مستوى الأمان"
+
+#~ msgid "Select <b>Safest</b> and close the preferences tab"
+#~ msgstr "حدد <b>Safest</b> وأغلق علامة تبويب التفضيلات"
+
+#~ msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
+#~ msgstr "<a href=\"/\" aria-label=\"اتبع هذه التعليمات ثم قم بانعاش هذه الصفحة\">أنعش هذه الصفحة</a> فتكون قد أنجزت!"
 
 #~ msgid "There are no submissions!"
 #~ msgstr "لا يوجد تقديمات!"

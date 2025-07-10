@@ -915,14 +915,17 @@ msgstr "Cómo cambiar tu nivel de seguridad"
 msgid "Click the <img src=\"{icon}\" alt=\"&quot;Security Level&quot; button\"> in the toolbar above"
 msgstr "Haz clic en el botón <img src=\"{icon}\" alt=\"&quot;Security Level&quot;\">, arriba en la barra de herramientas"
 
-msgid "Click <b>Change</b> to open Security Level preferences"
-msgstr "Haz clic en <b>Cambiar</b> para abrir las preferencias de Nivel de Seguridad"
+msgid "Click <b>Settings</b> to open Security Level preferences"
+msgstr ""
 
-msgid "Select <b>Safest</b> and close the preferences tab"
-msgstr "Selecciona <b>El más seguro</b> y cierra la pestaña de preferencias"
+msgid "Click <b>Change…</b> and select <b>Safest</b>"
+msgstr ""
 
-msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
-msgstr "¡<a href=\"/\" aria-label=\"Sigue estas instrucciones, luego refresca esta página\">Refresca esta página</a>, y está listo!"
+msgid "Click <b>Save and restart.</b>"
+msgstr ""
+
+msgid "Tor Browser will restart, with its security level set to <b>Safest</b>. After the restart, come back to this site."
+msgstr ""
 
 msgid "<strong>It is recommended to use Tor Browser to access SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Learn how to install it</a>, or ignore this warning to continue."
 msgstr "<strong>Se recomienda que uses el Navegador Tor para acceder a SecureDrop:</strong><a class=\"recommend-tor\" href=\"{tor_browser_url}\">Aprende cómo instalarlo</a>, o ignora esta advertencia para continuar."
@@ -1137,6 +1140,15 @@ msgstr "<strong>Importante:</strong> Si deseas permanecer anónimo, <strong>no</
 
 msgid "Back to submission page"
 msgstr "Regresar a la página de envío"
+
+#~ msgid "Click <b>Change</b> to open Security Level preferences"
+#~ msgstr "Haz clic en <b>Cambiar</b> para abrir las preferencias de Nivel de Seguridad"
+
+#~ msgid "Select <b>Safest</b> and close the preferences tab"
+#~ msgstr "Selecciona <b>El más seguro</b> y cierra la pestaña de preferencias"
+
+#~ msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
+#~ msgstr "¡<a href=\"/\" aria-label=\"Sigue estas instrucciones, luego refresca esta página\">Refresca esta página</a>, y está listo!"
 
 #~ msgid "There are no submissions!"
 #~ msgstr "¡No hay entregas!"

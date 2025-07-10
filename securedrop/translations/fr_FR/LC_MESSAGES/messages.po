@@ -4,20 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
 #
 msgid ""
-msgstr ""
-"Project-Id-Version: SecureDrop 0.3.12\n"
-"Report-Msgid-Bugs-To: securedrop@freedom.press\n"
-"POT-Creation-Date: 2017-09-02 07:28+0000\n"
-"PO-Revision-Date: 2024-12-16 20:10+0000\n"
-"Last-Translator: AO Localization Lab <ao@localizationlab.org>\n"
-"Language-Team: French <https://weblate.securedrop.org/projects/securedrop/securedrop/fr/>\n"
-"Language: fr_FR\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.8.4\n"
-"Generated-By: Babel 2.4.0\n"
+msgstr "Project-Id-Version: SecureDrop 0.3.12\nReport-Msgid-Bugs-To: securedrop@freedom.press\nPOT-Creation-Date: 2017-09-02 07:28+0000\nPO-Revision-Date: 2025-07-02 14:43+0000\nLast-Translator: AO Localization Lab <ao@localizationlab.org>\nLanguage-Team: French <https://weblate.securedrop.org/projects/securedrop/securedrop/fr/>\nLanguage: fr_FR\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n > 1;\nX-Generator: Weblate 5.11.1\nGenerated-By: Babel 2.4.0\n"
 
 msgid "Name too long"
 msgstr "Le nom est trop long"
@@ -915,14 +902,17 @@ msgstr "Comment changer votre niveau de sécurité"
 msgid "Click the <img src=\"{icon}\" alt=\"&quot;Security Level&quot; button\"> in the toolbar above"
 msgstr "Cliquez sur le bouton <img src=\"{icon}\" alt=\"« Niveau de sécurité »\"> dans la barre d’outils ci-dessus"
 
-msgid "Click <b>Change</b> to open Security Level preferences"
-msgstr "Cliquez sur <b>Changer</b> pour ouvrir les préférences de niveau de sécurité"
+msgid "Click <b>Settings</b> to open Security Level preferences"
+msgstr "Cliquez sur <b>Paramètres</b> pour ouvrir les préférences du Niveau de sécurité"
 
-msgid "Select <b>Safest</b> and close the preferences tab"
-msgstr "Sélectionnez <b>Le plus sûr</b> et fermer l’onglet des préférences"
+msgid "Click <b>Change…</b> and select <b>Safest</b>"
+msgstr "Cliquez sur <b>Changer…</b> et choisissez <b>Le plus sûr</b>"
 
-msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
-msgstr "<a href=\"/\" aria-label=\"Suivez ces instructions, puis actualisez cette page\">Actualisez cette page</a> et vous aurez terminé."
+msgid "Click <b>Save and restart.</b>"
+msgstr "Cliquez sur <b>Enregistrer et redémarrer.</b>"
+
+msgid "Tor Browser will restart, with its security level set to <b>Safest</b>. After the restart, come back to this site."
+msgstr "Après redémarrage, le niveau de sécurité du Navigateur Tor sera <b>Le plus sûr</b> . Vous pourrez consulter ce site de nouveau."
 
 msgid "<strong>It is recommended to use Tor Browser to access SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Learn how to install it</a>, or ignore this warning to continue."
 msgstr "<strong>Il est recommandé d’utiliser le Navigateur Tor pour accéder à SecureDrop : </strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Apprenez à l’installer</a> ou ignorez cet avertissement afin de poursuivre."
@@ -1137,6 +1127,18 @@ msgstr "<strong>Important :</strong> Si vous souhaitez rester anonyme, <strong>
 
 msgid "Back to submission page"
 msgstr "Revenir à la page d’envoi"
+
+#~ msgid "Click <b>Change...</b> and select <b>Safest</b>"
+#~ msgstr "Cliquez sur <b>Changer…</b> et choisissez <b>Le plus sûr</b>"
+
+#~ msgid "Click <b>Change</b> to open Security Level preferences"
+#~ msgstr "Cliquez sur <b>Changer</b> pour ouvrir les préférences de niveau de sécurité"
+
+#~ msgid "Select <b>Safest</b> and close the preferences tab"
+#~ msgstr "Sélectionnez <b>Le plus sûr</b> et fermer l’onglet des préférences"
+
+#~ msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
+#~ msgstr "<a href=\"/\" aria-label=\"Suivez ces instructions, puis actualisez cette page\">Actualisez cette page</a> et vous aurez terminé."
 
 #~ msgid "<strong>Important:</strong>&nbsp;&nbsp;Your SecureDrop server needs manual attention to resolve issues blocking automatic upgrade to the next operating system. Please contact your adminstrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
 #~ msgstr "<strong>Important :</strong>&nbsp ; &nbsp ; votre serveur SecureDrop nécessite une intervention manuelle afin de résoudre les problèmes qui bloquent la mise à niveau automatique vers la prochaine version du système d’exploitation. Contactez votre administrateur. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">En apprendre davantage</a>"

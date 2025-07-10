@@ -904,14 +904,17 @@ msgstr "如何變更安全層級"
 msgid "Click the <img src=\"{icon}\" alt=\"&quot;Security Level&quot; button\"> in the toolbar above"
 msgstr "在上方工具列點擊 <img src=\"{icon}\" alt=\"&quot;Security Level&quot; button\">"
 
-msgid "Click <b>Change</b> to open Security Level preferences"
-msgstr "點擊 <b>變更</b> 以開啟安全層級的偏好設定"
+msgid "Click <b>Settings</b> to open Security Level preferences"
+msgstr ""
 
-msgid "Select <b>Safest</b> and close the preferences tab"
-msgstr "選擇 <b>最安全</b> 再關閉偏好設定分頁"
+msgid "Click <b>Change…</b> and select <b>Safest</b>"
+msgstr ""
 
-msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
-msgstr "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">重新載入本頁</a>後，一切已完緒!"
+msgid "Click <b>Save and restart.</b>"
+msgstr ""
+
+msgid "Tor Browser will restart, with its security level set to <b>Safest</b>. After the restart, come back to this site."
+msgstr ""
 
 msgid "<strong>It is recommended to use Tor Browser to access SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Learn how to install it</a>, or ignore this warning to continue."
 msgstr "<strong>高度建議用 Tor 瀏覽器來訪問 SecureDrop :</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\"> 學習如何安裝 Tor</a>，或忽略這則警告繼續操作。"
@@ -1126,6 +1129,15 @@ msgstr "<strong>重要：</strong>如果您希望保持匿名，<strong>請勿</
 
 msgid "Back to submission page"
 msgstr "返回提交文件頁面"
+
+#~ msgid "Click <b>Change</b> to open Security Level preferences"
+#~ msgstr "點擊 <b>變更</b> 以開啟安全層級的偏好設定"
+
+#~ msgid "Select <b>Safest</b> and close the preferences tab"
+#~ msgstr "選擇 <b>最安全</b> 再關閉偏好設定分頁"
+
+#~ msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
+#~ msgstr "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">重新載入本頁</a>後，一切已完緒!"
 
 #~ msgid "There are no submissions!"
 #~ msgstr "無任何提交!"

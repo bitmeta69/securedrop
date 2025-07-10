@@ -914,14 +914,17 @@ msgstr "Com canviar el nivell de seguretat"
 msgid "Click the <img src=\"{icon}\" alt=\"&quot;Security Level&quot; button\"> in the toolbar above"
 msgstr "Feu clic al botó <img src=\"{icon}\" alt=\"Botó &quot;Nivell de seguretat&quot;\"> de la barra d'eines superior"
 
-msgid "Click <b>Change</b> to open Security Level preferences"
-msgstr "Feu clic a <b>Canvia</b> per obrir les opcions del nivell de seguretat"
+msgid "Click <b>Settings</b> to open Security Level preferences"
+msgstr ""
 
-msgid "Select <b>Safest</b> and close the preferences tab"
-msgstr "Seleccioneu <b>Segur</b> i tanqueu la pestanya de preferències"
+msgid "Click <b>Change…</b> and select <b>Safest</b>"
+msgstr ""
 
-msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
-msgstr "<a href=\"/\" aria-label=\"Seguiu les instruccions, actualitzeu la pàgina\">Actualitzeu aquesta pàgina</a>, i ja heu acabat!"
+msgid "Click <b>Save and restart.</b>"
+msgstr ""
+
+msgid "Tor Browser will restart, with its security level set to <b>Safest</b>. After the restart, come back to this site."
+msgstr ""
 
 msgid "<strong>It is recommended to use Tor Browser to access SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Learn how to install it</a>, or ignore this warning to continue."
 msgstr "<strong>És recomanable l'ús del navegador Tor per accedir al SecureDrop:</strong><a class=\"recommend-tor\" href=\"{tor_browser_url}\">Apreneu com instal·lar-lo</a> o ignoreu aquest avís per a continuar."
@@ -1136,6 +1139,15 @@ msgstr "<strong>Important:</strong> si voleu romandre en l'anonimat, <strong>no<
 
 msgid "Back to submission page"
 msgstr "Torna a la pàgina d'enviaments"
+
+#~ msgid "Click <b>Change</b> to open Security Level preferences"
+#~ msgstr "Feu clic a <b>Canvia</b> per obrir les opcions del nivell de seguretat"
+
+#~ msgid "Select <b>Safest</b> and close the preferences tab"
+#~ msgstr "Seleccioneu <b>Segur</b> i tanqueu la pestanya de preferències"
+
+#~ msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
+#~ msgstr "<a href=\"/\" aria-label=\"Seguiu les instruccions, actualitzeu la pàgina\">Actualitzeu aquesta pàgina</a>, i ja heu acabat!"
 
 #~ msgid "There are no submissions!"
 #~ msgstr "No hi ha cap enviament."

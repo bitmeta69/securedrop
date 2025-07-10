@@ -4,7 +4,19 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
 #
 msgid ""
-msgstr "Project-Id-Version: SecureDrop 0.6~rc2\nReport-Msgid-Bugs-To: securedrop@freedom.press\nPO-Revision-Date: 2025-03-11 17:34+0000\nLast-Translator: anonymous <noreply@weblate.org>\nLanguage-Team: Hindi <https://weblate.securedrop.org/projects/securedrop/securedrop/hi/>\nLanguage: hi\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n != 1;\nX-Generator: Weblate 5.10\nGenerated-By: Babel 2.5.1\n"
+msgstr ""
+"Project-Id-Version: SecureDrop 0.6~rc2\n"
+"Report-Msgid-Bugs-To: securedrop@freedom.press\n"
+"PO-Revision-Date: 2025-03-11 17:34+0000\n"
+"Last-Translator: anonymous <noreply@weblate.org>\n"
+"Language-Team: Hindi <https://weblate.securedrop.org/projects/securedrop/securedrop/hi/>\n"
+"Language: hi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.10\n"
+"Generated-By: Babel 2.5.1\n"
 
 msgid "Name too long"
 msgstr "नाम बहुत लंबा है |"
@@ -892,13 +904,16 @@ msgstr ""
 msgid "Click the <img src=\"{icon}\" alt=\"&quot;Security Level&quot; button\"> in the toolbar above"
 msgstr "ऊपर दिये गये टूलबार मे <img src=\"{icon}\" alt=\"&quot;सुरक्षा स्तर&quot;\"> &nbsp; पर क्लिक करें"
 
-msgid "Click <b>Change</b> to open Security Level preferences"
+msgid "Click <b>Settings</b> to open Security Level preferences"
 msgstr ""
 
-msgid "Select <b>Safest</b> and close the preferences tab"
+msgid "Click <b>Change…</b> and select <b>Safest</b>"
 msgstr ""
 
-msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
+msgid "Click <b>Save and restart.</b>"
+msgstr ""
+
+msgid "Tor Browser will restart, with its security level set to <b>Safest</b>. After the restart, come back to this site."
 msgstr ""
 
 msgid "<strong>It is recommended to use Tor Browser to access SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Learn how to install it</a>, or ignore this warning to continue."

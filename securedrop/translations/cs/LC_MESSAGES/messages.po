@@ -925,14 +925,17 @@ msgstr "Jak změnit úroveň vašeho zabezpečení"
 msgid "Click the <img src=\"{icon}\" alt=\"&quot;Security Level&quot; button\"> in the toolbar above"
 msgstr "Klepněte na <img src=\"{icon}\" alt=\"&quot;Security Level&quot; button\"> v panelu nástrojů výše"
 
-msgid "Click <b>Change</b> to open Security Level preferences"
-msgstr "Klikněte na <b>Změnit</b> pro otevření možností Úrovně zabezpečení"
+msgid "Click <b>Settings</b> to open Security Level preferences"
+msgstr ""
 
-msgid "Select <b>Safest</b> and close the preferences tab"
-msgstr "Vyberte <b>Nejbezpečnější</b> a zavřete kartu nastavení"
+msgid "Click <b>Change…</b> and select <b>Safest</b>"
+msgstr ""
 
-msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
-msgstr "<a href=\"/\" aria-label=\"Postupujte podle instrukcí, obnovte tuto stránku\">Obnovte stránku</a> a máte hotovo!"
+msgid "Click <b>Save and restart.</b>"
+msgstr ""
+
+msgid "Tor Browser will restart, with its security level set to <b>Safest</b>. After the restart, come back to this site."
+msgstr ""
 
 msgid "<strong>It is recommended to use Tor Browser to access SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Learn how to install it</a>, or ignore this warning to continue."
 msgstr "<strong>SecureDrop doporučujeme používat v prohlížeči Tor:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Zjistěte, jak Tor nainstalovat</a> nebo ignorujte tuto zprávu a pokračujte."
@@ -1147,6 +1150,15 @@ msgstr "<strong>Důležité:</strong> Chcete-li zůstat v anonymitě, <strong>ne
 
 msgid "Back to submission page"
 msgstr "Zpátky na stránku podání"
+
+#~ msgid "Click <b>Change</b> to open Security Level preferences"
+#~ msgstr "Klikněte na <b>Změnit</b> pro otevření možností Úrovně zabezpečení"
+
+#~ msgid "Select <b>Safest</b> and close the preferences tab"
+#~ msgstr "Vyberte <b>Nejbezpečnější</b> a zavřete kartu nastavení"
+
+#~ msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
+#~ msgstr "<a href=\"/\" aria-label=\"Postupujte podle instrukcí, obnovte tuto stránku\">Obnovte stránku</a> a máte hotovo!"
 
 #~ msgid "There are no submissions!"
 #~ msgstr "Nejsou tu žádná podání!"
