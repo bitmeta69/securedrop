@@ -4,7 +4,19 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
 #
 msgid ""
-msgstr "Project-Id-Version: SecureDrop 0.6~rc2\nReport-Msgid-Bugs-To: securedrop@freedom.press\nPO-Revision-Date: 2025-02-25 09:08+0000\nLast-Translator: none <bearbeeprunestardust@users.noreply.weblate.securedrop.org>\nLanguage-Team: Chinese (Simplified Han script) <https://weblate.securedrop.org/projects/securedrop/securedrop/zh_Hans/>\nLanguage: zh_Hans\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=1; plural=0;\nX-Generator: Weblate 5.10\nGenerated-By: Babel 2.5.1\n"
+msgstr ""
+"Project-Id-Version: SecureDrop 0.6~rc2\n"
+"Report-Msgid-Bugs-To: securedrop@freedom.press\n"
+"PO-Revision-Date: 2025-02-25 09:08+0000\n"
+"Last-Translator: none <bearbeeprunestardust@users.noreply.weblate.securedrop.org>\n"
+"Language-Team: Chinese (Simplified Han script) <https://weblate.securedrop.org/projects/securedrop/securedrop/zh_Hans/>\n"
+"Language: zh_Hans\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.10\n"
+"Generated-By: Babel 2.5.1\n"
 
 msgid "Name too long"
 msgstr "名字太长"
@@ -891,14 +903,17 @@ msgstr "如何更改安全等级"
 msgid "Click the <img src=\"{icon}\" alt=\"&quot;Security Level&quot; button\"> in the toolbar above"
 msgstr "点选上方工具栏的 <img src=\"{icon}\" alt=\"安全等级\">"
 
-msgid "Click <b>Change</b> to open Security Level preferences"
-msgstr "点击<b>更改</b>来打开安全等级设置"
+msgid "Click <b>Settings</b> to open Security Level preferences"
+msgstr ""
 
-msgid "Select <b>Safest</b> and close the preferences tab"
-msgstr "选择<b>最安全</b>级别并关闭设置菜单"
+msgid "Click <b>Change…</b> and select <b>Safest</b>"
+msgstr ""
 
-msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
-msgstr "<a href=\"/\" aria-label=\"根据指引操作后刷新页面\">刷新此页面</a>，大功告成！"
+msgid "Click <b>Save and restart.</b>"
+msgstr ""
+
+msgid "Tor Browser will restart, with its security level set to <b>Safest</b>. After the restart, come back to this site."
+msgstr ""
 
 msgid "<strong>It is recommended to use Tor Browser to access SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Learn how to install it</a>, or ignore this warning to continue."
 msgstr "<strong>我们推荐您搭配 Tor 浏览器访问 SecureDrop：</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">了解如何安装</a>，您也可以忽略此警告继续访问。"
@@ -1113,6 +1128,15 @@ msgstr "<strong>重要提示：</strong>若您想保持匿名身份，<strong>�
 
 msgid "Back to submission page"
 msgstr "返回提交页面"
+
+#~ msgid "Click <b>Change</b> to open Security Level preferences"
+#~ msgstr "点击<b>更改</b>来打开安全等级设置"
+
+#~ msgid "Select <b>Safest</b> and close the preferences tab"
+#~ msgstr "选择<b>最安全</b>级别并关闭设置菜单"
+
+#~ msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
+#~ msgstr "<a href=\"/\" aria-label=\"根据指引操作后刷新页面\">刷新此页面</a>，大功告成！"
 
 #~ msgid "There are no submissions!"
 #~ msgstr "暂无未读内容！"

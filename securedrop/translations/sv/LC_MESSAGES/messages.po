@@ -914,14 +914,17 @@ msgstr "Så här ändrar du din säkerhetsnivå"
 msgid "Click the <img src=\"{icon}\" alt=\"&quot;Security Level&quot; button\"> in the toolbar above"
 msgstr "Klicka på <img src=\"{icon}\" alt=\"&quot;Security Level&quot; button\"> i menyraden ovan"
 
-msgid "Click <b>Change</b> to open Security Level preferences"
-msgstr "Klicka <b>Byt</b> för att öppna säkerhetsnivå-inställningar"
+msgid "Click <b>Settings</b> to open Security Level preferences"
+msgstr ""
 
-msgid "Select <b>Safest</b> and close the preferences tab"
-msgstr "Välj <b>Säkrast</b> och stäng sedan inställningarna"
+msgid "Click <b>Change…</b> and select <b>Safest</b>"
+msgstr ""
 
-msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
-msgstr "<a href=\"/\" aria-label=\"Följ dessa instruktioner och uppdatera sedan sidan\">Uppdatera sidan</a> och sedan är du klar!"
+msgid "Click <b>Save and restart.</b>"
+msgstr ""
+
+msgid "Tor Browser will restart, with its security level set to <b>Safest</b>. After the restart, come back to this site."
+msgstr ""
 
 msgid "<strong>It is recommended to use Tor Browser to access SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Learn how to install it</a>, or ignore this warning to continue."
 msgstr "<strong>Det är rekommenderat att använda Tor Browser för att använda SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\"> Lär dig hur den installeras</a>, eller ignorera denna varning och fortsätt."
@@ -1136,6 +1139,15 @@ msgstr "<strong> Viktigt:</strong> Ifall du önskar att förbli anonym, <strong>
 
 msgid "Back to submission page"
 msgstr "Tillbaka till inlämningssidan"
+
+#~ msgid "Click <b>Change</b> to open Security Level preferences"
+#~ msgstr "Klicka <b>Byt</b> för att öppna säkerhetsnivå-inställningar"
+
+#~ msgid "Select <b>Safest</b> and close the preferences tab"
+#~ msgstr "Välj <b>Säkrast</b> och stäng sedan inställningarna"
+
+#~ msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
+#~ msgstr "<a href=\"/\" aria-label=\"Följ dessa instruktioner och uppdatera sedan sidan\">Uppdatera sidan</a> och sedan är du klar!"
 
 #~ msgid "<strong>Important:</strong>&nbsp;&nbsp;Your SecureDrop server needs manual attention to resolve issues blocking automatic upgrade to the next operating system. Please contact your adminstrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
 #~ msgstr "<strong>Kritiskt:</strong>&nbsp;&nbsp;Dina SecureDrop-servrar behöver manuell uppmärksamhet för att lösa problem som förhindrar automatisk uppdatering till nästa operativsystems version. Vänligen kontakta din administratör.<a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\"><a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Läs mer</a>"

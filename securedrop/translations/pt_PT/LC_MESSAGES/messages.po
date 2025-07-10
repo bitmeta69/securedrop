@@ -914,14 +914,17 @@ msgstr "Como alterar o seu nível de segurança"
 msgid "Click the <img src=\"{icon}\" alt=\"&quot;Security Level&quot; button\"> in the toolbar above"
 msgstr "Clique em <img src=\"{icon}\" alt=\"botão &quot;Ícone do Escudo&quot;\"> na barra de ferramentas, acima"
 
-msgid "Click <b>Change</b> to open Security Level preferences"
-msgstr "Clique em <b>Alterar (PT) / Change (EN)</b> para abrir as definições de Nível de Segurança"
+msgid "Click <b>Settings</b> to open Security Level preferences"
+msgstr ""
 
-msgid "Select <b>Safest</b> and close the preferences tab"
-msgstr "Selecione <b>Mais Seguro (PT) / Safest (EN)</b> e feche o separador das definições"
+msgid "Click <b>Change…</b> and select <b>Safest</b>"
+msgstr ""
 
-msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
-msgstr "<a href=\"/\" aria-label=\"Siga as instruções e em seguida recarregue esta página\">Recarregue esta página</a> e está feito!"
+msgid "Click <b>Save and restart.</b>"
+msgstr ""
+
+msgid "Tor Browser will restart, with its security level set to <b>Safest</b>. After the restart, come back to this site."
+msgstr ""
 
 msgid "<strong>It is recommended to use Tor Browser to access SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Learn how to install it</a>, or ignore this warning to continue."
 msgstr "<strong>Recomenda-se o uso do navegador Tor para aceder ao SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Veja como o instalar</a>, ou ignore este aviso e continue."
@@ -1136,6 +1139,15 @@ msgstr "<strong>Importante:</strong> para manter o seu anonimato, <strong>não</
 
 msgid "Back to submission page"
 msgstr "Voltar à página de envio"
+
+#~ msgid "Click <b>Change</b> to open Security Level preferences"
+#~ msgstr "Clique em <b>Alterar (PT) / Change (EN)</b> para abrir as definições de Nível de Segurança"
+
+#~ msgid "Select <b>Safest</b> and close the preferences tab"
+#~ msgstr "Selecione <b>Mais Seguro (PT) / Safest (EN)</b> e feche o separador das definições"
+
+#~ msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
+#~ msgstr "<a href=\"/\" aria-label=\"Siga as instruções e em seguida recarregue esta página\">Recarregue esta página</a> e está feito!"
 
 #~ msgid "There are no submissions!"
 #~ msgstr "Ainda nada foi submetido!"

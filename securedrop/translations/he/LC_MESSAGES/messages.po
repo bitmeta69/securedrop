@@ -4,7 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
 #
 msgid ""
-msgstr "Project-Id-Version: SecureDrop 0.4.3\nReport-Msgid-Bugs-To: securedrop@freedom.press\nPO-Revision-Date: 2025-02-12 22:34+0000\nLast-Translator: magpie <magpie@users.noreply.weblate.securedrop.org>\nLanguage-Team: Hebrew <https://weblate.securedrop.org/projects/securedrop/securedrop/he/>\nLanguage: he\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=(n != 1);\nX-Generator: Weblate 5.8.4\nGenerated-By: Babel 2.4.0\n"
+msgstr "Project-Id-Version: SecureDrop 0.4.3\nReport-Msgid-Bugs-To: securedrop@freedom.press\nPO-Revision-Date: 2025-07-03 07:37+0000\nLast-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\nLanguage-Team: Hebrew <https://weblate.securedrop.org/projects/securedrop/securedrop/he/>\nLanguage: he\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=(n != 1);\nX-Generator: Weblate 5.11.1\nGenerated-By: Babel 2.4.0\n"
 
 msgid "Name too long"
 msgstr "השם ארוך מדי"
@@ -200,7 +200,7 @@ msgid "The password you submitted is invalid. Password not changed."
 msgstr "הסיסמה שהזנת אינה חוקית. הסיסמה לא שונתה."
 
 msgid "There was an error, and the new password might not have been saved correctly. To prevent you from getting locked out of your account, you should reset your password again."
-msgstr "אירעה שגיאה, וייתכן שהסיסמה החדשה לא נשמרה כהלכה. כדי למנוע ממך להינעל מחוץ לחשבון שלך, עליך לאפס שוב את הסיסמה שלך."
+msgstr "אירעה שגיאה, כנראה שהסיסמה החדשה לא נשמרה כהלכה. כדי למנוע ממך להינעל מחוץ לחשבון שלך, יש לאפס שוב את הסיסמה שלך."
 
 msgid "Password updated. Don't forget to save it in your KeePassX database. New password:"
 msgstr "הסיסמא עודכנה. אל תשכח לשמור אותה בKeePassX. הסיסמא החדשה היא:"
@@ -263,7 +263,7 @@ msgid "Source Accounts"
 msgstr "חשבונות של מקורות"
 
 msgid "Change Secret"
-msgstr "החלף קוד/סיסמה"
+msgstr "החלפת קוד/סיסמה"
 
 msgid "HOTP Secret"
 msgstr "קוד HOTP"
@@ -347,7 +347,7 @@ msgid "Delete user {username}"
 msgstr "מחק את המשתמש {username}"
 
 msgid "never"
-msgstr "אף פעם"
+msgstr "לעולם"
 
 msgid "Delete Confirmation"
 msgstr "אימות מחיקה"
@@ -362,7 +362,7 @@ msgid "No users to display"
 msgstr "אין משתמשים לתצוגה"
 
 msgid "Update instance configuration"
-msgstr "עדכן תצורה."
+msgstr "עדכון תצורת מופע"
 
 msgid "INSTANCE CONFIG"
 msgstr "עדכן תצורה"
@@ -434,7 +434,7 @@ msgid "Return to All Sources"
 msgstr "תחזור לכל המקורות"
 
 msgid "Powered by <b>SecureDrop {version}</b>."
-msgstr "Powered by <b>SecureDrop {version}</b>."
+msgstr "מופעל על גבי <b>SecureDrop {version}</b>."
 
 msgid "You are here:"
 msgstr "אתה נמצא כאן:"
@@ -688,7 +688,7 @@ msgid "Download Unread"
 msgstr "הורדת הודעות שלא נקראו"
 
 msgid "Download Selected Submissions"
-msgstr "הורד קבצים נבחרים."
+msgstr "הורדת ההגשות הנבחרות"
 
 msgid "Download"
 msgstr "הורדה"
@@ -876,7 +876,7 @@ msgid "Get Your Codename"
 msgstr "קבל את שם הקוד שלך"
 
 msgid "A <em>codename</em> in SecureDrop functions as both your username and your password."
-msgstr "<em>שם הקוד</em> ב-SecureDrop מתפקד הן כשם המשתמש והן כסיסמה."
+msgstr "<em>שם הקוד</em> ב־SecureDrop מתפקד הן כשם המשתמש והן כסיסמה."
 
 msgid "You will need this codename to log into our SecureDrop later:"
 msgstr "תזדקק לשם הקוד הזה כדי להיכנס ל-SecureDrop שלנו מאוחר יותר:"
@@ -902,14 +902,17 @@ msgstr "כיצד לשנות את רמת האבטחה שלך"
 msgid "Click the <img src=\"{icon}\" alt=\"&quot;Security Level&quot; button\"> in the toolbar above"
 msgstr "לחץ על הלחצן <img src=\"{icon}\" alt=\"&quot;רמת אבטחה&quot;\"> בסרגל הכלים למעלה"
 
-msgid "Click <b>Change</b> to open Security Level preferences"
-msgstr "לחץ על <b>שנה</b> כדי לפתוח את העדפות רמת האבטחה"
+msgid "Click <b>Settings</b> to open Security Level preferences"
+msgstr "יש ללחוץ על <b>הגדרות</b> כדי לפתוח העדפות רמת אבטחה"
 
-msgid "Select <b>Safest</b> and close the preferences tab"
-msgstr "בחר <b>בטוח ביותר</b> וסגור את כרטיסיית ההעדפות"
+msgid "Click <b>Change…</b> and select <b>Safest</b>"
+msgstr "ללחוץ על <b>שינוי…</b> ולבחור ב<b>בטוחה ביותר</b>"
 
-msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
-msgstr "<a href=\"/\" aria-label=\"עקוב אחר ההוראות האלה, ולאחר מכן רענן את הדף הזה\">רענן דף זה</a>, וסיימת!"
+msgid "Click <b>Save and restart.</b>"
+msgstr "ללחוץ על <b>שמירה והפעלה מחדש.</b>"
+
+msgid "Tor Browser will restart, with its security level set to <b>Safest</b>. After the restart, come back to this site."
+msgstr "דפדפן Tor יופעל מחדש, כשרמת האבטחה שלו מוגדרת ל<b>בטוחה ביותר</b>. לאחר ההפעלה מחדש, יש לחזור לאתר הזה."
 
 msgid "<strong>It is recommended to use Tor Browser to access SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Learn how to install it</a>, or ignore this warning to continue."
 msgstr "<strong>מומלץ להשתמש בדפדפן Tor כדי לגשת אל SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">למד כיצד להתקין אותו</a>, או התעלם מהאזהרה זו כדי להמשיך."
@@ -1124,6 +1127,15 @@ msgstr "<strong>חשוב:</strong> אם ברצונך להישאר אנונימי
 
 msgid "Back to submission page"
 msgstr "חזרה לדף שליחת ההודעות"
+
+#~ msgid "Click <b>Change</b> to open Security Level preferences"
+#~ msgstr "לחץ על <b>שנה</b> כדי לפתוח את העדפות רמת האבטחה"
+
+#~ msgid "Select <b>Safest</b> and close the preferences tab"
+#~ msgstr "בחר <b>בטוח ביותר</b> וסגור את כרטיסיית ההעדפות"
+
+#~ msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
+#~ msgstr "<a href=\"/\" aria-label=\"עקוב אחר ההוראות האלה, ולאחר מכן רענן את הדף הזה\">רענן דף זה</a>, וסיימת!"
 
 #~ msgid "There are no submissions!"
 #~ msgstr "אין הודעות!"

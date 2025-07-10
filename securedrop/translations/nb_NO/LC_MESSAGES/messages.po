@@ -4,20 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
 #
 msgid ""
-msgstr ""
-"Project-Id-Version: SecureDrop 0.3.12\n"
-"Report-Msgid-Bugs-To: securedrop@freedom.press\n"
-"POT-Creation-Date: 2017-09-02 07:28+0000\n"
-"PO-Revision-Date: 2024-12-17 10:33+0000\n"
-"Last-Translator: Øyvind Bye Skille <oyvind@byeskille.net>\n"
-"Language-Team: Norwegian Bokmål <https://weblate.securedrop.org/projects/securedrop/securedrop/nb_NO/>\n"
-"Language: nb_NO\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8.4\n"
-"Generated-By: Babel 2.4.0\n"
+msgstr "Project-Id-Version: SecureDrop 0.3.12\nReport-Msgid-Bugs-To: securedrop@freedom.press\nPOT-Creation-Date: 2017-09-02 07:28+0000\nPO-Revision-Date: 2025-07-02 11:37+0000\nLast-Translator: Øyvind Bye Skille <oyvind@byeskille.net>\nLanguage-Team: Norwegian Bokmål <https://weblate.securedrop.org/projects/securedrop/securedrop/nb_NO/>\nLanguage: nb_NO\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n != 1;\nX-Generator: Weblate 5.11.1\nGenerated-By: Babel 2.4.0\n"
 
 msgid "Name too long"
 msgstr "Navnet er for langt"
@@ -39,7 +26,6 @@ msgstr "{time} siden"
 msgid "You have been logged out due to inactivity or a problem with your session."
 msgstr "Du har blitt logget ut på grunn av inaktivitet eller et problem med din innloggingsøkt."
 
-#, fuzzy
 msgid "SecureDrop"
 msgstr "SecureDrop"
 
@@ -916,14 +902,17 @@ msgstr "Hvordan endre sikkerhetsnivået"
 msgid "Click the <img src=\"{icon}\" alt=\"&quot;Security Level&quot; button\"> in the toolbar above"
 msgstr "Klikk på <img src=\"{icon}\" alt=\"&quot;Sikkerhetsnivå&quot; button\"> i verktøylinjen ovenfor"
 
-msgid "Click <b>Change</b> to open Security Level preferences"
-msgstr "Klikk <b>Change</b> for å åpne Sikkerhetsnivå-innstillingene"
+msgid "Click <b>Settings</b> to open Security Level preferences"
+msgstr "Klikk på<b>Innstillinger</b> for å åpne Sikkerhetsnivå-valgene"
 
-msgid "Select <b>Safest</b> and close the preferences tab"
-msgstr "Velg <b>Tryggest</b> og lukk fanen med innstillinger"
+msgid "Click <b>Change…</b> and select <b>Safest</b>"
+msgstr "Klikk på<b>Endre…</b> og velgt <b>Tryggest</b>"
 
-msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
-msgstr "<a href=\"/\" aria-label=\"Følg disse instruksjonene, deretter oppdater siden\">Last inn siden igjen</a>, og så er du ferdig!"
+msgid "Click <b>Save and restart.</b>"
+msgstr "Klikk <b>Lagre og omstart.</b>"
+
+msgid "Tor Browser will restart, with its security level set to <b>Safest</b>. After the restart, come back to this site."
+msgstr "Tor-nettleseren vil ta en omstart, med sikkerhetsnivået satt til <b>Tryggest</b>. Etter omstarten, returner til denne siden."
 
 msgid "<strong>It is recommended to use Tor Browser to access SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Learn how to install it</a>, or ignore this warning to continue."
 msgstr "<strong>Det anbefales å bruke Tor-nettleseren for å nå SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Lær hvordan du installerer den</a>, eller se bort fra denne advarselen for å fortsette uten."
@@ -1138,6 +1127,15 @@ msgstr "<strong>Viktig:</strong> Om du ønsker å være helt anonym, <strong>ikk
 
 msgid "Back to submission page"
 msgstr "Tilbake til innsendelsesside"
+
+#~ msgid "Click <b>Change</b> to open Security Level preferences"
+#~ msgstr "Klikk <b>Change</b> for å åpne Sikkerhetsnivå-innstillingene"
+
+#~ msgid "Select <b>Safest</b> and close the preferences tab"
+#~ msgstr "Velg <b>Tryggest</b> og lukk fanen med innstillinger"
+
+#~ msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
+#~ msgstr "<a href=\"/\" aria-label=\"Følg disse instruksjonene, deretter oppdater siden\">Last inn siden igjen</a>, og så er du ferdig!"
 
 #~ msgid "There are no submissions!"
 #~ msgstr "Det er ingen innsendelser!"

@@ -4,19 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
 #
 msgid ""
-msgstr ""
-"Project-Id-Version: SecureDrop 0.8.0~rc1\n"
-"Report-Msgid-Bugs-To: securedrop@freedom.press\n"
-"PO-Revision-Date: 2024-12-10 13:33+0000\n"
-"Last-Translator: Dimitris Maroulidis <dmaroulidis@dimitrismaroulidis.com>\n"
-"Language-Team: Greek <https://weblate.securedrop.org/projects/securedrop/securedrop/el/>\n"
-"Language: el\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8.4\n"
-"Generated-By: Babel 2.5.1\n"
+msgstr "Project-Id-Version: SecureDrop 0.8.0~rc1\nReport-Msgid-Bugs-To: securedrop@freedom.press\nPO-Revision-Date: 2025-07-02 21:37+0000\nLast-Translator: Dimitris Maroulidis <dmaroulidis@dimitrismaroulidis.com>\nLanguage-Team: Greek <https://weblate.securedrop.org/projects/securedrop/securedrop/el/>\nLanguage: el\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n != 1;\nX-Generator: Weblate 5.11.1\nGenerated-By: Babel 2.5.1\n"
 
 msgid "Name too long"
 msgstr "Το όνομα είναι πολύ μεγάλο"
@@ -425,7 +413,7 @@ msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your S
 msgstr "<strong>Προσοχή:</strong>&nbsp;&nbsp;Το λειτουργικό σύστημα των διακομιστών SecureDrop σας έφτασε στο τέλος της υποστήριξής του. Για να ενεργοποιηθεί ξανά η Διεπαφή Πηγής και να μείνετε ασφαλείς απαιτείται χειροκίνητη ενημέρωση. Επικοινωνήστε με τον διαχειριστή σας. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Μάθετε περισσότερα</a>"
 
 msgid "<strong>Important:</strong>&nbsp;&nbsp;Your SecureDrop server needs manual attention to resolve issues blocking automatic upgrade to the next operating-system version. Please contact your adminstrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
-msgstr ""
+msgstr "<strong>Σημαντικό:</strong>&nbsp;&nbsp;Ο διακομιστής SecureDrop σας χρειάζεται την προσοχή σας για την επίλυση προβλημάτων που εμποδίζουν την αυτόματη αναβάθμιση στην επόμενη έκδοση του λειτουργικού συστήματος. Παρακαλώ επικοινωνήστε με τον διαχειριστή σας. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Μάθετε περισσότερα</a>"
 
 msgid "Navigation"
 msgstr "Πλοήγηση"
@@ -730,7 +718,7 @@ msgid "Date"
 msgstr "Ημερομηνία"
 
 msgid "There are no submissions."
-msgstr ""
+msgstr "Δεν υπάρχουν υποβολές."
 
 msgid "Filter by codename"
 msgstr "Φιλτράρισμα ανά κωδικό όνομα"
@@ -914,14 +902,17 @@ msgstr "Πως να αλλάξετε το επίπεδο ασφαλείας σα
 msgid "Click the <img src=\"{icon}\" alt=\"&quot;Security Level&quot; button\"> in the toolbar above"
 msgstr "Πατήστε το <img src=\"{icon}\" alt=\"κουμπί &quot;Επίπεδο ασφαλείας&quot;\">στη γραμμή εργαλειών παραπάνω"
 
-msgid "Click <b>Change</b> to open Security Level preferences"
-msgstr "Πατήστε <b>Αλλαγή</b> για να ανοίξετε τις προτιμήσεις Επιπέδου Ασφαλείας"
+msgid "Click <b>Settings</b> to open Security Level preferences"
+msgstr "Κάντε κλικ στις <b>Ρυθμίσεις</b> για να ανοίξετε τις προτιμήσεις επιπέδου ασφαλείας"
 
-msgid "Select <b>Safest</b> and close the preferences tab"
-msgstr "Επιλέξτε <b>Το πιο ασφαλές</b> και κλείστε την καρτέλα προτιμήσεων"
+msgid "Click <b>Change…</b> and select <b>Safest</b>"
+msgstr "Κάντε κλικ στην <b>Αλλαγή</b> και επιλέξτε <b>Ασφαλέστατο</b>"
 
-msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
-msgstr "<a href=\"/\" aria-label=\"Ακολουθήστε αυτές τις οδηγίες, και μετά ανανεώστε τη σελίδα\">Ανανεώστε τη σελίδα</a> και τελειώσατε!"
+msgid "Click <b>Save and restart.</b>"
+msgstr "Κάντε κλικ στο <b>Αποθήκευση και επανεκκίνηση.</b>"
+
+msgid "Tor Browser will restart, with its security level set to <b>Safest</b>. After the restart, come back to this site."
+msgstr "Ο Περιηγητής Tor θα επανεκκινηθεί, με το επίπεδο ασφαλείας του στο <b>Ασφαλέστατο</b>. Μετά την επανεκκίνηση, επισκεφθείτε ξανά αυτόν τον ιστότοπο."
 
 msgid "<strong>It is recommended to use Tor Browser to access SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Learn how to install it</a>, or ignore this warning to continue."
 msgstr "<strong>Προτείνεται να χρησιμοποιείτε τον Tor Browser για να επισκέπτεστε το SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Μάθετε πως να τον εγκαταστήσετε</a>, ή αγνοήστε αυτή την προειδοποίηση για να συνεχίσετε."
@@ -1065,7 +1056,7 @@ msgid "Always use Tor Browser (<code>{}</code>) to access SecureDrop. Valid Secu
 msgstr "Χρησιμοποιείτε πάντα τον Περιηγητή Tor (<code>{}</code>) για να επισκεφθείτε το SecureDrop. Οι έγκυρες διευθύνσεις SecureDrop τελειώνουν σε <code>.onion</code>. Η σωστή διεύθυνση για αυτόν τον ιστότοπο είναι η:"
 
 msgid "If you are already using Tor Browser, copy the address above and click Tor Browser's <strong>New Identity</strong> button before you access SecureDrop."
-msgstr ""
+msgstr "Αν χρησιμοποιείτε ήδη τον Περιηγητή Tor, αντιγράψτε την παραπάνω διεύθυνση και κάντε κλικ στο κουμπί <strong>Νέα Ταυτότητα</strong> του Περιηγητή Tor πριν επισκεφθείτε το SecureDrop."
 
 msgid "If there is a reasonable risk of your Internet traffic being monitored, consider connecting from a different location or network."
 msgstr "Αν υπάρχει σημαντικός κίνδυνος να παρακολουθείται η σύνδεσή σας στο Διαδίκτυο, τότε σκεφθείτε τη δυνατότητα σύνδεσης από άλλη τοποθεσία ή δίκτυο."
@@ -1136,6 +1127,15 @@ msgstr "<strong>Σημαντικό:</strong> Αν επιθυμείτε να δι
 
 msgid "Back to submission page"
 msgstr "Πίσω στη σελίδα υποβολών"
+
+#~ msgid "Click <b>Change</b> to open Security Level preferences"
+#~ msgstr "Πατήστε <b>Αλλαγή</b> για να ανοίξετε τις προτιμήσεις Επιπέδου Ασφαλείας"
+
+#~ msgid "Select <b>Safest</b> and close the preferences tab"
+#~ msgstr "Επιλέξτε <b>Το πιο ασφαλές</b> και κλείστε την καρτέλα προτιμήσεων"
+
+#~ msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
+#~ msgstr "<a href=\"/\" aria-label=\"Ακολουθήστε αυτές τις οδηγίες, και μετά ανανεώστε τη σελίδα\">Ανανεώστε τη σελίδα</a> και τελειώσατε!"
 
 #~ msgid "<strong>Important:</strong>&nbsp;&nbsp;Your SecureDrop server needs manual attention to resolve issues blocking automatic upgrade to the next operating system. Please contact your adminstrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
 #~ msgstr "<strong>Σημαντικό:</strong>&nbsp;&nbsp;Ο διακομιστής SecureDrop σας χρειάζεται ανθρώπινη παρέμβαση για την επίλυση προβλημάτων που αποτρέπουν την αναβάθμιση στην επόμενη έκδοση του λειτουργικού συστήματος. Επικοινωνήστε με τον διαχειριστή.<a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Μάθετε περισσότερα</a>"

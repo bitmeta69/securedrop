@@ -915,14 +915,17 @@ msgstr "Hoe wijzigt u uw beveiligingsniveau"
 msgid "Click the <img src=\"{icon}\" alt=\"&quot;Security Level&quot; button\"> in the toolbar above"
 msgstr "Klik op het <img src=\"{icon}\" alt=\"&quot;beveiligingsniveau&quot;\"> in de werkbalk hierboven"
 
-msgid "Click <b>Change</b> to open Security Level preferences"
-msgstr "Klik op <b>Wijzig</b> om de voorkeuren voor het beveiligingsniveau te openen"
+msgid "Click <b>Settings</b> to open Security Level preferences"
+msgstr ""
 
-msgid "Select <b>Safest</b> and close the preferences tab"
-msgstr "Selecteer <b>Veiligste </b> en sluit het tabblad voorkeuren"
+msgid "Click <b>Change…</b> and select <b>Safest</b>"
+msgstr ""
 
-msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
-msgstr "<a href=\"/\" aria-label=\"Volg deze instructies en ververs dan deze pagina\">Ververs deze pagina</a> en u bent klaar!"
+msgid "Click <b>Save and restart.</b>"
+msgstr ""
+
+msgid "Tor Browser will restart, with its security level set to <b>Safest</b>. After the restart, come back to this site."
+msgstr ""
 
 msgid "<strong>It is recommended to use Tor Browser to access SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Learn how to install it</a>, or ignore this warning to continue."
 msgstr "<strong>Het wordt aangeraden om de Tor Browser te gebruiken om SecureDrop te bezoeken:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Lees hier informatie om deze te installeren</a> of negeer deze waarschuwing om door te gaan."
@@ -1137,6 +1140,15 @@ msgstr "<strong>Belangrijk:</strong> Als u anoniem wilt blijven, gebruik dan <st
 
 msgid "Back to submission page"
 msgstr "Terug naar inzendingenpagina"
+
+#~ msgid "Click <b>Change</b> to open Security Level preferences"
+#~ msgstr "Klik op <b>Wijzig</b> om de voorkeuren voor het beveiligingsniveau te openen"
+
+#~ msgid "Select <b>Safest</b> and close the preferences tab"
+#~ msgstr "Selecteer <b>Veiligste </b> en sluit het tabblad voorkeuren"
+
+#~ msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
+#~ msgstr "<a href=\"/\" aria-label=\"Volg deze instructies en ververs dan deze pagina\">Ververs deze pagina</a> en u bent klaar!"
 
 #~ msgid "There are no submissions!"
 #~ msgstr "Er zijn geen inzendingen!"

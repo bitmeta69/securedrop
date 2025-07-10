@@ -925,14 +925,17 @@ msgstr "Kako promijeniti razinu sigurnosti"
 msgid "Click the <img src=\"{icon}\" alt=\"&quot;Security Level&quot; button\"> in the toolbar above"
 msgstr "Pritisnite <img src=\"{icon}\" alt=\"gumb &quot;Razina sigurnosti&quot;\"> u gornjoj alatnoj traci"
 
-msgid "Click <b>Change</b> to open Security Level preferences"
-msgstr "Pritisnite <b>Promijeni</b> za otvaranje postavki razine sigurnosti"
+msgid "Click <b>Settings</b> to open Security Level preferences"
+msgstr ""
 
-msgid "Select <b>Safest</b> and close the preferences tab"
-msgstr "Odaberite <b>Najsigurnije</b> i zatvorite karticu postavki"
+msgid "Click <b>Change…</b> and select <b>Safest</b>"
+msgstr ""
 
-msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
-msgstr "<a href=\"/\" aria-label=\"Slijedite ove upute, a zatim osvježite ovu stranicu\">Osvježite ovu stranicu</a> i gotovi ste!"
+msgid "Click <b>Save and restart.</b>"
+msgstr ""
+
+msgid "Tor Browser will restart, with its security level set to <b>Safest</b>. After the restart, come back to this site."
+msgstr ""
 
 msgid "<strong>It is recommended to use Tor Browser to access SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Learn how to install it</a>, or ignore this warning to continue."
 msgstr "<strong>Preporučuje se korištenje Tor preglednika za pristup SecureDrop-u:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Saznajte kako ga instalirati</a> ili zanemarite ovo upozorenje i nastavite."
@@ -1147,6 +1150,15 @@ msgstr "<strong>Važno:</strong> Ako želite ostati anonimni, <strong>nemojte</s
 
 msgid "Back to submission page"
 msgstr "Natrag na stranicu predaje"
+
+#~ msgid "Click <b>Change</b> to open Security Level preferences"
+#~ msgstr "Pritisnite <b>Promijeni</b> za otvaranje postavki razine sigurnosti"
+
+#~ msgid "Select <b>Safest</b> and close the preferences tab"
+#~ msgstr "Odaberite <b>Najsigurnije</b> i zatvorite karticu postavki"
+
+#~ msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
+#~ msgstr "<a href=\"/\" aria-label=\"Slijedite ove upute, a zatim osvježite ovu stranicu\">Osvježite ovu stranicu</a> i gotovi ste!"
 
 #~ msgid "There are no submissions!"
 #~ msgstr "Nema predaja!"

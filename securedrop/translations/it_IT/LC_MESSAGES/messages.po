@@ -7,7 +7,20 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014
 # gio <gdamiola@gmail.com>, 2014
 msgid ""
-msgstr "Project-Id-Version: SecureDrop\nReport-Msgid-Bugs-To: securedrop@freedom.press\nPOT-Creation-Date: 2017-09-02 07:28+0000\nPO-Revision-Date: 2025-02-11 11:34+0000\nLast-Translator: Claudio Arseni <claudio.arseni@ubuntu.com>\nLanguage-Team: Italian <https://weblate.securedrop.org/projects/securedrop/securedrop/it/>\nLanguage: it_IT\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n != 1;\nX-Generator: Weblate 5.8.4\nGenerated-By: Babel 2.4.0\n"
+msgstr ""
+"Project-Id-Version: SecureDrop\n"
+"Report-Msgid-Bugs-To: securedrop@freedom.press\n"
+"POT-Creation-Date: 2017-09-02 07:28+0000\n"
+"PO-Revision-Date: 2025-02-11 11:34+0000\n"
+"Last-Translator: Claudio Arseni <claudio.arseni@ubuntu.com>\n"
+"Language-Team: Italian <https://weblate.securedrop.org/projects/securedrop/securedrop/it/>\n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.8.4\n"
+"Generated-By: Babel 2.4.0\n"
 
 msgid "Name too long"
 msgstr "Nome troppo lungo"
@@ -905,14 +918,17 @@ msgstr "Come modificare il livello di sicurezza"
 msgid "Click the <img src=\"{icon}\" alt=\"&quot;Security Level&quot; button\"> in the toolbar above"
 msgstr "Fare clic su <img src=\"{icon}\" alt=\"Livello sicurezza\"> nella barra degli strumenti qui sopra"
 
-msgid "Click <b>Change</b> to open Security Level preferences"
-msgstr "Fare clic su <b>Cambia</b> per aprire le impostazioni del Livello di sicurezza"
+msgid "Click <b>Settings</b> to open Security Level preferences"
+msgstr ""
 
-msgid "Select <b>Safest</b> and close the preferences tab"
-msgstr "Seleziona <b>Molto sicuro</b> e chiudi la scheda delle impostazioni"
+msgid "Click <b>Change…</b> and select <b>Safest</b>"
+msgstr ""
 
-msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
-msgstr "<a href=\"/\" aria-label=\"Segui queste istruzioni, quindi aggiorna questa pagina\">Aggiorna questa pagina</a>, e il gioco è fatto!"
+msgid "Click <b>Save and restart.</b>"
+msgstr ""
+
+msgid "Tor Browser will restart, with its security level set to <b>Safest</b>. After the restart, come back to this site."
+msgstr ""
 
 msgid "<strong>It is recommended to use Tor Browser to access SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Learn how to install it</a>, or ignore this warning to continue."
 msgstr "<strong>Ti consigliamo di usare il Browser Tor per accedere a SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Scopri come installarlo</a>, o ignora questo avviso per continuare."
@@ -1127,6 +1143,15 @@ msgstr "<strong>Importante:</strong> per rimanere anonimi <strong>non usare</str
 
 msgid "Back to submission page"
 msgstr "Torna alla pagina di invio documenti e messaggi"
+
+#~ msgid "Click <b>Change</b> to open Security Level preferences"
+#~ msgstr "Fare clic su <b>Cambia</b> per aprire le impostazioni del Livello di sicurezza"
+
+#~ msgid "Select <b>Safest</b> and close the preferences tab"
+#~ msgstr "Seleziona <b>Molto sicuro</b> e chiudi la scheda delle impostazioni"
+
+#~ msgid "<a href=\"/\" aria-label=\"Follow these instructions, then refresh this page\">Refresh this page</a>, and you're done!"
+#~ msgstr "<a href=\"/\" aria-label=\"Segui queste istruzioni, quindi aggiorna questa pagina\">Aggiorna questa pagina</a>, e il gioco è fatto!"
 
 #~ msgid "There are no submissions!"
 #~ msgstr "Non ci sono invii!"
