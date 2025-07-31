@@ -1,6 +1,6 @@
 app_hostname: app
 app_ip: 10.20.2.2
-config_path: /root/.securedrop-admin
+config_path: /root/.config/securedrop-admin
 dns_server:
 - 8.8.8.8
 monitor_hostname: mon

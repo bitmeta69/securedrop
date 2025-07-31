@@ -32,7 +32,7 @@ import yaml
 from flaky import flaky
 from prompt_toolkit.validation import ValidationError
 
-CONFIG_DIR = "/root/.securedrop-admin"
+CONFIG_DIR = "/root/.config/securedrop-admin"
 SITE_CONFIG_PATH = join(CONFIG_DIR, "site-specific")
 
 

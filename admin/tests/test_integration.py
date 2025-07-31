@@ -5,7 +5,7 @@ import shutil
 import pexpect
 
 CURRENT_DIR = os.path.dirname(__file__)
-CONFIG_DIR = "/root/.securedrop-admin"
+CONFIG_DIR = "/root/.config/securedrop-admin"
 ANSIBLE_BASE = "/usr/share/securedrop-admin/ansible-base/"
 # Regex to strip ANSI escape chars
 # https://stackoverflow.com/questions/14693701/how-can-i-remove-the-ansi-escape-sequences-from-a-string-in-python
@@ -14,7 +14,7 @@ SECUREDROP_ADMIN_CMD = "/usr/bin/securedrop-admin"
 
 OUTPUT1 = """app_hostname: app
 app_ip: 10.20.2.2
-config_path: /root/.securedrop-admin
+config_path: /root/.config/securedrop-admin
 daily_reboot_time: 5
 dns_server:
 - 8.8.8.8
@@ -48,7 +48,7 @@ ssh_users: sdadmin
 
 JOURNALIST_ALERT_OUTPUT = """app_hostname: app
 app_ip: 10.20.2.2
-config_path: /root/.securedrop-admin
+config_path: /root/.config/securedrop-admin
 daily_reboot_time: 5
 dns_server:
 - 8.8.8.8
@@ -82,7 +82,7 @@ ssh_users: sdadmin
 
 HTTPS_OUTPUT_NO_POW = """app_hostname: app
 app_ip: 10.20.2.2
-config_path: /root/.securedrop-admin
+config_path: /root/.config/securedrop-admin
 daily_reboot_time: 5
 dns_server:
 - 8.8.8.8
