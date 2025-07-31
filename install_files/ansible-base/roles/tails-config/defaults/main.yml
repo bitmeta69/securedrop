@@ -9,7 +9,6 @@ tails_config_ansible_base: "{{ tails_config_amnesia_persistent }}/securedrop/ins
 # Custom persistence directory whence site-specific configs will be copied
 # on every login under Tails.
 tails_config_securedrop_dotfiles: "{{ tails_config_amnesia_persistent }}/.securedrop"
-tails_config_securedrop_admin_dotfiles: "{{ tails_config_amnesia_persistent }}/.securedrop-admin"
 
 # Locations for Tails persistence settings, used to bootstrap SecureDrop config
 tails_config_live_persistence: /live/persistence/TailsData_unlocked

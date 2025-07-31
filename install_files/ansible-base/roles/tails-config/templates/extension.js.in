@@ -33,7 +33,7 @@ class Indicator extends PanelMenu.Button {
         // (and therefore the admin options should remain hidden)
         let is_admin = false;
         try {
-            let [ok, out, err, exit] = GLib.spawn_command_line_sync('/bin/bash -c "test -f ~/Persistent/.securedrop-admin/tor_v3_keys.json"');
+            let [ok, out, err, exit] = GLib.spawn_command_line_sync('/bin/bash -c "test -f ~/.config/securedrop-admin/tor_v3_keys.json"');
             if (exit == 0) {
                 is_admin = true;
             }

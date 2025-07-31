@@ -18,7 +18,7 @@ path_torrc_backup = "/etc/tor/torrc.bak"
 path_torrc = "/etc/tor/torrc"
 path_desktop = "/home/amnesia/Desktop/"
 path_persistent_desktop = "/lib/live/mount/persistence/TailsData_unlocked/dotfiles/Desktop/"
-path_admin_config = "/home/amnesia/Persistent/.securedrop-admin"
+path_admin_config = "/home/amnesia/.config/securedrop-admin"
 paths_v3_authfiles = {
     "app-journalist": os.path.join(path_admin_config, "app-journalist.auth_private"),
     "app-ssh": os.path.join(path_admin_config, "app-ssh.auth_private"),

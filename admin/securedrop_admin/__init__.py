@@ -80,10 +80,7 @@ I18N_DEFAULT_LOCALES = {"en_US"}
 READONLY_CONFIG_PATH = "/usr/share/securedrop-admin"
 ANSIBLE_PATH = os.path.join(READONLY_CONFIG_PATH, "ansible-base")
 TRANSLATIONS_PATH = os.path.join(READONLY_CONFIG_PATH, "translations")
-if OS_TYPE == OSType.TAILS:
-    CONFIG_PATH = os.path.expanduser("~/Persistent/.securedrop-admin")
-else:
-    CONFIG_PATH = os.path.expanduser("~/.securedrop-admin")
+CONFIG_PATH = os.path.expanduser("~/.config/securedrop-admin")
 SITE_CONFIG_PATH = os.path.join(CONFIG_PATH, "site-specific")
 
 
