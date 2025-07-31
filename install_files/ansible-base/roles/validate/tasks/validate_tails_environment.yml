@@ -64,8 +64,7 @@
       - v3_ssh_auth_file_count == "0" or v3_ssh_auth_file_count == "2"
     msg: >-
       One of the SSH `.auth_private` files is missing. Please add the missing
-      file under `~/Persistent/securedrop/install_files/ansible-base/ and
-      retry the install command.
+      file under `~/.config/securedrop-admin/ and retry the install command.
 
 - name: Confirm that the Journalist auth file is present
   assert:
@@ -73,8 +72,7 @@
       - v3_journalist_auth_file.stat.exists
     msg: >-
       The `app-journalist.auth_private` file is missing. Please add the missing
-      file under `~/Persistent/securedrop/install_files/ansible-base/ and
-      retry the install command.
+      file under `~/.config/securedrop-admin and retry the install command.
   when:
     - v3_source_file.stat.exists
 
@@ -86,7 +84,7 @@
       Authentication files for v3 SSH onion services were found, but the
       corresponding `tor_v3_keys.json` file is missing. To enable updates
       to an existing SecureDrop instance, please add this file under
-      `~/Persistent/securedrop/install_files/ansible-base`.
+      `~/.config/securedrop-admin`.
   when:
     - enable_ssh_over_tor
     - v3_ssh_auth_file_count == "2"

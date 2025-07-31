@@ -26,11 +26,7 @@ def host_is_tails():
     with open("/etc/os-release") as f:
         return "NAME=\"Tails\"" in f.read()
 
-if host_is_tails():
-    SECUREDROP_CONFIG_DIR = "/home/amnesia/Persistent/.securedrop-admin"
-else:
-    SECUREDROP_CONFIG_DIR = os.path.expanduser("~/.securedrop-admin")
-
+SECUREDROP_CONFIG_DIR = os.path.expanduser("~/.config/securedrop-admin")
 SECUREDROP_SITE_VARS = os.path.join(SECUREDROP_CONFIG_DIR, "site-specific")
 SECUREDROP_SUPPORTED_HOSTNAMES = ['app', 'mon']
 
