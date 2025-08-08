@@ -56,7 +56,6 @@ def create_app(config: SecureDropConfig) -> Flask:
 
     # Check if the server OS is past EOL; if so, we'll display banners
     app.config["OS_PAST_EOL"] = server_os.is_os_past_eol()
-    app.config["OS_NEEDS_MIGRATION_FIXES"] = server_os.needs_migration_fixes()
 
     db.init_app(app)
 
@@ -114,7 +113,6 @@ def create_app(config: SecureDropConfig) -> Flask:
 
         i18n.set_locale(config)
         g.show_os_past_eol_warning = app.config["OS_PAST_EOL"]
-        g.show_os_needs_migration_fixes = app.config["OS_NEEDS_MIGRATION_FIXES"]
 
         if InstanceConfig.get_default().organization_name:
             g.organization_name = (  # pylint: disable=assigning-non-slot

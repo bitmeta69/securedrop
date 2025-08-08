@@ -4042,22 +4042,8 @@ def test_user_sees_os_warning_if_server_past_eol(config, journalist_app, test_jo
     assert 'id="os-near-eol"' not in text, text
 
 
-def test_user_sees_os_warning_if_migration_fixes(config, journalist_app, test_journo):
-    journalist_app.config.update(OS_PAST_EOL=False, OS_NEEDS_MIGRATION_FIXES=True)
-    with journalist_app.test_client() as app:
-        login_journalist(
-            app, test_journo["username"], test_journo["password"], test_journo["otp_secret"]
-        )
-
-        resp = app.get(url_for("main.index"))
-
-    text = resp.data.decode("utf-8")
-    assert 'id="os-past-eol"' not in text, text
-    assert 'id="os-near-eol"' in text, text
-
-
 def test_user_does_not_see_os_warning_if_server_is_current(config, journalist_app, test_journo):
-    journalist_app.config.update(OS_PAST_EOL=False, OS_NEEDS_MIGRATION_FIXES=False)
+    journalist_app.config.update(OS_PAST_EOL=False)
     with journalist_app.test_client() as app:
         login_journalist(
             app, test_journo["username"], test_journo["password"], test_journo["otp_secret"]

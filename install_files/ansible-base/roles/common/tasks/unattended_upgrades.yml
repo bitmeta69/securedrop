@@ -1,6 +1,6 @@
 ---
 # Configuration for unattended upgrades is almost exclusively managed by the
-# securedrop-config package under Focal.
+# securedrop-config package.
 
 - name: Create override dirs for apt-daily timers
   file:

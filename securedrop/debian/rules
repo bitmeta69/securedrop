@@ -20,12 +20,6 @@ override_dh_installdeb:
 
 override_dh_auto_install:
 	# Build securedrop-config Rust code
-	cd /srv/rust/noble-migration && cargo build --release --locked && \
-		cd /srv/securedrop && \
-		mkdir -p ./debian/securedrop-config/usr/bin && \
-		mv /srv/rust/target/release/check ./debian/securedrop-config/usr/bin/securedrop-noble-migration-check && \
-		mv /srv/rust/target/release/upgrade ./debian/securedrop-config/usr/bin/securedrop-noble-migration-upgrade
-	# Build redwood wheel
 	python3 /srv/rust/redwood/build-wheel.py --release --redwood /srv/rust/redwood --target /srv/rust/target
 	# Set up virtualenv and install dependencies
 	/usr/bin/python3 -m venv ./debian/securedrop-app-code/opt/venvs/securedrop-app-code

@@ -14,7 +14,6 @@ source /etc/os-release
 # Make a copy of the source tree since we do destructive operations on it
 cp -R /src/securedrop /srv/securedrop
 mkdir /srv/rust
-cp -R /src/noble-migration /srv/rust/noble-migration
 cp -R /src/redwood /srv/rust/redwood
 cp /src/Cargo.{toml,lock} /srv/rust/
 cd /srv/securedrop/
