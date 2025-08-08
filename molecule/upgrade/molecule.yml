@@ -10,7 +10,7 @@ lint: |
 
 platforms:
   - name: apt-local
-    box: bento/ubuntu-20.04
+    box: bento/ubuntu-24.04
     raw_config_args:
       - "cpu_mode = 'host-passthrough'"
       - "video_type = 'virtio'"

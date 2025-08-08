@@ -9,7 +9,7 @@
       # debs built.
     - name: Find local deb files
       find:
-        paths: "{{ molecule_dir }}/../../build/focal/"
+        paths: "{{ molecule_dir }}/../../build/noble/"
         patterns: "*.deb"
       register: _find_debs_result
 
@@ -17,7 +17,7 @@
       assert:
         that:
           - "_find_debs_result.files|length >= 7"
-        msg: "No local debs found, run 'make build-debs-focal'"
+        msg: "No local debs found, run 'make build-debs'"
 
 - name: Configure apt-server
   hosts: apt-local
@@ -28,7 +28,7 @@
 
   vars:
     QA_APTTEST: False
-    rep_dist: "focal"
+    rep_dist: "noble"
     molecule_dir: "{{ lookup('env', 'MOLECULE_SCENARIO_DIRECTORY') }}"
     dpkg_dir: /var/repos/debs
     rep_origin: SecureDrop

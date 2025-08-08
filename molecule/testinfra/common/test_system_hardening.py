@@ -1,5 +1,4 @@
 import re
-import time
 
 import pytest
 import testutils
@@ -48,16 +47,7 @@ def test_dns_setting(host):
     assert f.group == "root"
     assert f.mode == 0o644
     assert f.contains(r"^nameserver 8\.8\.8\.8$")
-
-    if host.system_info.codename == "focal":
-        # On focal, systemd-resolved's unit is disabled
-        with host.sudo():
-            s = host.service("systemd-resolved")
-            assert not s.is_enabled
-            assert not s.is_running
-    else:
-        # On noble, systemd-resolved is not installed
-        assert not host.package("systemd-resolved").is_installed
+    assert not host.package("systemd-resolved").is_installed
 
 
 @pytest.mark.parametrize(
@@ -179,32 +169,10 @@ def test_unused_packages_are_removed(host, package):
 
 def test_iptables_packages(host):
     """
-    Focal hosts should use iptables-persistent for enforcing
+    Hosts should use iptables-persistent for enforcing
     firewall config across reboots.
     """
     assert host.package("iptables-persistent").is_installed
-    assert not host.package("ufw").is_installed
-
-
-def test_package_removal(host):
-    """Test the securedrop-remove-packages service"""
-    if host.system_info.codename != "focal":
-        # ufw is uninstallable in noble because of the conflict
-        # with iptables-persistent
-        pytest.skip("only applicable/testable on focal")
-
-    with host.sudo():
-        if not host.package("ufw").is_installed:
-            cmd = host.run("apt-get install ufw --yes")
-            assert cmd.rc == 0
-        assert host.file("/usr/sbin/ufw").exists
-        # Trigger the service manually
-        cmd = host.run("systemctl start securedrop-remove-packages")
-        assert cmd.rc == 0
-        # Wait for the unit to run
-        while host.service("securedrop-remove-packages").is_running:
-            time.sleep(1)
-
     assert not host.package("ufw").is_installed
 
 

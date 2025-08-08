@@ -94,7 +94,7 @@ log_events_without_ossec_alerts:
       jp&B1qSJM431TmEg,YJ][ge;6-dJI69?-TB?!BI4?Uza63V3vMY3ake6a
       hj-%A-m_5lgab!OVR,!pR+;L]eLgilU
 
-  # Override and suppress fwupd-specific errors under Ubuntu Focal
+  # Override and suppress fwupd-specific errors
   - name: test_ossec_fwupd_fuplugin_uefi_does_not_produce_alert
     alert: >
       Mar  1 13:22:53 app fwupd[133921]: 13:22:53:0883 FuPluginUefi

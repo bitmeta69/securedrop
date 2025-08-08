@@ -81,9 +81,8 @@ class TestVars(dict):
     def __getattr__(self, name: str) -> Any:
         """
         If the requested attribute names a dict in managed_attrs and that
-        contains a key with the name of the target distribution,
-        e.g. "focal", return that. Otherwise return the entire item
-        under the requested name.
+        contains a key with the name of the target distribution, return that.
+        Otherwise return the entire item under the requested name.
         """
         try:
             attr = self.managed_attrs[name]

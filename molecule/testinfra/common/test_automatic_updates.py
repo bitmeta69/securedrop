@@ -1,4 +1,3 @@
-import re
 import time
 
 import pytest
@@ -16,7 +15,7 @@ def test_automatic_updates_dependencies(host):
     """
     Ensure critical packages are installed. If any of these are missing,
     the system will fail to receive automatic updates.
-    In Focal, the apt config uses unattended-upgrades.
+    The apt config uses unattended-upgrades.
     """
     assert host.package("unattended-upgrades").is_installed
     assert not host.package("cron-apt").is_installed
@@ -25,7 +24,7 @@ def test_automatic_updates_dependencies(host):
 
 def test_cron_apt_config(host):
     """
-    Ensure custom cron-apt config is absent, as of Focal
+    Ensure custom cron-apt config is absent.
     """
     assert not host.file("/etc/cron-apt/config").exists
     assert not host.file("/etc/cron-apt/action.d/0-update").exists
@@ -45,30 +44,12 @@ def test_cron_apt_config(host):
         "deb http://archive.ubuntu.com/ubuntu/ {securedrop_target_platform} main",
     ],
 )
-def test_sources_list(host, repo):
-    """
-    Ensure the correct apt repositories are specified
-    in the sources.list for apt.
-    """
-    if host.system_info.codename != "focal":
-        pytest.skip("sources.list is only provisioned on focal")
-    repo_config = repo.format(securedrop_target_platform=host.system_info.codename)
-    f = host.file("/etc/apt/sources.list")
-    assert f.is_file
-    assert f.user == "root"
-    assert f.mode == 0o644
-    repo_regex = f"^{re.escape(repo_config)}$"
-    assert f.contains(repo_regex)
-
-
 def test_ubuntu_sources(host):
     """
     Ensure the correct apt repositories are specified
     in the ubuntu.sources for apt.
     """
     distro = host.system_info.codename
-    if distro == "focal":
-        pytest.skip("sources.list is only provisioned on noble")
     f = host.file("/etc/apt/sources.list.d/ubuntu.sources")
     assert f.is_file
     assert f.user == "root"
@@ -113,7 +94,7 @@ apt_config_options = {
 @pytest.mark.parametrize(("k", "v"), apt_config_options.items())
 def test_unattended_upgrades_config(host, k, v):
     """
-    Ensures the apt and unattended-upgrades config is correct only under Ubuntu Focal
+    Ensures the apt and unattended-upgrades config is correct
     """
     # Dump apt config to inspect end state, apt will build config
     # from all conf files on disk, e.g. 80securedrop.
@@ -129,9 +110,9 @@ def test_unattended_upgrades_config(host, k, v):
 
 def test_unattended_securedrop_specific(host):
     """
-    Ensures the 80securedrop config is correct. Under Ubuntu Focal,
-    it will include unattended-upgrade settings. Under all hosts,
-    it will disable installing 'recommended' packages.
+    Ensures the 80securedrop config is correct.
+    It will include unattended-upgrade settings.
+    It will disable installing 'recommended' packages.
     """
     f = host.file("/etc/apt/apt.conf.d/80securedrop")
     assert f.is_file
@@ -157,15 +138,12 @@ def test_unattended_upgrades_functional(host):
 
     all_good = "No packages found that can be upgraded unattended and no pending auto-removals"
     assert expected_origins in c.stdout
-    if distro == "focal":
+    if all_good in c.stdout:
         assert all_good in c.stdout
-    else:  # noqa: PLR5501
-        if all_good in c.stdout:
-            assert all_good in c.stdout
-        else:
-            # noble+ uses phased updates, so there may be packages that can be
-            # upgraded that won't be upgraded; look for a different message in that case
-            assert "left to upgrade set()\nAll upgrades installed" in c.stdout
+    else:
+        # noble+ uses phased updates, so there may be packages that can be
+        # upgraded that won't be upgraded; look for a different message in that case
+        assert "left to upgrade set()\nAll upgrades installed" in c.stdout
 
 
 def test_fixed_phasing(host):
@@ -186,8 +164,7 @@ def test_fixed_phasing(host):
 )
 def test_apt_daily_services_and_timers_enabled(host, service):
     """
-    Ensure the services and timers used for unattended upgrades are enabled
-    in Ubuntu 20.04 Focal.
+    Ensure the services and timers used for unattended upgrades are enabled.
     """
     with host.sudo():
         # The services are started only when the upgrades are being performed.

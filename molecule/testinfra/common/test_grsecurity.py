@@ -96,27 +96,6 @@ def test_grsecurity_sysctl_options(host, sysctl_opt):
 # Versions of paxtest newer than 0.9.12 or so will report
 # "Vulnerable" on memcpy tests, see details in
 # https://github.com/freedomofpress/securedrop/issues/1039
-PAXTEST_FOCAL = """\
-Executable anonymous mapping             : Killed
-Executable bss                           : Killed
-Executable data                          : Killed
-Executable heap                          : Killed
-Executable stack                         : Killed
-Executable shared library bss            : Killed
-Executable shared library data           : Killed
-Executable anonymous mapping (mprotect)  : Killed
-Executable bss (mprotect)                : Killed
-Executable data (mprotect)               : Killed
-Executable heap (mprotect)               : Killed
-Executable stack (mprotect)              : Killed
-Executable shared library bss (mprotect) : Killed
-Executable shared library data (mprotect): Killed
-Return to function (strcpy)              : paxtest: return address contains a NULL byte.
-Return to function (memcpy)              : Vulnerable
-Return to function (strcpy, PIE)         : paxtest: return address contains a NULL byte.
-Return to function (memcpy, PIE)         : Vulnerable
-"""
-
 PAXTEST_NOBLE = """\
 Executable anonymous mapping             : Killed
 Executable bss                           : Killed
@@ -189,9 +168,7 @@ def test_grsecurity_paxtest(host):
         )
         print("paxtest results:\n" + paxtest_results)
 
-        if host.system_info.codename == "focal":
-            paxtest_expected = PAXTEST_FOCAL
-        elif host.system_info.codename == "noble":
+        if host.system_info.codename == "noble":
             paxtest_expected = PAXTEST_NOBLE
         else:
             pytest.fail(f"Unexpected codename {host.system_info.codename}")
@@ -214,30 +191,10 @@ def test_apt_autoremove(host):
 
 def test_paxctl(host):
     """
-    As of Focal, paxctl is not used, and shouldn't be installed.
+    paxctl is no longer used, and shouldn't be installed.
     """
     p = host.package("paxctl")
     assert not p.is_installed
-
-
-def test_paxctld_focal(host):
-    """
-    Focal-specific paxctld config checks.
-    Ensures paxctld is running and enabled, and relevant
-    exemptions are present in the config file.
-    """
-    assert host.package("paxctld").is_installed
-    f = host.file("/etc/paxctld.conf")
-    assert f.is_file
-    assert f.contains("^/usr/sbin/apache2\tm")
-
-    s = host.service("paxctld")
-    assert s.is_enabled
-    assert s.is_running
-
-    # The securedrop-grsec metapackage will copy the config
-    # out of /opt/ to ensure the file is always clobbered on changes.
-    assert host.file("/opt/securedrop/paxctld.conf").is_file
 
 
 @pytest.mark.parametrize(
@@ -310,8 +267,6 @@ def test_kernel_boot_options(host):
         f = host.file("/proc/cmdline")
         boot_opts = f.content_string.split()
     assert "noefi" in boot_opts
-    if host.system_info.codename == "focal":
-        assert "ipv6.disable=1" in boot_opts
 
 
 def test_ipv6_disabled(host):
