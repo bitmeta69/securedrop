@@ -13,7 +13,7 @@ TOPLEVEL="$(git rev-parse --show-toplevel)"
 export TOPLEVEL
 GCE_CREDS_FILE="${TOPLEVEL}/.gce.creds"
 export GCE_CREDS_FILE
-export UBUNTU_VERSION="${UBUNTU_VERSION:-focal}"
+export UBUNTU_VERSION="noble"
 export BUILD_NUM="${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
 export PROJECT_ID="securedrop-ci"
 export JOB_NAME="sd-ci-nested"

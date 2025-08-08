@@ -4,7 +4,8 @@
 
 set -eo pipefail
 
-UBUNTU_VERSION="${UBUNTU_VERSION:-noble}"
+# shellcheck disable=SC2034
+UBUNTU_VERSION="noble"
 
 # https://peps.python.org/pep-0508/#environment-markers
 PYTHON_VERSION="$(python3 -c 'import platform; print(".".join(platform.python_version_tuple()[:2]))')"
@@ -22,7 +23,7 @@ venv_instructions() {
 }
 
 function virtualenv_bootstrap() {
-    DEV_CONSTRAINT="securedrop/requirements/${UBUNTU_VERSION}/develop-constraints.txt"
+    DEV_CONSTRAINT="securedrop/requirements/develop-constraints.txt"
     VIRTUAL_ENV="${VIRTUAL_ENV:-}"  # Just to get around all the "set -u"
     if [ -n "$VIRTUAL_ENV" ]
     then
@@ -64,7 +65,7 @@ function virtualenv_bootstrap() {
             fi
         fi
 
-        PIP_CONSTRAINT=${DEV_CONSTRAINT} "${VENV}/bin/pip" install -q -r "securedrop/requirements/${UBUNTU_VERSION}/develop-requirements.txt"
+        PIP_CONSTRAINT=${DEV_CONSTRAINT} "${VENV}/bin/pip" install -q -r "securedrop/requirements/develop-requirements.txt"
 
         . "${VENV}/bin/activate"
    fi
