@@ -1,5 +1,5 @@
-# debian:bookworm 2024-01-12
-FROM debian@sha256:b16cef8cbcb20935c0f052e37fc3d38dc92bfec0bcfb894c328547f81e932d67
+# TODO: parameterize
+FROM debian:trixie
 ARG USER_NAME
 ENV USER_NAME ${USER_NAME:-root}
 ARG USER_ID
