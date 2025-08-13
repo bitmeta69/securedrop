@@ -188,7 +188,7 @@ def test_metadata(journalist_app, test_files, test_journo, journalist_api_token)
 
         # Get an item
         item_uuid = test_files["submissions"][0].uuid
-        with assert_query_count(3):
+        with assert_query_count(2):
             response = app.post(
                 url_for("api2.metadata"),
                 json={"items": [item_uuid]},

@@ -20,13 +20,34 @@ from flask_babel import gettext, ngettext
 from passphrases import PassphraseGenerator
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, LargeBinary, String, Text
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.orm import Query, backref, relationship
+from sqlalchemy.orm import (
+    Query,
+    RelationshipProperty,
+)
+from sqlalchemy.orm import (
+    backref as _backref,
+)
+from sqlalchemy.orm import (
+    relationship as _relationship,
+)
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 from store import Storage
 
 _default_instance_config: Optional["InstanceConfig"] = None
 
 ARGON2_PARAMS = {"memory_cost": 2**16, "time_cost": 4, "parallelism": 2, "type": argon2.Type.ID}
+
+
+def backref(*args, **kwargs):  # type: ignore
+    """Wrap ``sqlalchemy.orm.backref()`` to enforce eager loading."""
+    kwargs["lazy"] = False
+    return _backref(*args, **kwargs)
+
+
+def relationship(*args, **kwargs) -> RelationshipProperty:  # type: ignore
+    """Wrap ``sqlalchemy.orm.relationship()`` to enforce eager loading."""
+    kwargs["lazy"] = False
+    return _relationship(*args, **kwargs)
 
 
 def get_one_or_else(
@@ -49,7 +70,7 @@ class Source(db.Model):
     filesystem_id = Column(String(96), unique=True, nullable=False)
     journalist_designation = Column(String(255), nullable=False)
     last_updated = Column(DateTime)
-    star = relationship("SourceStar", uselist=False, backref="source")
+    star = relationship("SourceStar", uselist=False, backref=backref("source"))
 
     # sources are "pending" and don't get displayed to journalists until they
     # submit something
@@ -463,7 +484,7 @@ class Journalist(db.Model):
     passphrase_hash = Column(String(256))
 
     login_attempts = relationship(
-        "JournalistLoginAttempt", backref="journalist", cascade="all, delete"
+        "JournalistLoginAttempt", backref=backref("journalist"), cascade="all, delete"
     )
 
     MIN_USERNAME_LEN = 3
@@ -852,9 +873,9 @@ class SeenFile(db.Model):
     journalist_id = Column(Integer, ForeignKey("journalists.id"), nullable=False)
     file = relationship(
         "Submission",
-        backref=backref("seen_files", lazy="joined", cascade="all,delete"),
+        backref=backref("seen_files", cascade="all,delete"),
     )
-    journalist = relationship("Journalist", lazy="joined", backref=backref("seen_files"))
+    journalist = relationship("Journalist", backref=backref("seen_files"))
 
 
 class SeenMessage(db.Model):
@@ -865,9 +886,9 @@ class SeenMessage(db.Model):
     journalist_id = Column(Integer, ForeignKey("journalists.id"), nullable=False)
     message = relationship(
         "Submission",
-        backref=backref("seen_messages", lazy="joined", cascade="all,delete"),
+        backref=backref("seen_messages", cascade="all,delete"),
     )
-    journalist = relationship("Journalist", lazy="joined", backref=backref("seen_messages"))
+    journalist = relationship("Journalist", backref=backref("seen_messages"))
 
 
 class SeenReply(db.Model):
@@ -876,10 +897,8 @@ class SeenReply(db.Model):
     id = Column(Integer, primary_key=True)
     reply_id = Column(Integer, ForeignKey("replies.id"), nullable=False)
     journalist_id = Column(Integer, ForeignKey("journalists.id"), nullable=False)
-    reply = relationship(
-        "Reply", backref=backref("seen_replies", lazy="joined", cascade="all,delete")
-    )
-    journalist = relationship("Journalist", lazy="joined", backref=backref("seen_replies"))
+    reply = relationship("Reply", backref=backref("seen_replies", cascade="all,delete"))
+    journalist = relationship("Journalist", backref=backref("seen_replies"))
 
 
 class JournalistLoginAttempt(db.Model):

@@ -5,25 +5,12 @@ from typing import Any, Dict, Mapping, NewType, Optional, Set
 from flask import Blueprint, abort, json, jsonify, request
 from models import Journalist, Reply, Source, Submission
 from sqlalchemy.inspection import inspect
-from sqlalchemy.orm import Query, joinedload
 from sqlalchemy.orm.exc import MultipleResultsFound
 from werkzeug.wrappers.response import Response
 
 blp = Blueprint("api2", __name__, url_prefix="/api/v2")
 
 PREFIX_MAX_LEN = inspect(Source).columns["uuid"].type.length
-
-
-def all_sources() -> Query:
-    """
-    Return a base query for all ``Sources`` with eager loading of their metadata
-    and collections.
-    """
-    return (
-        Source.query.options(joinedload(Source.star))
-        .options(joinedload(Source.submissions))
-        .options(joinedload(Source.replies))
-    )
 
 
 Version = NewType("Version", str)
@@ -76,7 +63,7 @@ def index(source_prefix: Optional[str] = None) -> Response:
     """
     index = Index()
 
-    source_query = all_sources()
+    source_query = Source.query
     if source_prefix is not None:
         if len(source_prefix) >= PREFIX_MAX_LEN:
             abort(
@@ -85,7 +72,7 @@ def index(source_prefix: Optional[str] = None) -> Response:
                 f"characters",
             )
 
-        source_query = source_query.filter(Source.uuid.startswith(source_prefix))
+        source_query = Source.query.filter(Source.uuid.startswith(source_prefix))
 
     for source in source_query.all():
         index.sources[source.uuid] = json_version(source.to_api_v2())
@@ -130,10 +117,6 @@ def metadata() -> Response:
     Return the ``MetadataResponse`` requested in the ``MetadataRequest``.  The
     client MAY choose an arbitrary list of objects with each request, e.g. from
     a shard retrieved from ``/index/<source_prefix>``.
-
-    NB.  Returning sources is O(1) from the eagerly-loaded ``all_sources()``.
-    Returning items is O(2), since we have to search both the ``Submission`` and
-    the ``Reply`` tables for the set of all item UUIDs.
     """
     try:
         requested = MetadataRequest(**request.json)  # type: ignore
@@ -143,9 +126,7 @@ def metadata() -> Response:
     response = MetadataResponse()
 
     if requested.sources:
-        for source in all_sources().filter(
-            Source.uuid.in_(str(uuid) for uuid in requested.sources)
-        ):
+        for source in Source.query.filter(Source.uuid.in_(str(uuid) for uuid in requested.sources)):
             response.sources[source.uuid] = source.to_api_v2()
 
     if requested.items:
