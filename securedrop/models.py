@@ -330,7 +330,9 @@ class Reply(db.Model):
     uuid = Column(String(36), unique=True, nullable=False)
 
     journalist_id = Column(Integer, ForeignKey("journalists.id"), nullable=False)
-    journalist = relationship("Journalist", backref=backref("replies", order_by=id))
+    journalist = relationship(
+        "Journalist", backref=backref("replies", order_by=id, cascade="delete")
+    )
 
     source_id = Column(Integer, ForeignKey("sources.id"))
     source = relationship("Source", backref=backref("replies", order_by=id, cascade="delete"))
@@ -875,7 +877,7 @@ class SeenFile(db.Model):
         "Submission",
         backref=backref("seen_files", cascade="all,delete"),
     )
-    journalist = relationship("Journalist", backref=backref("seen_files"))
+    journalist = relationship("Journalist", backref=backref("seen_files", cascade="all,delete"))
 
 
 class SeenMessage(db.Model):
@@ -888,7 +890,7 @@ class SeenMessage(db.Model):
         "Submission",
         backref=backref("seen_messages", cascade="all,delete"),
     )
-    journalist = relationship("Journalist", backref=backref("seen_messages"))
+    journalist = relationship("Journalist", backref=backref("seen_messages", cascade="all,delete"))
 
 
 class SeenReply(db.Model):
@@ -898,7 +900,7 @@ class SeenReply(db.Model):
     reply_id = Column(Integer, ForeignKey("replies.id"), nullable=False)
     journalist_id = Column(Integer, ForeignKey("journalists.id"), nullable=False)
     reply = relationship("Reply", backref=backref("seen_replies", cascade="all,delete"))
-    journalist = relationship("Journalist", backref=backref("seen_replies"))
+    journalist = relationship("Journalist", backref=backref("seen_replies", cascade="all,delete"))
 
 
 class JournalistLoginAttempt(db.Model):
