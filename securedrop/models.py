@@ -820,10 +820,7 @@ class Journalist(db.Model):
         return deleted
 
     def delete(self) -> None:
-        """delete a journalist, migrating some data over to the "deleted" journalist
-
-        Callers must commit the session themselves
-        """
+        """delete a journalist, migrating some data over to the "deleted" journalist"""
         deleted = self.get_deleted()
         # All replies should be reassociated with the "deleted" journalist
         for reply in Reply.query.filter_by(journalist_id=self.id).all():
@@ -863,8 +860,12 @@ class Journalist(db.Model):
                 reply.journalist_id = deleted.id
                 db.session.add(reply)
 
-        # For the rest of the associated data we rely on cascading deletions
+        # Commit these reassignments first...
+        db.session.commit()
+
+        # ...and then rely on cascading deletions.
         db.session.delete(self)
+        db.session.commit()
 
 
 class SeenFile(db.Model):
