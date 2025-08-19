@@ -40,7 +40,7 @@ function report_error() {
         printf "Failed! Specified fingerprint does NOT match pubkey file.\n"
         exit 1
     elif [[ $1 -eq $SQLINT_FAIL ]]; then
-        printf "Failed! Fingerprint matches but key failed sq-keyring-linter.\n"
+        printf "Failed! Fingerprint matches but key failed validation (sq cert lint).\n"
         exit 2
     else
         printf "Failed! Specified fingerprint has failed validation.\n"
@@ -71,16 +71,20 @@ printf "\t Fingerprint: %s\n" "${fingerprint}"
 
 gpg2 --fingerprint "$fingerprint" || report_error $KEY_MISMATCH
 
-# Opportunistically validate against Seqouia's key linter, which checks whether
+# Opportunistically validate against Sequoia's key linter, which checks whether
 # OpenPGP certificates use a SHA-1 based binding signature
 # (see https://sequoia-pgp.org/blog/2023/02/01/202302-happy-sha1-day/).
 # Note: it is possible that the key has been updated on another admin workstation,
 # but the updated pubkey has not been transferred to this workstation.
-if [[ $(dpkg-query -W -f='${Status}' sq-keyring-linter) == "install ok installed" ]]; then
-    printf "Validating that key is supported...\n"
-    gpg2 --export "$fingerprint" | sq-keyring-linter || report_error $SQLINT_FAIL
+
+# Use sq cert lint (Tails 7+ only)
+if [[ $(dpkg-query -W -f='${Status}' sq 2>/dev/null || echo "not-installed") == "install ok installed" ]]; then
+    printf "Validating that key is supported (using sq cert lint)...\n"
+    if ! gpg2 --export "$fingerprint" | sq cert lint --cert-file=- >/dev/null 2>&1; then
+        report_error $SQLINT_FAIL
+    fi
 else
-    printf "Warning: sq-keyring-linter package is missing. "
+    printf "Warning: sq package is not available. "
     printf "Key validation checks will be limited without it.\n"
 fi
 

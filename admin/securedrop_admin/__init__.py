@@ -643,7 +643,7 @@ class SiteConfig:
                 elif e.returncode == 2:
                     message = (
                         f"fingerprint {fingerprint} "
-                        + "failed sq-keyring-linter check. You may be using an older key that "
+                        + "failed sq key validation check. You may be using an older key that "
                         + "needs to be updated. Please contact your SecureDrop administrator, or "
                         + "https://support.freedom.press for assistance."
                     )
