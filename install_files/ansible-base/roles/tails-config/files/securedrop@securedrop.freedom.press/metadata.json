@@ -3,10 +3,10 @@
   "description": "SecureDrop Utility Menu",
   "uuid": "securedrop@securedrop.freedom.press",
   "shell-version": [
-    "3.38",
-    "40",
-    "41",
-    "42",
-    "43"
+    "45",
+    "46",
+    "47",
+    "48",
+    "49"
   ]
 }

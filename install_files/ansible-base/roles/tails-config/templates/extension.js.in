@@ -1,28 +1,27 @@
-/* exported init */
+import Clutter from 'gi://Clutter';
+import GObject from 'gi://GObject';
+import GLib from 'gi://GLib';
+import St from 'gi://St';
+import Gio from 'gi://Gio';
+
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
+import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
+
+import * as Gettext from 'gettext';
+import * as ExtensionUtils from 'resource:///org/gnome/shell/misc/extensionUtils.js';
+import * as Util from 'resource:///org/gnome/shell/misc/util.js';
+
+import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 const GETTEXT_DOMAIN = 'messages';
-
-const {Clutter, GObject, GLib } = imports.gi;
-
-const Util = imports.misc.util;
-const ExtensionUtils = imports.misc.extensionUtils;
-const Main = imports.ui.main;
-const PanelMenu = imports.ui.panelMenu;
-const PopupMenu = imports.ui.popupMenu;
-
-const St = imports.gi.St;
-const Gettext = imports.gettext;
-const CurrentExtension = imports.misc.extensionUtils.getCurrentExtension();
-const Gio = imports.gi.Gio;
-
-const Domain = Gettext.domain(GETTEXT_DOMAIN)
+const Domain = Gettext.domain(GETTEXT_DOMAIN);
+const _ = Domain.gettext;
 
 const source_interface_address = "{{ item.0.source_interface_address }}";
 const journalist_interface_address = "{{ item.0.journalist_interface_address }}";
 const app_server_hostname = "{{ app_hostname|default('app') }}";
 const mon_server_hostname = "{{ monitor_hostname|default('mon') }}";
-
-const _ = Domain.gettext;
 
 const Indicator = GObject.registerClass(
 class Indicator extends PanelMenu.Button {
@@ -33,16 +32,21 @@ class Indicator extends PanelMenu.Button {
         // if they don't exist, this is a Journalist workstation
         // (and therefore the admin options should remain hidden)
         let is_admin = false;
-        let [ok, out, err, exit] = GLib.spawn_command_line_sync('/bin/bash -c "test -f ~/Persistent/securedrop/install_files/ansible-base/tor_v3_keys.json"');
-        if (exit == 0) {
-            is_admin = true;
+        try {
+            let [ok, out, err, exit] = GLib.spawn_command_line_sync('/bin/bash -c "test -f ~/Persistent/securedrop/install_files/ansible-base/tor_v3_keys.json"');
+            if (exit == 0) {
+                is_admin = true;
+            }
+        } catch (e) {
+            console.log('Error checking admin status:', e);
         }
         
-        let gicon = Gio.icon_new_for_string(CurrentExtension.path + "/icons/securedrop-symbolic.png");
-	let icon = new St.Icon({ gicon });
-	icon.icon_size = 18;
-	icon.height = 18;
-	icon.width = 18;
+        // Use the extension's path from the extension instance
+        const extension = Extension.lookupByURL(import.meta.url);
+        let gicon = Gio.icon_new_for_string(extension.path + "/icons/securedrop-symbolic.png");
+        let icon = new St.Icon({ gicon });
+        icon.icon_size = 18;
+        icon.set_size(18, 18);
         
         let label = new St.Label({
             text: 'SecureDrop',
@@ -60,12 +64,12 @@ class Indicator extends PanelMenu.Button {
 
         let source = new PopupMenu.PopupMenuItem(_('Launch Source Interface'));
         source.connect('activate', () => {
-    	    Util.spawn(['tor-browser', source_interface_address]);
+            Util.spawn(['tor-browser', source_interface_address]);
         });
         
         let journalist = new PopupMenu.PopupMenuItem(_('Launch Journalist Interface'));
         journalist.connect('activate', () => {
-       	    Util.spawn(['tor-browser', journalist_interface_address]);
+            Util.spawn(['tor-browser', journalist_interface_address]);
         });
         
         let admin_label = new St.Label({
@@ -81,12 +85,12 @@ class Indicator extends PanelMenu.Button {
         
         let app_server_ssh = new PopupMenu.PopupMenuItem(_('SSH into the App Server'));
         app_server_ssh.connect('activate', () => {
-            Util.trySpawnCommandLine(`gnome-terminal -- ssh ` + app_server_hostname);
+            Util.trySpawnCommandLine(`kgx -- ssh ${app_server_hostname}`);
         });
         
         let mon_server_ssh = new PopupMenu.PopupMenuItem(_('SSH into the Monitor Server'));
         mon_server_ssh.connect('activate', () => {
-            Util.trySpawnCommandLine(`gnome-terminal -- ssh ` + mon_server_hostname);
+            Util.trySpawnCommandLine(`kgx -- ssh ${mon_server_hostname}`);
         });
         
         let keypass = new PopupMenu.PopupMenuItem(_('Open KeePassXC Password Vault'));
@@ -113,11 +117,10 @@ class Indicator extends PanelMenu.Button {
     }
 });
 
-class Extension {
-    constructor(uuid) {
-        this._uuid = uuid;
-
-        ExtensionUtils.initTranslations(GETTEXT_DOMAIN);
+export default class SecureDropExtension extends Extension {
+    constructor(metadata) {
+        super(metadata);
+        this._indicator = null;
     }
 
     enable() {
@@ -125,19 +128,17 @@ class Extension {
         
         // Position is a zero-based index of where to put the extension 
         // in the status bar. Index 3, in Tails, would be to the right
-        // of the 'Places' Menu (Activites, Applicatons, Places, SD)
+        // of the 'Places' Menu (Overview/workspaces, Apps, Places, SD)
         let pos = 3;
         if ('apps-menu' in Main.panel.statusArea)
             pos++;
-        Main.panel.addToStatusArea(this._uuid, this._indicator, pos, 'left');
+        Main.panel.addToStatusArea(this.uuid, this._indicator, pos, 'left');
     }
 
     disable() {
-        this._indicator.destroy();
-        this._indicator = null;
+        if (this._indicator) {
+            this._indicator.destroy();
+            this._indicator = null;
+        }
     }
-}
-
-function init(meta) {
-    return new Extension(meta.uuid);
 }
