@@ -302,12 +302,16 @@ pytest==7.2.0 \
     # via
     #   -r requirements-testinfra.in
     #   pytest-forked
+    #   pytest-testinfra
     #   pytest-xdist
-    #   testinfra
 pytest-forked==1.6.0 \
     --hash=sha256:4dafd46a9a600f65d822b8f605133ecf5b3e1941ebb3588e943b4e3eb71a5a3f \
     --hash=sha256:810958f66a91afb1a1e2ae83089d8dc1cd2437ac96b12963042fbb9fb4d16af0
     # via pytest-xdist
+pytest-testinfra==10.2.2 \
+    --hash=sha256:537fd5eb88da618c1f461248aa20594cf8d44512e8519b239837e83875e1e9cd \
+    --hash=sha256:b785602b0aa868c858e4ef121a8cc0d13a81c04b74ec0364d70969540f8e7c31
+    # via -r requirements-testinfra.in
 pytest-xdist==2.1.0 \
     --hash=sha256:7c629016b3bb006b88ac68e2b31551e7becf173c76b977768848e2bbed594d90 \
     --hash=sha256:82d938f1a24186520e2d9d3a64ef7d9ac7ecdf1a0659e095d18e596b8cbd0672
@@ -380,10 +384,6 @@ six==1.17.0 \
     #   -r requirements.in
     #   paramiko
     #   prompt-toolkit
-testinfra==5.3.1 \
-    --hash=sha256:9d3a01fb787253df76ac4ab46d18a84d4b01be877ed1b5812e590dcf480a627e \
-    --hash=sha256:baf1d809ea2dc22c0cb5b9441bf4e17c1eb653e1ccc02cc63137d0ab467fa1de
-    # via -r requirements-testinfra.in
 wcwidth==0.2.13 \
     --hash=sha256:3da69048e4540d84af32131829ff948f1e022c1c6bdb8d6102117aac784f6859 \
     --hash=sha256:72ea0c06399eb286d978fdedb6923a9eb47e1c486ce63e9b4e64fc18303972b5
