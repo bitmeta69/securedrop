@@ -22,7 +22,7 @@ import os
 import shutil
 import subprocess
 import sys
-from typing import Iterator, List, Optional
+from typing import Iterator, List
 
 sdlog = logging.getLogger(__name__)
 
