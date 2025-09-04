@@ -26,7 +26,7 @@ override_dh_auto_install:
 	./debian/securedrop-app-code/opt/venvs/securedrop-app-code/bin/pip install $(PIP_ARGS) \
 		pip==25.0
 	./debian/securedrop-app-code/opt/venvs/securedrop-app-code/bin/pip install $(PIP_ARGS) \
-		-r requirements/$(VERSION_CODENAME)/requirements.txt
+		-r requirements/requirements.txt
 	./debian/securedrop-app-code/opt/venvs/securedrop-app-code/bin/pip install $(PIP_ARGS) \
 		/srv/rust/redwood/redwood-*.whl
 	# Update paths to point to install destination

@@ -13,7 +13,7 @@ python3 -m venv /tmp/securedrop-app-code-i18n-ve
 source /etc/os-release
 
 # Install dependencies
-/tmp/securedrop-app-code-i18n-ve/bin/pip3 install --no-deps --no-binary :all: --require-hashes -r requirements/${VERSION_CODENAME}/translation-requirements.txt
+/tmp/securedrop-app-code-i18n-ve/bin/pip3 install --no-deps --no-binary :all: --require-hashes -r requirements/translation-requirements.txt
 
 # Compile the translations
 . /tmp/securedrop-app-code-i18n-ve/bin/activate

@@ -20,7 +20,7 @@ cd /srv/securedrop/
 
 # Control the version of setuptools used in the default construction of virtual environments
 # TODO: get rid of this when we switch to reproducible wheels
-pip3 download --no-deps --require-hashes -r requirements/${VERSION_CODENAME}/requirements.txt --dest /tmp/requirements-download
+pip3 download --no-deps --require-hashes -r requirements/requirements.txt --dest /tmp/requirements-download
 rm -f /usr/share/python-wheels/setuptools-*.whl
 mv /tmp/requirements-download/setuptools-*.whl /usr/share/python-wheels/
 
