@@ -56,6 +56,11 @@ who = "Cory Francis Myers <cory@freedom.press>"
 criteria = "safe-to-run"
 version = "0.4.2"
 
+[[audits.flate2]]
+who = "Kevin O'Gorman <kog@freedom.press>"
+criteria = "safe-to-run"
+delta = "1.1.0 -> 1.1.2"
+
 [[audits.generic-array]]
 who = "Cory Francis Myers <cory@freedom.press>"
 criteria = "safe-to-run"
