@@ -9,7 +9,7 @@ defaults:
 jobs:
   build:
     name: Build demo
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     env:
       DOCKERIZE_VERSION: v0.6.1
     steps:
@@ -18,7 +18,7 @@ jobs:
           persist-credentials: false
       - name: Build container
         run: |
-          podman build -t demo -f securedrop/dockerfiles/focal/python3/DemoDockerfile .
+          podman build -t demo -f securedrop/dockerfiles/noble/python3/DemoDockerfile .
       - name: Install dockerize
         run: |
           wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz

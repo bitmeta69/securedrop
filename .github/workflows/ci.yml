@@ -12,7 +12,6 @@ jobs:
       fail-fast: false
       matrix:
         ubuntu_version:
-          - focal
           - noble
     container: ubuntu:${{ matrix.ubuntu_version }}
     steps:
@@ -28,9 +27,9 @@ jobs:
             build-essential python3-virtualenv python3-dev enchant-2 file apache2-dev jq libarchive-tools
           virtualenv .venv
           # TODO: this should be one step, but there are too many conflicting dependencies
-          ./.venv/bin/pip install -r securedrop/requirements/${{ matrix.ubuntu_version }}/test-requirements.txt
-          ./.venv/bin/pip install -r securedrop/requirements/${{ matrix.ubuntu_version }}/requirements.txt
-          ./.venv/bin/pip install -r securedrop/requirements/${{ matrix.ubuntu_version }}/develop-requirements.txt
+          ./.venv/bin/pip install -r securedrop/requirements/test-requirements.txt
+          ./.venv/bin/pip install -r securedrop/requirements/requirements.txt
+          ./.venv/bin/pip install -r securedrop/requirements/develop-requirements.txt
       - name: Run lint
         run: |
           git config --global --add safe.directory $GITHUB_WORKSPACE
