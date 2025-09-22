@@ -82,38 +82,43 @@ class TestSecureDropAdmin:
         with mock.patch("bootstrap.is_tails", return_value=True):
             with mock.patch("builtins.open", mock.mock_open(read_data='VERSION="6.0"')):
                 bootstrap.clean_up_old_tails_venv(venv_path)
-                assert "Tails 5 virtualenv detected." in caplog.text
-                assert "Tails 5 virtualenv deleted." in caplog.text
+                assert (
+                    "Old python3.9 virtualenv detected. Removing it for Tails 7+ compatibility."
+                    in caplog.text
+                )
+                assert "Old virtualenv deleted." in caplog.text
                 assert not os.path.exists(venv_path)
 
-    def test_python3_bookworm_venv_not_deleted_in_bookworm(self, tmpdir, caplog):
+    def test_python3_bookworm_venv_deleted_in_tails7(self, tmpdir, caplog):
         venv_path = str(tmpdir)
         python_lib_path = os.path.join(venv_path, "lib/python3.11")
         os.makedirs(python_lib_path)
         with mock.patch("bootstrap.is_tails", return_value=True):
-            with mock.patch("subprocess.check_output", return_value="bookworm"):
-                bootstrap.clean_up_old_tails_venv(venv_path)
-                assert "Tails 5 virtualenv detected" not in caplog.text
-                assert os.path.exists(venv_path)
+            bootstrap.clean_up_old_tails_venv(venv_path)
+            assert (
+                "Old python3.11 virtualenv detected. Removing it for Tails 7+ compatibility."
+                in caplog.text
+            )
+            assert "Old virtualenv deleted." in caplog.text
+            assert not os.path.exists(venv_path)
 
-    def test_python3_buster_venv_not_deleted_in_buster(self, tmpdir, caplog):
+    def test_python3_13_venv_not_deleted_in_tails7(self, tmpdir, caplog):
         venv_path = str(tmpdir)
-        python_lib_path = os.path.join(venv_path, "lib/python3.9")
+        python_lib_path = os.path.join(venv_path, "lib/python3.13")
         os.makedirs(python_lib_path)
         with mock.patch("bootstrap.is_tails", return_value=True):
-            with mock.patch("subprocess.check_output", return_value="bullseye"):
-                bootstrap.clean_up_old_tails_venv(venv_path)
-                assert os.path.exists(venv_path)
+            bootstrap.clean_up_old_tails_venv(venv_path)
+            assert "Old python3." not in caplog.text
+            assert os.path.exists(venv_path)
 
-    def test_venv_cleanup_subprocess_exception(self, tmpdir, caplog):
+    def test_venv_cleanup_non_tails_system(self, tmpdir, caplog):
         venv_path = str(tmpdir)
         python_lib_path = os.path.join(venv_path, "lib/python3.9")
         os.makedirs(python_lib_path)
-        with mock.patch("bootstrap.is_tails", return_value=True), mock.patch(
-            "subprocess.check_output", side_effect=subprocess.CalledProcessError(1, ":o")
-        ):
+        with mock.patch("bootstrap.is_tails", return_value=False):
             bootstrap.clean_up_old_tails_venv(venv_path)
             assert os.path.exists(venv_path)
+            assert "Old python3." not in caplog.text
 
     def test_envsetup_cleanup(self, tmpdir, caplog):
         venv = os.path.join(str(tmpdir), "empty_dir")

@@ -38,7 +38,7 @@ import prompt_toolkit
 import yaml
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import x25519
-from pkg_resources import parse_version
+from packaging.version import Version
 from prompt_toolkit.document import Document
 from prompt_toolkit.validation import ValidationError, Validator
 
@@ -643,7 +643,7 @@ class SiteConfig:
                 elif e.returncode == 2:
                     message = (
                         f"fingerprint {fingerprint} "
-                        + "failed sq-keyring-linter check. You may be using an older key that "
+                        + "failed sq key validation check. You may be using an older key that "
                         + "needs to be updated. Please contact your SecureDrop administrator, or "
                         + "https://support.freedom.press for assistance."
                     )
@@ -989,7 +989,7 @@ def check_for_updates(args: argparse.Namespace) -> Tuple[bool, str]:
     all_prod_tags = [x for x in all_tags if "rc" not in x]
 
     # We want the tags to be sorted based on semver
-    all_prod_tags.sort(key=parse_version)
+    all_prod_tags.sort(key=Version)
 
     latest_tag = all_prod_tags[-1]
 

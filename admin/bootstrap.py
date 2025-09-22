@@ -29,9 +29,9 @@ sdlog = logging.getLogger(__name__)
 DIR = os.path.dirname(os.path.realpath(__file__))
 VENV_DIR = os.path.join(DIR, ".venv3")
 
-# Space-separated list of apt dependencies
+# Space-separated list of apt dependencies for Tails 7+
 APT_DEPENDENCIES_STR = "python3-virtualenv python3-yaml python3-pip virtualenv \
-libffi-dev libssl-dev libpython3-dev sq-keyring-linter"
+libffi-dev libssl-dev libpython3-dev netcat-openbsd tor rsync sq"
 
 
 def setup_logger(verbose: bool = False) -> None:
@@ -71,25 +71,20 @@ def is_tails() -> bool:
 
 def clean_up_old_tails_venv(virtualenv_dir: str = VENV_DIR) -> None:
     """
-    When upgrading major Tails versions, we need to rebuild the virtualenv
-    against the correct Python version. We can detect if the Tails
-    version matches the correct Python version - if not, delete the
-    venv, so it'll get recreated.
+    Clean up virtualenvs from older Tails versions that used different Python versions.
+    Tails 7+ uses Python 3.13, so remove any virtualenvs with older Python versions.
     """
     if is_tails():
-        with open("/etc/os-release") as f:
-            os_release = f.readlines()
-            for line in os_release:
-                if line.startswith("VERSION="):
-                    version = line.split("=")[1].strip().strip('"')
-                    if version.startswith("6."):
-                        # Tails 6 is based on Python 3.11
-                        python_lib_path = os.path.join(virtualenv_dir, "lib/python3.9")
-                        if os.path.exists(python_lib_path):
-                            sdlog.info("Tails 5 virtualenv detected. Removing it.")
-                            shutil.rmtree(virtualenv_dir)
-                            sdlog.info("Tails 5 virtualenv deleted.")
-                    break
+        # Remove virtualenvs from Tails 5 (Python 3.9) and Tails 6 (Python 3.11)
+        for old_python in ["python3.9", "python3.11"]:
+            old_python_path = os.path.join(virtualenv_dir, f"lib/{old_python}")
+            if os.path.exists(old_python_path):
+                sdlog.info(
+                    f"Old {old_python} virtualenv detected. Removing it for Tails 7+ compatibility."
+                )
+                shutil.rmtree(virtualenv_dir)
+                sdlog.info("Old virtualenv deleted.")
+                break
 
 
 def checkenv(args: argparse.Namespace) -> None:

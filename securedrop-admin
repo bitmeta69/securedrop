@@ -12,6 +12,19 @@ if test "$u" = "root"; then
     exit 1
 fi
 
+# Check for Tails 7+ requirement
+# Note: Only enforces version check on Tails systems to allow testing on other platforms
+if [[ -f /etc/os-release ]] && grep -q 'NAME="Tails"' /etc/os-release; then
+    tails_version=$(grep '^VERSION=' /etc/os-release | cut -d= -f2 | tr -d '"')
+    tails_major_version=$(echo "$tails_version" | cut -d. -f1)
+    if (( tails_major_version < 7 )); then
+        echo "Error: This version of securedrop-admin requires Tails 7 or later."
+        echo "Current Tails version: $tails_version"
+        echo "Please upgrade to Tails 7+ to use this tool."
+        exit 1
+    fi
+fi
+
 d=$(dirname "$0")
 if test "$1" = "setup" || test "$2" = "setup"; then
    if test "$1" = "setup"; then

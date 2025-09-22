@@ -732,7 +732,7 @@ class TestSiteConfig:
         site_config.config = invalid_config
         with pytest.raises(securedrop_admin.FingerprintException) as e:
             site_config.validate_gpg_keys()
-        assert "failed sq-keyring-linter check" in str(e)
+        assert "failed sq key validation check" in str(e)
 
     def test_journalist_alert_email(self, tmpdir):
         args = argparse.Namespace(

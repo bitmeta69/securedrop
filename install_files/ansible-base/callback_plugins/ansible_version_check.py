@@ -18,7 +18,7 @@ class CallbackModule(CallbackBase):
         # The acceptable version range needs to be synchronized with
         # requirements files.
         viable_start = [2, 13, 0]
-        viable_end = [2, 15, 10]
+        viable_end = [2, 15, 14]
         ansible_version = [int(v) for v in ansible.__version__.split(".")]
         if not (viable_start <= ansible_version < viable_end):
             print_red_bold(
