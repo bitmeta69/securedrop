@@ -1,5 +1,4 @@
-ARG UBUNTU_VERSION=focal
-FROM securedrop-slim-${UBUNTU_VERSION}-py3
+FROM securedrop-slim-noble-py3
 
 RUN apt-get update  && apt-get install -y \
     libgtk2.0 devscripts xvfb x11vnc \
