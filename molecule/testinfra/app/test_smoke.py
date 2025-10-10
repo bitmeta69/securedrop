@@ -81,6 +81,13 @@ def test_weak_submission_key(host):
             print(si_cmd.stderr)
             print(si_cmd.stdout)
             response = si_cmd.stdout
+            if response == "":
+                # Try to grab the log and print it via a failed assertion
+                with host.sudo():
+                    f = host.file("/var/log/apache2/source-error.log")
+                    if f.exists:
+                        assert "nopenopenope" in f.content_string
+
             assert "HTTP/1.1 503 SERVICE UNAVAILABLE" in response  # Flask shouts
             assert "We're sorry, our SecureDrop is currently offline." in response
 
