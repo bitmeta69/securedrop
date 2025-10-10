@@ -76,7 +76,11 @@ def test_weak_submission_key(host):
             response = host.run("curl -Li http://localhost:8080/").stdout
             assert "HTTP/1.1 500 Internal Server Error" in response
             # Now hit the SI
-            response = host.run("curl -i http://localhost:80/").stdout
+            si_cmd = host.run("curl -i http://localhost:80/")
+            print(si_cmd.rc)
+            print(si_cmd.stderr)
+            print(si_cmd.stdout)
+            response = si_cmd.stdout
             assert "HTTP/1.1 503 SERVICE UNAVAILABLE" in response  # Flask shouts
             assert "We're sorry, our SecureDrop is currently offline." in response
 
