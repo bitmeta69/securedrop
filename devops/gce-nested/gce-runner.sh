@@ -4,9 +4,7 @@
 # for storage as artifacts on the build, so devs can review via web.
 set -e
 set -u
-OS_VERSION="${OS_VERSION:-focal}"
-
-UBUNTU_VERSION="noble"
+OS_VERSION="${OS_VERSION:-noble}"
 
 TOPLEVEL="$(git rev-parse --show-toplevel)"
 # shellcheck source=devops/gce-nested/ci-env.sh
