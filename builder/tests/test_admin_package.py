@@ -3,7 +3,7 @@ import re
 import subprocess
 from pathlib import Path
 
-OS_VERSION = os.environ.get("OS_VERSION", "focal")
+OS_VERSION = os.environ.get("OS_VERSION", "bookworm")
 SECUREDROP_ROOT = Path(
     subprocess.check_output(["git", "rev-parse", "--show-toplevel"]).decode().strip()
 )

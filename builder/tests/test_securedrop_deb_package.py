@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-OS_VERSION = os.environ.get("OS_VERSION", "focal")
+OS_VERSION = os.environ.get("OS_VERSION", "noble")
 SECUREDROP_ROOT = Path(
     subprocess.check_output(["git", "rev-parse", "--show-toplevel"]).decode().strip()
 )
@@ -123,10 +123,7 @@ def test_apparmor_conditional():
     for line in info.splitlines():
         if line.startswith(" Depends:"):
             found = True
-            if OS_VERSION == "focal":
-                assert "apparmor (>=" not in line, "focal has no versioned apparmor dependency"
-            else:
-                assert "apparmor (>=" in line, "noble has versioned apparmor dependency"
+            assert "apparmor (>=" in line, "noble has versioned apparmor dependency"
 
     print(info)
     assert found, "Depends: line wasn't found"
@@ -142,10 +139,7 @@ def test_systemd_conditional():
     for line in info.splitlines():
         if line.startswith(" Depends:"):
             found = True
-            if OS_VERSION == "focal":
-                assert "systemd-hwe-hwdb" not in line, "focal has no systemd-hwe-hwdb dependency"
-            else:
-                assert "systemd-hwe-hwdb" in line, "noble has systemd-hwe-hwdb dependency"
+            assert "systemd-hwe-hwdb" in line, "noble has systemd-hwe-hwdb dependency"
 
     print(info)
     assert found, "Depends: line wasn't found"

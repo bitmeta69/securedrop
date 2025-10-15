@@ -1,10 +1,11 @@
+import os
 import re
 import subprocess
 from pathlib import Path
 
 OSSEC_VERSION = "3.6.0"
 
-OS_VERSION = os.environ.get("OS_VERSION", "focal")
+OS_VERSION = os.environ.get("OS_VERSION", "noble")
 SECUREDROP_ROOT = Path(
     subprocess.check_output(["git", "rev-parse", "--show-toplevel"]).decode().strip()
 )
