@@ -22,7 +22,7 @@ venv_instructions() {
 }
 
 function virtualenv_bootstrap() {
-    DEV_CONSTRAINT="securedrop/requirements/${OS_VERSION}/develop-constraints.txt"
+    DEV_CONSTRAINT="securedrop/requirements/develop-constraints.txt"
     VIRTUAL_ENV="${VIRTUAL_ENV:-}"  # Just to get around all the "set -u"
     if [ -n "$VIRTUAL_ENV" ]
     then
@@ -64,7 +64,7 @@ function virtualenv_bootstrap() {
             fi
         fi
 
-        PIP_CONSTRAINT=${DEV_CONSTRAINT} "${VENV}/bin/pip" install -q -r "securedrop/requirements/${OS_VERSION}/develop-requirements.txt"
+        PIP_CONSTRAINT=${DEV_CONSTRAINT} "${VENV}/bin/pip" install -q -r "securedrop/requirements/develop-requirements.txt"
 
         . "${VENV}/bin/activate"
    fi
