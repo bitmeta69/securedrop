@@ -26,14 +26,6 @@ fi
 
 OCI_RUN_ARGUMENTS="--user=root -v $(pwd):/src:Z -e HOST_UID=$(id -u) -e HOST_GID=$(id -g)"
 
-if [[ $WHAT != "admin" ]]; then
-    # Setuptools_scm 8.3.0 breaks focal builds - so let's temporarily constrain it to 8.1.0
-    TMP_CONSTRAINT="/srv/securedrop/requirements/${OS_VERSION}/constraints.txt"
-    if [[ $OS_VERSION == "focal" ]]; then
-        OCI_RUN_ARGUMENTS="-e PIP_CONSTRAINT=${TMP_CONSTRAINT} ${OCI_RUN_ARGUMENTS}"
-    fi
-fi
-
 # Default to podman if available
 if which podman > /dev/null 2>&1; then
     OCI_BIN="podman"
