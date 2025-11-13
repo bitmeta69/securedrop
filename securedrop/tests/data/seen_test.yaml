@@ -1,0 +1,46 @@
+journalists:
+  - username: journalist
+    uuid: be726875-1290-49d4-922d-2fc0901c9266
+    passphrase: correct horse battery staple profanity oil chewy
+    otp_secret: JHCOGO7VCER3EJ4L
+    first_name: null
+    last_name: null
+    is_admin: 1
+    created_on: "2025-09-24 18:19:42.160452"
+  - username: dellsberg
+    uuid: 72eb04dc-7596-4bc0-a9b1-a0f5648f04f0
+    passphrase: correct horse battery staple profanity oil chewy
+    otp_secret: JHCOGO7VCER3EJ4L
+    is_admin: 0
+    first_name: null
+    last_name: null
+    created_on: "2025-09-24 18:19:42.601412"
+sources:
+  - journalist_designation: test seen source
+    uuid: c0c49b24-1a75-4daf-b0fa-125c1ce0d725
+    last_updated: "2025-09-24 18:19:55.366421"
+    pgp_fingerprint: 6E0B59448DD8DA2CFEF61B8F926290C5880A6D62
+    pgp_public_key: keys/6E0B59448DD8DA2CFEF61B8F926290C5880A6D62.pub
+    pgp_secret_key: keys/6E0B59448DD8DA2CFEF61B8F926290C5880A6D62.secret
+    items:
+      - uuid: 48256b37-2761-4695-8a1a-282601dc3c87
+        kind: message
+        content: Sed do <b>eiusmod tempor</b> incididunt ut labore et dolore <i>magna aliqua</i>.
+        seen_by: []
+        downloaded: 0
+        encrypted_file: items/48256b37-2761-4695-8a1a-282601dc3c87.gpg
+      - uuid: 6ba8a2c8-aa3a-4b0e-95f9-34d3001a5043
+        kind: file
+        file:
+          content: Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
+          filename: sed_ut.txt
+        seen_by: []
+        downloaded: 0
+        encrypted_file: items/6ba8a2c8-aa3a-4b0e-95f9-34d3001a5043.gpg
+      - uuid: 3f3d5d05-e758-4cbb-9ea0-876d7152fd7f
+        kind: reply
+        journalist_uuid: 72eb04dc-7596-4bc0-a9b1-a0f5648f04f0
+        content: Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        seen_by: []
+        deleted_by_source: null
+        encrypted_file: items/3f3d5d05-e758-4cbb-9ea0-876d7152fd7f.gpg

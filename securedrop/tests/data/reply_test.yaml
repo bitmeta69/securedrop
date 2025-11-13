@@ -1,0 +1,23 @@
+journalists:
+  - username: journalist
+    uuid: be726875-1290-49d4-922d-2fc0901c9266
+    passphrase: correct horse battery staple profanity oil chewy
+    otp_secret: JHCOGO7VCER3EJ4L
+    first_name: null
+    last_name: null
+    is_admin: 1
+    created_on: "2025-09-24 18:19:42.160452"
+sources:
+  - journalist_designation: test reply source
+    uuid: a0a49b24-1a75-4daf-b0fa-125c1ce0d723
+    last_updated: "2025-09-24 18:19:49.665896"
+    pgp_fingerprint: F6283AE2A3C92F8C910946FA3BE7DFE991FC8A87
+    pgp_public_key: keys/F6283AE2A3C92F8C910946FA3BE7DFE991FC8A87.pub
+    pgp_secret_key: keys/F6283AE2A3C92F8C910946FA3BE7DFE991FC8A87.secret
+    items:
+      - uuid: f53f43d9-41fa-42a6-88b0-6529aaacc599
+        kind: message
+        content: Test message for reply
+        seen_by: []
+        downloaded: 0
+        encrypted_file: items/f53f43d9-41fa-42a6-88b0-6529aaacc599.gpg

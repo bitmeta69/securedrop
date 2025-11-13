@@ -1,0 +1,31 @@
+journalists:
+  - username: journalist
+    uuid: be726875-1290-49d4-922d-2fc0901c9266
+    passphrase: correct horse battery staple profanity oil chewy
+    otp_secret: JHCOGO7VCER3EJ4L
+    first_name: null
+    last_name: null
+    is_admin: 1
+    created_on: "2025-09-24 18:19:42.160452"
+sources:
+  - journalist_designation: test delete source
+    uuid: e0e49b24-1a75-4daf-b0fa-125c1ce0d727
+    last_updated: "2025-09-24 18:20:01.209205"
+    pgp_fingerprint: 1D5EED3E722A21361FB1609436AA2DFBDC429CA1
+    pgp_public_key: keys/1D5EED3E722A21361FB1609436AA2DFBDC429CA1.pub
+    pgp_secret_key: keys/1D5EED3E722A21361FB1609436AA2DFBDC429CA1.secret
+    items:
+      - uuid: b8260d37-87b2-49b3-a235-bac31c11021d
+        kind: message
+        content: Cras ultricies <b>ligula sed magna</b> dictum porta. Vestibulum ante ipsum primis in faucibus <i>orci luctus</i> et ultrices posuere cubilia curae.
+        seen_by: []
+        downloaded: 0
+        encrypted_file: items/b8260d37-87b2-49b3-a235-bac31c11021d.gpg
+      - uuid: 31eeac69-e02f-46f1-a5da-b8f912eb773d
+        kind: file
+        file:
+          content: Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.
+          filename: temporibus_autem.txt
+        seen_by: []
+        downloaded: 0
+        encrypted_file: items/31eeac69-e02f-46f1-a5da-b8f912eb773d.gpg
