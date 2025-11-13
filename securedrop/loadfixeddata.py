@@ -329,7 +329,7 @@ def import_seen_records(
     db.session.commit()
 
 
-def load_fixed_data(yaml_path: Path, save_items: bool = False) -> None:
+def load_fixed_data(yaml_path: Path, save_items: bool = False, skip_empty_check: bool = False) -> None:
     """Load fixed test data from YAML into the database."""
     if not os.environ.get("SECUREDROP_ENV"):
         os.environ["SECUREDROP_ENV"] = "dev"
@@ -340,7 +340,8 @@ def load_fixed_data(yaml_path: Path, save_items: bool = False) -> None:
     with app.app_context():
         print("Loading fixed data from YAML...")
 
-        verify_empty_database()
+        if not skip_empty_check:
+            verify_empty_database()
 
         with yaml_path.open("r") as f:
             data = yaml.safe_load(f)
@@ -384,10 +385,15 @@ def parse_arguments() -> argparse.Namespace:
         action="store_true",
         help="Save encrypted items to items/ directory for future reproducible imports",
     )
+    parser.add_argument(
+        "--skip-empty-check",
+        action="store_true",
+        help="Skip empty database check (for test usage)",
+    )
 
     return parser.parse_args()
 
 
 if __name__ == "__main__":  # pragma: no cover
     args = parse_arguments()
-    load_fixed_data(args.yaml_path, args.save_items)
+    load_fixed_data(args.yaml_path, args.save_items, args.skip_empty_check)
