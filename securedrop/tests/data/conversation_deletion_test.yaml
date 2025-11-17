@@ -25,13 +25,18 @@ sources:
     items:
       - uuid: b8260d37-87b2-49b3-a235-bac31c11021d
         kind: message
-        content: Cras ultricies <b>ligula sed magna</b> dictum porta. Vestibulum ante ipsum primis in faucibus <i>orci luctus</i> et ultrices posuere cubilia curae.
+        content: >-
+          Cras ultricies <b>ligula sed magna</b> dictum porta.
+          Vestibulum ante ipsum primis in faucibus <i>orci luctus</i>
+          et ultrices posuere cubilia curae.
         seen_by: []
         downloaded: 0
         encrypted_file: items/b8260d37-87b2-49b3-a235-bac31c11021d.gpg
       - uuid: 96325861-741a-41eb-91b5-bb1ff34f3e70
         kind: message
-        content: Proin eget <i>tortor risus</i>. Vestibulum ac diam sit amet quam <b>vehicula elementum</b> sed sit amet dui. Pellentesque in ipsum id <i>orci porta dapibus</i>. Vivamus magna justo, lacinia eget <b>consectetur sed</b>, convallis at tellus.
+        content: >-
+          Proin eget <i>tortor risus</i>. Vestibulum ac diam sit amet quam <b>vehicula elementum</b> sed sit amet dui.
+          Pellentesque in ipsum id <i>orci porta dapibus</i>. Vivamus magna justo, lacinia eget <b>consectetur sed</b>, convallis at tellus.
         seen_by: []
         downloaded: 0
         encrypted_file: items/96325861-741a-41eb-91b5-bb1ff34f3e70.gpg

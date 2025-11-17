@@ -329,7 +329,9 @@ def import_seen_records(
     db.session.commit()
 
 
-def load_fixed_data(yaml_path: Path, save_items: bool = False, skip_empty_check: bool = False) -> None:
+def load_fixed_data(
+    yaml_path: Path, save_items: bool = False, skip_empty_check: bool = False
+) -> None:
     """Load fixed test data from YAML into the database."""
     if not os.environ.get("SECUREDROP_ENV"):
         os.environ["SECUREDROP_ENV"] = "dev"

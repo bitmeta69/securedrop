@@ -6,12 +6,13 @@ single-round-trip consistency scenarios described in PLAN.md.
 
 from __future__ import annotations
 
+import tempfile
+import uuid
 from dataclasses import asdict
 from pathlib import Path
-import tempfile
 from typing import Collection
-import uuid
 
+import loadfixeddata
 import pytest
 from flask import Flask, url_for
 from flask.testing import FlaskClient
@@ -28,11 +29,11 @@ from journalist_app.api2.types import (
     Version,
 )
 from models import Reply, Source, SourceStar, Submission
-import loadfixeddata
-import redwood
 from tests.utils import ascii_armor, decrypt_as_journalist
 from tests.utils.api_helper import get_api_headers
 from werkzeug.test import TestResponse
+
+import redwood
 
 JOURNALIST_PUBLIC_KEY = (
     Path(__file__).resolve().parent / "files" / "test_journalist_key.pub"
@@ -83,21 +84,21 @@ def verify_single_round_trip_consistency(
     assert server_etag, "Server index response is missing an ETag"
     server_version = server_etag.strip('"')
 
-    assert client_projected_version == server_version, (
-        "Client projection does not match server index ETag"
-    )
+    assert (
+        client_projected_version == server_version
+    ), "Client projection does not match server index ETag"
 
     response_sources = set(response_payload.get("sources", {}))
     for source_uuid in expected_changed_sources:
-        assert source_uuid in response_sources, (
-            f"Expected source {source_uuid} in BatchResponse but it was missing"
-        )
+        assert (
+            source_uuid in response_sources
+        ), f"Expected source {source_uuid} in BatchResponse but it was missing"
 
     response_items = set(response_payload.get("items", {}))
     for item_uuid in expected_changed_items:
-        assert item_uuid in response_items, (
-            f"Expected item {item_uuid} in BatchResponse but it was missing"
-        )
+        assert (
+            item_uuid in response_items
+        ), f"Expected item {item_uuid} in BatchResponse but it was missing"
 
 
 def load_test_data(yaml_filename: str) -> None:
@@ -225,7 +226,7 @@ def test_reply_sent_single_round_trip(
     journalist_api_token: str,
     test_journo: dict,
     source_for_reply_test: Source,
-):
+) -> None:
     """Ensure reply_sent events create replies and satisfy single-round-trip consistency."""
 
     plaintext = "the quick brown fox jumped over the lazy dog"
@@ -237,6 +238,7 @@ def test_reply_sent_single_round_trip(
             headers=get_api_headers(journalist_api_token),
         )
         assert initial_index.status_code == 200
+        assert initial_index.json is not None
         source_version = initial_index.json["sources"][source_uuid]
 
         with journalist_app.app_context():
@@ -265,6 +267,7 @@ def test_reply_sent_single_round_trip(
         )
 
         assert response.status_code == 200
+        assert response.json is not None
         assert response.json["events"][event.id] == [200, None]
         assert reply_uuid in response.json["items"]
         assert source_uuid in response.json["sources"]
@@ -301,6 +304,7 @@ def test_reply_sent_single_round_trip(
             json={"events": [asdict(event)]},
             headers=get_api_headers(journalist_api_token),
         )
+        assert duplicate.json is not None
         assert duplicate.json["events"][event.id] == [208, None]
 
 
@@ -308,7 +312,7 @@ def test_source_star_unstar_single_round_trip(
     journalist_app: Flask,
     journalist_api_token: str,
     source_for_star_test: Source,
-):
+) -> None:
     """Starring toggles metadata and surfaces updates for single-round-trip consistency."""
 
     with journalist_app.test_client() as app:
@@ -320,6 +324,7 @@ def test_source_star_unstar_single_round_trip(
             headers=get_api_headers(journalist_api_token),
         )
         assert initial_index.status_code == 200
+        assert initial_index.json is not None
         source_version = initial_index.json["sources"][source_uuid]
 
         star_event = make_source_event(
@@ -335,6 +340,7 @@ def test_source_star_unstar_single_round_trip(
         )
 
         assert star_response.status_code == 200
+        assert star_response.json is not None
         assert star_response.json["events"][star_event.id] == [200, None]
         assert star_response.json["sources"][source_uuid]["is_starred"] is True
 
@@ -356,6 +362,7 @@ def test_source_star_unstar_single_round_trip(
             headers=get_api_headers(journalist_api_token),
         )
         assert refreshed_index.status_code == 200
+        assert refreshed_index.json is not None
         refreshed_version = refreshed_index.json["sources"][source_uuid]
 
         unstar_event = make_source_event(
@@ -371,6 +378,7 @@ def test_source_star_unstar_single_round_trip(
         )
 
         assert unstar_response.status_code == 200
+        assert unstar_response.json is not None
         assert unstar_response.json["events"][unstar_event.id] == [200, None]
         assert unstar_response.json["sources"][source_uuid]["is_starred"] is False
 
@@ -393,7 +401,7 @@ def test_batch_item_seen_single_round_trip(
     journalist_api_token: str,
     test_journo: dict,
     source_for_seen_test: Source,
-):
+) -> None:
     """Marking a batch of items as seen updates metadata in a single response."""
 
     with journalist_app.test_client() as app:
@@ -419,6 +427,7 @@ def test_batch_item_seen_single_round_trip(
         item_uuids = [item.uuid for item in all_items]
 
         events = []
+        assert initial_index.json is not None
         for offset, item_uuid in enumerate(item_uuids):
             item_version = initial_index.json["items"][item_uuid]
             events.append(
@@ -437,6 +446,7 @@ def test_batch_item_seen_single_round_trip(
         )
 
         assert response.status_code == 200
+        assert response.json is not None
         for event in events:
             assert response.json["events"][event.id] == [200, None]
 
@@ -465,6 +475,7 @@ def test_batch_item_seen_single_round_trip(
             json={"events": [asdict(event) for event in events]},
             headers=get_api_headers(journalist_api_token),
         )
+        assert duplicate.json is not None
         for event in events:
             assert duplicate.json["events"][event.id][0] in {208, 410}
 
@@ -473,7 +484,7 @@ def test_item_deleted_single_round_trip(
     journalist_app: Flask,
     journalist_api_token: str,
     source_for_item_deletion_test: tuple[Source, list[Submission]],
-):
+) -> None:
     """Deleting a single item returns a tombstone for that item."""
 
     with journalist_app.test_client() as app:
@@ -485,6 +496,7 @@ def test_item_deleted_single_round_trip(
             headers=get_api_headers(journalist_api_token),
         )
         assert initial_index.status_code == 200
+        assert initial_index.json is not None
         item_version = initial_index.json["items"][item_uuid]
 
         event = make_item_event(
@@ -500,6 +512,7 @@ def test_item_deleted_single_round_trip(
         )
 
         assert response.status_code == 200
+        assert response.json is not None
         assert response.json["events"][event.id] == [200, None]
         assert response.json["items"][item_uuid] is None
 
@@ -520,6 +533,7 @@ def test_item_deleted_single_round_trip(
             json={"events": [asdict(event)]},
             headers=get_api_headers(journalist_api_token),
         )
+        assert duplicate.json is not None
         assert duplicate.json["events"][event.id][0] in {208, 410}
 
 
@@ -527,7 +541,7 @@ def test_source_deleted_single_round_trip(
     journalist_app: Flask,
     journalist_api_token: str,
     source_for_source_deletion_test: Source,
-):
+) -> None:
     """Deleting a source returns tombstones for the source and its items."""
 
     with journalist_app.test_client() as app:
@@ -538,6 +552,7 @@ def test_source_deleted_single_round_trip(
             headers=get_api_headers(journalist_api_token),
         )
         assert initial_index.status_code == 200
+        assert initial_index.json is not None
         source_version = initial_index.json["sources"][source_uuid]
 
         with journalist_app.app_context():
@@ -556,6 +571,7 @@ def test_source_deleted_single_round_trip(
             json={"events": [asdict(wrong_event)]},
             headers=get_api_headers(journalist_api_token),
         )
+        assert wrong_response.json is not None
         assert wrong_response.json["events"][wrong_event.id][0] == 409
 
         event = make_source_event(
@@ -571,6 +587,7 @@ def test_source_deleted_single_round_trip(
         )
 
         assert response.status_code == 200
+        assert response.json is not None
         assert response.json["events"][event.id] == [200, None]
         assert response.json["sources"][source_uuid] is None
         for item_uuid in item_uuids:
@@ -595,6 +612,7 @@ def test_source_deleted_single_round_trip(
             json={"events": [asdict(event)]},
             headers=get_api_headers(journalist_api_token),
         )
+        assert duplicate.json is not None
         assert duplicate.json["events"][event.id][0] in {208, 410}
 
 
@@ -602,7 +620,7 @@ def test_source_conversation_deleted_single_round_trip(
     journalist_app: Flask,
     journalist_api_token: str,
     source_for_conversation_deletion_test: Source,
-):
+) -> None:
     """Deleting a conversation purges items while preserving the source record."""
 
     with journalist_app.test_client() as app:
@@ -613,6 +631,7 @@ def test_source_conversation_deleted_single_round_trip(
             headers=get_api_headers(journalist_api_token),
         )
         assert initial_index.status_code == 200
+        assert initial_index.json is not None
         source_version = initial_index.json["sources"][source_uuid]
 
         with journalist_app.app_context():
@@ -639,6 +658,7 @@ def test_source_conversation_deleted_single_round_trip(
         )
 
         assert response.status_code == 200
+        assert response.json is not None
         assert response.json["events"][event.id] == [200, None]
         assert response.json["sources"][source_uuid] is not None
         for item_uuid in item_uuids:
