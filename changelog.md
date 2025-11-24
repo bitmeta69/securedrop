@@ -2,6 +2,68 @@
 
 ## 2.13.0~rc1
 
+### Web Applications and API
+
+* Add check for valid tab IDs when creating sources (#7708)
+* Update Rust version to 1.90.0 (#7688)
+* Update wordlist to remove offensive term (#7678)
+* Add Clear-Site-Data header on logout response for Source Interface (#7660)
+* Use separate prefix for session cookies in Source and Journalist Interface (#7662)
+* Implement v2 Journalist API (#7604, #7622, #7624, #7626, #7629, #7665, #7685, #7691, #7683, #7701, #7681, #7699, #7705, #7706, #7712, #7703, #7713, #7716, #7719)
+* Fix UndefinedError exception on 404 responses for static URLs (#7504)
+* Fix deprecation warnings in `pretty_bad_privacy` (#7532)
+* Remove guard around opening i18n.json (#7458)
+* Dependency updates:
+  * pip to 25.2 (#7668)
+  * psutil to 7.0.0 (#7642)
+
+### Operations
+
+* Update admin toolng to be deployed as a Debian package instead of via git (#7606)
+* Suppress OSSEC alert caused by non-error Tor log message (#7670)
+* Remove support for Ubuntu 20.04 (Focal) #7671, #7673, #7674)
+* Add playbook checks for server OS version (#7652, #7654)
+* Support admin tools in Qubes (#7576)
+* Dependency updates:
+  * markupsafe to 3.0.3 (#7606)
+  * resolvelib to 1.0.1 (#7606)
+  * wcwidth to 0.2.13 (#7606)
+
+### Development
+
+* Add test to validate apparmor config (#7702)
+* Update test Firefox and Tor Browser versions to 140 and 15 respectively (#7698)
+* Add workflows for demo container management to Github Packages (#7693)
+* Clean up cargo config following noble migration removal (#7680)
+* Support import of fixd datasets (#7669)
+* add redwood build artifacts to `.gitignore` (#7643)
+* Add CSP for demo landing page (#7638)
+* Remove `safety` Makefile target and CI jobs (#7627)
+* Increase functional test startup timeout (#7623)
+* Add dependency review Github Actions workflow (#7625)
+* Remove CircleCI badge from README (#7598)
+* Update developer quickstart section in README (#7596)
+* Add optional datastore persistence for the dev environments (#7578)
+* Set Ubuntu Noble as default in devops scripts and dev environments (#7570)
+* Update demo Dockerfile to use Ubuntu Noble by default (#7567)
+* Use a base requirements file and consistently apply constraints (#7551)
+* Updated functional test setup to simplify driver creation (#7439)
+* Add "Copy to clipboard" to all fields on demo site (#7557)
+* Update functional tests to use webdriver-supplied locale (#7548)
+* Pin `ruamel.yamel.clib` at version 0.2.12 in Ubuntu Noble (#7550)
+* Add additional dev-helper Makefile targets (#7278)
+* Add integration tests for nl2br jinja2 filter (#7546)
+* Improve testinfra grsecurity checks to support automated kernel testing (#7542)
+* Verify a build tag's signature and working tree (#7478)
+* Dependency updates:
+  * requests to 2.32.4 (#7586)
+  * urllib3 to 2.5.0 (#7582, #7586)
+  * uv to 0.9.6 (#7710)
+  * semgrep to 1.142.1 (#7710)
+  * Github actions/upload-artifact to 5 (#7694)
+  * Github actions/setup-python to 6 (#7656)
+  * Github actions/download to 5 (#7636)
+  * Github actions/checkout to 5 (#7637)
 
 ## 2.12.10
 
