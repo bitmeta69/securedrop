@@ -18,9 +18,6 @@ msgstr ""
 "X-Generator: Weblate 5.8.4\n"
 "Generated-By: Babel 2.12.1\n"
 
-msgid "Check for SecureDrop Updates"
-msgstr "Provjeri ako ima SecureDrop ažuriranja"
-
 msgid "Launch Journalist Interface"
 msgstr "Pokreni sučelje za novinare"
 
@@ -50,3 +47,6 @@ msgstr "SecureDrop sučelje za izvore"
 #. Icon
 msgid "{{ tails_config_securedrop_dotfiles }}/securedrop_icon.png"
 msgstr "{{ tails_config_securedrop_dotfiles }}/securedrop_icon.png"
+
+#~ msgid "Check for SecureDrop Updates"
+#~ msgstr "Provjeri ako ima SecureDrop ažuriranja"
