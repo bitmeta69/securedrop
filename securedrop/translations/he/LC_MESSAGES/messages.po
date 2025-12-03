@@ -4,7 +4,19 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
 #
 msgid ""
-msgstr "Project-Id-Version: SecureDrop 0.4.3\nReport-Msgid-Bugs-To: securedrop@freedom.press\nPO-Revision-Date: 2025-07-03 07:37+0000\nLast-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\nLanguage-Team: Hebrew <https://weblate.securedrop.org/projects/securedrop/securedrop/he/>\nLanguage: he\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=(n != 1);\nX-Generator: Weblate 5.11.1\nGenerated-By: Babel 2.4.0\n"
+msgstr ""
+"Project-Id-Version: SecureDrop 0.4.3\n"
+"Report-Msgid-Bugs-To: securedrop@freedom.press\n"
+"PO-Revision-Date: 2025-07-03 07:37+0000\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
+"Language-Team: Hebrew <https://weblate.securedrop.org/projects/securedrop/securedrop/he/>\n"
+"Language: he\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Weblate 5.11.1\n"
+"Generated-By: Babel 2.4.0\n"
 
 msgid "Name too long"
 msgstr "השם ארוך מדי"
@@ -409,11 +421,8 @@ msgstr "כמעט סיימתם! כדי לסיים את הוספת המשתמש ה
 msgid "Can't scan the barcode? You can manually pair FreeOTP with this account by entering the following two-factor secret into the app:"
 msgstr "לא מצליחים לסרוק את הברקוד? ניתן לשייך FreeOTP באופן ידני לחשבון זה על ידי הזנת הקוד הדו-שלבי הבא באפליקציה:"
 
-msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
-msgstr "<strong>קריטי:</strong>&nbsp;&nbsp;מערכת ההפעלה המשמשת את שרתי SecureDrop שלך הגיעה לסוף חייה. נדרש עדכון ידני כדי להפעיל מחדש את ממשק המקור ולהישאר בטוח. אנא פנה למנהל המערכת שלך. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">צריך מידע נוסף</a>"
-
-msgid "<strong>Important:</strong>&nbsp;&nbsp;Your SecureDrop server needs manual attention to resolve issues blocking automatic upgrade to the next operating-system version. Please contact your adminstrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
-msgstr "<strong>חשוב מאוד,</strong>שרת SecureDrop שלך זקוק לטיפול ידני כדי לפתור בעיות החוסמות שדרוג אוטומטי לגרסת מערכת ההפעלה הבאה. אנא צור קשר עם המנהל שלך.<a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">תלמד יותר</a>"
+msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/noble-eol\" rel=\"noreferrer\">Learn More</a>"
+msgstr ""
 
 msgid "Navigation"
 msgstr "ניווט"
@@ -1127,6 +1136,12 @@ msgstr "<strong>חשוב:</strong> אם ברצונך להישאר אנונימי
 
 msgid "Back to submission page"
 msgstr "חזרה לדף שליחת ההודעות"
+
+#~ msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
+#~ msgstr "<strong>קריטי:</strong>&nbsp;&nbsp;מערכת ההפעלה המשמשת את שרתי SecureDrop שלך הגיעה לסוף חייה. נדרש עדכון ידני כדי להפעיל מחדש את ממשק המקור ולהישאר בטוח. אנא פנה למנהל המערכת שלך. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">צריך מידע נוסף</a>"
+
+#~ msgid "<strong>Important:</strong>&nbsp;&nbsp;Your SecureDrop server needs manual attention to resolve issues blocking automatic upgrade to the next operating-system version. Please contact your adminstrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
+#~ msgstr "<strong>חשוב מאוד,</strong>שרת SecureDrop שלך זקוק לטיפול ידני כדי לפתור בעיות החוסמות שדרוג אוטומטי לגרסת מערכת ההפעלה הבאה. אנא צור קשר עם המנהל שלך.<a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">תלמד יותר</a>"
 
 #~ msgid "Click <b>Change</b> to open Security Level preferences"
 #~ msgstr "לחץ על <b>שנה</b> כדי לפתוח את העדפות רמת האבטחה"
