@@ -422,10 +422,7 @@ msgstr "¡Casi listo! Para terminar de agregar este nuevo usuario, haz que confi
 msgid "Can't scan the barcode? You can manually pair FreeOTP with this account by entering the following two-factor secret into the app:"
 msgstr "¿No puedes escanear el código de barras? Puedes emparejar manualmente esta cuenta ingresando el siguiente secreto de dos factores en la aplicación:"
 
-msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
-msgstr ""
-
-msgid "<strong>Important:</strong>&nbsp;&nbsp;Your SecureDrop server needs manual attention to resolve issues blocking automatic upgrade to the next operating-system version. Please contact your adminstrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
+msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/noble-eol\" rel=\"noreferrer\">Learn More</a>"
 msgstr ""
 
 msgid "Navigation"
