@@ -421,11 +421,8 @@ msgstr "Está quase a terminar! Para finalizar a criação deste novo utilizador
 msgid "Can't scan the barcode? You can manually pair FreeOTP with this account by entering the following two-factor secret into the app:"
 msgstr "Não consegue ler o código QR? Pode adicionar a sua conta SecureDrop manualmente na aplicação móvel FreeOTP inserindo o seguinte código secreto de dois fatores (2FA):"
 
-msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
-msgstr "<strong>Critical:</strong>&nbsp;&nbsp;O sistema operativo usado pelos seus servidores SecureDrop já não é suportado. É necessária uma atualização manual para reativar a interface de fontes, em segurança. Por favor contacte o administrador. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Saber Mais</a>"
-
-msgid "<strong>Important:</strong>&nbsp;&nbsp;Your SecureDrop server needs manual attention to resolve issues blocking automatic upgrade to the next operating-system version. Please contact your adminstrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
-msgstr "<strong>Importante:</strong>&nbsp;&nbsp;Os seus servidores SecureDrop precisam de manutenção para resolver problemas que impedem a atualização automática do sistema operativo para a versão seguinte. Por favor, contacte o administrador.<a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Saber Mais</a>"
+msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/noble-eol\" rel=\"noreferrer\">Learn More</a>"
+msgstr ""
 
 msgid "Navigation"
 msgstr "Menu de navegação"
@@ -1139,6 +1136,12 @@ msgstr "<strong>Importante:</strong> para manter o seu anonimato, <strong>não</
 
 msgid "Back to submission page"
 msgstr "Voltar à página de envio"
+
+#~ msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
+#~ msgstr "<strong>Critical:</strong>&nbsp;&nbsp;O sistema operativo usado pelos seus servidores SecureDrop já não é suportado. É necessária uma atualização manual para reativar a interface de fontes, em segurança. Por favor contacte o administrador. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Saber Mais</a>"
+
+#~ msgid "<strong>Important:</strong>&nbsp;&nbsp;Your SecureDrop server needs manual attention to resolve issues blocking automatic upgrade to the next operating-system version. Please contact your adminstrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
+#~ msgstr "<strong>Importante:</strong>&nbsp;&nbsp;Os seus servidores SecureDrop precisam de manutenção para resolver problemas que impedem a atualização automática do sistema operativo para a versão seguinte. Por favor, contacte o administrador.<a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Saber Mais</a>"
 
 #~ msgid "Click <b>Change</b> to open Security Level preferences"
 #~ msgstr "Clique em <b>Alterar (PT) / Change (EN)</b> para abrir as definições de Nível de Segurança"

@@ -4,7 +4,20 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
 #
 msgid ""
-msgstr "Project-Id-Version: SecureDrop 0.3.12\nReport-Msgid-Bugs-To: securedrop@freedom.press\nPOT-Creation-Date: 2017-09-02 07:28+0000\nPO-Revision-Date: 2025-07-02 11:37+0000\nLast-Translator: Øyvind Bye Skille <oyvind@byeskille.net>\nLanguage-Team: Norwegian Bokmål <https://weblate.securedrop.org/projects/securedrop/securedrop/nb_NO/>\nLanguage: nb_NO\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n != 1;\nX-Generator: Weblate 5.11.1\nGenerated-By: Babel 2.4.0\n"
+msgstr ""
+"Project-Id-Version: SecureDrop 0.3.12\n"
+"Report-Msgid-Bugs-To: securedrop@freedom.press\n"
+"POT-Creation-Date: 2017-09-02 07:28+0000\n"
+"PO-Revision-Date: 2025-07-02 11:37+0000\n"
+"Last-Translator: Øyvind Bye Skille <oyvind@byeskille.net>\n"
+"Language-Team: Norwegian Bokmål <https://weblate.securedrop.org/projects/securedrop/securedrop/nb_NO/>\n"
+"Language: nb_NO\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.11.1\n"
+"Generated-By: Babel 2.4.0\n"
 
 msgid "Name too long"
 msgstr "Navnet er for langt"
@@ -409,11 +422,8 @@ msgstr "Du er nesten ferdig! For å fullføre opprettelsen av denne nye brukeren
 msgid "Can't scan the barcode? You can manually pair FreeOTP with this account by entering the following two-factor secret into the app:"
 msgstr "Kan du ikke skanne strekkoden? Du kan koble FreeOTP til denne kontoen manuelt ved å skrive inn følgende tofaktorhemmelighet i FreeOTP:"
 
-msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
-msgstr "<strong>Kritisk:</strong>&nbsp;&nbsp;Operativsystemet på SecureDrop-serverne deres går nå ut på dato. En manuell oppdatering er nødvendig for å på nytt aktivere brukergrensesnittet for kilder, og fortsatt være sikker. Kontakt administratoren for SecureDrop i din organisasjon. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Ler mer</a>"
-
-msgid "<strong>Important:</strong>&nbsp;&nbsp;Your SecureDrop server needs manual attention to resolve issues blocking automatic upgrade to the next operating-system version. Please contact your adminstrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
-msgstr "<strong>Viktig:</strong>&nbsp;&nbsp;Deres SecureDrop-server trenger manuelt ettersyn for å løse problemer som hindrer automatisk oppdatering til neste versjon av operativsystemet. Kontakt administratoren av SecureDrop i din organisasjon. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Lær mer</a>"
+msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/noble-eol\" rel=\"noreferrer\">Learn More</a>"
+msgstr ""
 
 msgid "Navigation"
 msgstr "Navigasjon"
@@ -1127,6 +1137,12 @@ msgstr "<strong>Viktig:</strong> Om du ønsker å være helt anonym, <strong>ikk
 
 msgid "Back to submission page"
 msgstr "Tilbake til innsendelsesside"
+
+#~ msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
+#~ msgstr "<strong>Kritisk:</strong>&nbsp;&nbsp;Operativsystemet på SecureDrop-serverne deres går nå ut på dato. En manuell oppdatering er nødvendig for å på nytt aktivere brukergrensesnittet for kilder, og fortsatt være sikker. Kontakt administratoren for SecureDrop i din organisasjon. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Ler mer</a>"
+
+#~ msgid "<strong>Important:</strong>&nbsp;&nbsp;Your SecureDrop server needs manual attention to resolve issues blocking automatic upgrade to the next operating-system version. Please contact your adminstrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
+#~ msgstr "<strong>Viktig:</strong>&nbsp;&nbsp;Deres SecureDrop-server trenger manuelt ettersyn for å løse problemer som hindrer automatisk oppdatering til neste versjon av operativsystemet. Kontakt administratoren av SecureDrop i din organisasjon. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Lær mer</a>"
 
 #~ msgid "Click <b>Change</b> to open Security Level preferences"
 #~ msgstr "Klikk <b>Change</b> for å åpne Sikkerhetsnivå-innstillingene"

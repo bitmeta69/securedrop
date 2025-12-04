@@ -17,9 +17,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.18.2\n"
 
-msgid "Check for SecureDrop Updates"
-msgstr "Ελέγξτε για ενημερώσεις SecureDrop"
-
 msgid "Launch Journalist Interface"
 msgstr ""
 
@@ -49,3 +46,6 @@ msgstr "Διεπαφή πηγής του SecureDrop"
 #. Icon
 msgid "{{ tails_config_securedrop_dotfiles }}/securedrop_icon.png"
 msgstr ""
+
+#~ msgid "Check for SecureDrop Updates"
+#~ msgstr "Ελέγξτε για ενημερώσεις SecureDrop"

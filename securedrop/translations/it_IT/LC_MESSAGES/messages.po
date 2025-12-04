@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: SecureDrop\n"
 "Report-Msgid-Bugs-To: securedrop@freedom.press\n"
 "POT-Creation-Date: 2017-09-02 07:28+0000\n"
-"PO-Revision-Date: 2025-02-11 11:34+0000\n"
+"PO-Revision-Date: 2025-07-30 13:42+0000\n"
 "Last-Translator: Claudio Arseni <claudio.arseni@ubuntu.com>\n"
 "Language-Team: Italian <https://weblate.securedrop.org/projects/securedrop/securedrop/it/>\n"
 "Language: it_IT\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8.4\n"
+"X-Generator: Weblate 5.12.2\n"
 "Generated-By: Babel 2.4.0\n"
 
 msgid "Name too long"
@@ -425,11 +425,8 @@ msgstr "Hai quasi finito! Per completare l'aggiunta di questo nuovo utente, chie
 msgid "Can't scan the barcode? You can manually pair FreeOTP with this account by entering the following two-factor secret into the app:"
 msgstr "Impossibile eseguire la scansione del codice a barre? È possibile accoppiare manualmente FreeOTP con questo account inserendo il seguente codice a due fattori nell'applicazione:"
 
-msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
-msgstr "<strong>Critico:</strong>&nbsp;&nbsp;Il sistema operativo utilizzato dai tuoi server SecureDrop ha raggiunto la fine del suo ciclo di vita. È necessario un effettuare un aggiornamento manuale per riattivare l'Interfaccia Fonte e mantenere la sicurezza. Contatta il tuo amministratore. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Scopri di più</a>"
-
-msgid "<strong>Important:</strong>&nbsp;&nbsp;Your SecureDrop server needs manual attention to resolve issues blocking automatic upgrade to the next operating-system version. Please contact your adminstrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
-msgstr "<strong>Importante:</strong>&nbsp;&nbsp;Il tuo server SecureDrop richiede un intervento manuale per risolvere i problemi che impediscono l'aggiornamento automatico alla prossima versione del sistema operativo. Contatta il tuo amministratore. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Scopri di più</a>"
+msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/noble-eol\" rel=\"noreferrer\">Learn More</a>"
+msgstr ""
 
 msgid "Navigation"
 msgstr "Navigazione"
@@ -919,16 +916,16 @@ msgid "Click the <img src=\"{icon}\" alt=\"&quot;Security Level&quot; button\"> 
 msgstr "Fare clic su <img src=\"{icon}\" alt=\"Livello sicurezza\"> nella barra degli strumenti qui sopra"
 
 msgid "Click <b>Settings</b> to open Security Level preferences"
-msgstr ""
+msgstr "Fare clic su <b>Impostazioni</b> per aprire le preferenze del livello di sicurezza"
 
 msgid "Click <b>Change…</b> and select <b>Safest</b>"
-msgstr ""
+msgstr "Fare clic su <b>Cambia…</b> e selezionare <b>Più sicuro</b>"
 
 msgid "Click <b>Save and restart.</b>"
-msgstr ""
+msgstr "Fare clic su <b>Salva e risvvia.</b>"
 
 msgid "Tor Browser will restart, with its security level set to <b>Safest</b>. After the restart, come back to this site."
-msgstr ""
+msgstr "Il browser Tor verrà riavviato, con il livello di sicurezza impostato a <b>Più sicuro</b>. Dopo il riavvio, tornare su questo sito."
 
 msgid "<strong>It is recommended to use Tor Browser to access SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Learn how to install it</a>, or ignore this warning to continue."
 msgstr "<strong>Ti consigliamo di usare il Browser Tor per accedere a SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Scopri come installarlo</a>, o ignora questo avviso per continuare."
@@ -1143,6 +1140,12 @@ msgstr "<strong>Importante:</strong> per rimanere anonimi <strong>non usare</str
 
 msgid "Back to submission page"
 msgstr "Torna alla pagina di invio documenti e messaggi"
+
+#~ msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
+#~ msgstr "<strong>Critico:</strong>&nbsp;&nbsp;Il sistema operativo utilizzato dai tuoi server SecureDrop ha raggiunto la fine del suo ciclo di vita. È necessario un effettuare un aggiornamento manuale per riattivare l'Interfaccia Fonte e mantenere la sicurezza. Contatta il tuo amministratore. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Scopri di più</a>"
+
+#~ msgid "<strong>Important:</strong>&nbsp;&nbsp;Your SecureDrop server needs manual attention to resolve issues blocking automatic upgrade to the next operating-system version. Please contact your adminstrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
+#~ msgstr "<strong>Importante:</strong>&nbsp;&nbsp;Il tuo server SecureDrop richiede un intervento manuale per risolvere i problemi che impediscono l'aggiornamento automatico alla prossima versione del sistema operativo. Contatta il tuo amministratore. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Scopri di più</a>"
 
 #~ msgid "Click <b>Change</b> to open Security Level preferences"
 #~ msgstr "Fare clic su <b>Cambia</b> per aprire le impostazioni del Livello di sicurezza"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SecureDrop 1.3.0~rc1\n"
 "Report-Msgid-Bugs-To: securedrop@freedom.press\n"
-"PO-Revision-Date: 2024-12-12 09:33+0000\n"
+"PO-Revision-Date: 2025-09-01 15:37+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://weblate.securedrop.org/projects/securedrop/securedrop/hr/>\n"
 "Language: hr\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.8.4\n"
+"X-Generator: Weblate 5.12.2\n"
 "Generated-By: Babel 2.5.1\n"
 
 msgid "Name too long"
@@ -431,11 +431,8 @@ msgstr "Skoro ste gotovi! Kako bi dovršili dodavanje novog korisnika, uputite g
 msgid "Can't scan the barcode? You can manually pair FreeOTP with this account by entering the following two-factor secret into the app:"
 msgstr "Ne možete skenirati barkod? Možete ručno upariti FreeOTP s ovim računom tako da unesete sljedeću dvofaktorsku tajnu u aplikaciju:"
 
-msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
-msgstr "<strong>Kritično:</strong>&nbsp;&nbsp;Operativni sustav Vašeg SecureDrop poslužitelja je došao do kraja podrške. Potrebno je ručno ažuriranje kako bi se omogućilo sučelje za izvore i kako bi ostali sigurni. Molimo kontaktirajte svog administratora.<a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Saznaj više</a>"
-
-msgid "<strong>Important:</strong>&nbsp;&nbsp;Your SecureDrop server needs manual attention to resolve issues blocking automatic upgrade to the next operating-system version. Please contact your adminstrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
-msgstr "<strong>Važno:</strong>&nbsp;&nbsp; Vaš SecureDrop poslužitelj zahtjeva ručno rješavanje problema sa blokiranim automatskim nadogradnjama na novu verziju operativnog sustava. Molimo kontaktirajte svog administratora. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Saznaj više</a>"
+msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/noble-eol\" rel=\"noreferrer\">Learn More</a>"
+msgstr ""
 
 msgid "Navigation"
 msgstr "Navigacija"
@@ -926,16 +923,16 @@ msgid "Click the <img src=\"{icon}\" alt=\"&quot;Security Level&quot; button\"> 
 msgstr "Pritisnite <img src=\"{icon}\" alt=\"gumb &quot;Razina sigurnosti&quot;\"> u gornjoj alatnoj traci"
 
 msgid "Click <b>Settings</b> to open Security Level preferences"
-msgstr ""
+msgstr "Kliknite na <b>Postavke</b> da biste otvorili postavke za razinu sigurnosti"
 
 msgid "Click <b>Change…</b> and select <b>Safest</b>"
-msgstr ""
+msgstr "Kliknite na <b>Promijeni…</b> i odaberite <b>Najsigurnije</b>"
 
 msgid "Click <b>Save and restart.</b>"
-msgstr ""
+msgstr "Kliknite na <b>Spremi i pokreni ponovo.</b>"
 
 msgid "Tor Browser will restart, with its security level set to <b>Safest</b>. After the restart, come back to this site."
-msgstr ""
+msgstr "Tor preglednik će se ponovo pokrenuti s postavljanom razine sigurnosti na <b>Najsigurnije</b>. Nakon ponovnog pokretanja, vratite se na ovu stranicu."
 
 msgid "<strong>It is recommended to use Tor Browser to access SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Learn how to install it</a>, or ignore this warning to continue."
 msgstr "<strong>Preporučuje se korištenje Tor preglednika za pristup SecureDrop-u:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Saznajte kako ga instalirati</a> ili zanemarite ovo upozorenje i nastavite."
@@ -1150,6 +1147,12 @@ msgstr "<strong>Važno:</strong> Ako želite ostati anonimni, <strong>nemojte</s
 
 msgid "Back to submission page"
 msgstr "Natrag na stranicu predaje"
+
+#~ msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
+#~ msgstr "<strong>Kritično:</strong>&nbsp;&nbsp;Operativni sustav Vašeg SecureDrop poslužitelja je došao do kraja podrške. Potrebno je ručno ažuriranje kako bi se omogućilo sučelje za izvore i kako bi ostali sigurni. Molimo kontaktirajte svog administratora.<a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Saznaj više</a>"
+
+#~ msgid "<strong>Important:</strong>&nbsp;&nbsp;Your SecureDrop server needs manual attention to resolve issues blocking automatic upgrade to the next operating-system version. Please contact your adminstrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
+#~ msgstr "<strong>Važno:</strong>&nbsp;&nbsp; Vaš SecureDrop poslužitelj zahtjeva ručno rješavanje problema sa blokiranim automatskim nadogradnjama na novu verziju operativnog sustava. Molimo kontaktirajte svog administratora. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Saznaj više</a>"
 
 #~ msgid "Click <b>Change</b> to open Security Level preferences"
 #~ msgstr "Pritisnite <b>Promijeni</b> za otvaranje postavki razine sigurnosti"

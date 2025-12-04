@@ -4,7 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
 #
 msgid ""
-msgstr "Project-Id-Version: SecureDrop 0.8.0~rc1\nReport-Msgid-Bugs-To: securedrop@freedom.press\nPO-Revision-Date: 2025-07-10 13:37+0000\nLast-Translator: Maryam Azad <hannahperez8@protonmail.com>\nLanguage-Team: Persian <https://weblate.securedrop.org/projects/securedrop/securedrop/fa/>\nLanguage: fa\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n > 1;\nX-Generator: Weblate 5.11.1\nGenerated-By: Babel 2.5.1\n"
+msgstr "Project-Id-Version: SecureDrop 0.8.0~rc1\nReport-Msgid-Bugs-To: securedrop@freedom.press\nPO-Revision-Date: 2025-11-20 12:39+0000\nLast-Translator: Maryam Azad <hannahperez8@protonmail.com>\nLanguage-Team: Persian <https://weblate.securedrop.org/projects/securedrop/securedrop/fa/>\nLanguage: fa\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n > 1;\nX-Generator: Weblate 5.13.3\nGenerated-By: Babel 2.5.1\n"
 
 msgid "Name too long"
 msgstr "نام بیش از حد طولانی است"
@@ -409,11 +409,8 @@ msgstr "تقریباً کار تمام است! برای تکمیل اضافه ک
 msgid "Can't scan the barcode? You can manually pair FreeOTP with this account by entering the following two-factor secret into the app:"
 msgstr "نمی‌توانید بارکد را اسکن کنید؟ می‌توانید با وارد کردن رمز دوعاملی زیر در برنامه، FreeOTP را به صورت دستی با این حساب جفت کنید:"
 
-msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
-msgstr "<strong>مهم:</strong>&nbsp;&nbsp;سیستم عاملی که توسط سرورهای سکیوردراپ شما استفاده می‌شود به پایان عمر خود رسیده است. برای فعال کردن مجدد رابط منبع و ایمن ماندن، به‌روزرسانی دستی لازم است. لطفاً با مدیر خود تماس بگیرید. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">بیشتر یاد بگیرید</a>"
-
-msgid "<strong>Important:</strong>&nbsp;&nbsp;Your SecureDrop server needs manual attention to resolve issues blocking automatic upgrade to the next operating-system version. Please contact your adminstrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
-msgstr "<strong>مهم:</strong>&nbsp;&nbsp;سرور سکیوردراپ شما برای رفع مشکلات مربوط به مسدود کردن ارتقاء خودکار به نسخه بعدی سیستم عامل، نیاز به رسیدگی دستی دارد. لطفاً با مدیر خود تماس بگیرید. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">بیشتر یاد بگیرید</a>"
+msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/noble-eol\" rel=\"noreferrer\">Learn More</a>"
+msgstr "<strong>مهم:</strong>&nbsp;&nbsp;سیستم عامل مورد استفاده سرورهای سکیوردراپ شما به پایان عمر خود رسیده است. برای فعال کردن مجدد رابط منبع و ایمن ماندن، به‌روزرسانی دستی الزامی است. لطفاً با مدیر خود تماس بگیرید.<a href=\"https://securedrop.org/noble-eol\" rel=\"noreferrer\">بیشتر یاد بگیرید</a>"
 
 msgid "Navigation"
 msgstr "پیمایش کردن"
@@ -1100,7 +1097,9 @@ msgstr "اگر شما از قبل با نرم افزار رمزگذاری GPG آ
 msgid ""
 "<a href=\"{url}\">Download</a> the public key. It will be saved to a file called:\n"
 "        <p><code>{submission_key_fpr_filename}</code></p>"
-msgstr "<a href=\"{url}\">بارگیری</a> کلید عمومی. در فایلی به نام زیر ذخیره می شود:\n        <p><code>{submission_key_fpr_filename}</code></p>"
+msgstr ""
+"<a href=\"{url}\">بارگیری</a> کلید عمومی. در فایلی به نام زیر ذخیره می شود:\n"
+"        <p><code>{submission_key_fpr_filename}</code></p>"
 
 msgid "Import it into your GPG keyring."
 msgstr "آن را به صفحه کلید GPG خود وارد کنید."
@@ -1125,6 +1124,12 @@ msgstr "<strong>مهم:</strong> اگر می خواهید ناشناس بمان�
 
 msgid "Back to submission page"
 msgstr "بازگشت به صفحه ارسال"
+
+#~ msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
+#~ msgstr "<strong>مهم:</strong>&nbsp;&nbsp;سیستم عاملی که توسط سرورهای سکیوردراپ شما استفاده می‌شود به پایان عمر خود رسیده است. برای فعال کردن مجدد رابط منبع و ایمن ماندن، به‌روزرسانی دستی لازم است. لطفاً با مدیر خود تماس بگیرید. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">بیشتر یاد بگیرید</a>"
+
+#~ msgid "<strong>Important:</strong>&nbsp;&nbsp;Your SecureDrop server needs manual attention to resolve issues blocking automatic upgrade to the next operating-system version. Please contact your adminstrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
+#~ msgstr "<strong>مهم:</strong>&nbsp;&nbsp;سرور سکیوردراپ شما برای رفع مشکلات مربوط به مسدود کردن ارتقاء خودکار به نسخه بعدی سیستم عامل، نیاز به رسیدگی دستی دارد. لطفاً با مدیر خود تماس بگیرید. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">بیشتر یاد بگیرید</a>"
 
 #~ msgid "Field must be between 1 and {max_codename_len} characters long."
 #~ msgstr "فیلد باید بین 1 تا {max_codename_len} کاراکتر طولانی باشد."

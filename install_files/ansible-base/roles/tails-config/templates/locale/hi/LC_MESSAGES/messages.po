@@ -17,9 +17,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.7.1\n"
 
-msgid "Check for SecureDrop Updates"
-msgstr "SecureDrop के नए अपडेट्स के लिए चेक करे"
-
 msgid "Launch Journalist Interface"
 msgstr "पत्रकार मोड मे जाए"
 
@@ -49,3 +46,6 @@ msgstr "SecureDrop स्रोत अंतराफलक"
 #. Icon
 msgid "{{ tails_config_securedrop_dotfiles }}/securedrop_icon.png"
 msgstr "{{ tails_config_securedrop_dotfiles }}/securedrop_icon.png"
+
+#~ msgid "Check for SecureDrop Updates"
+#~ msgstr "SecureDrop के नए अपडेट्स के लिए चेक करे"

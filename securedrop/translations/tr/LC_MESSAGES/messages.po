@@ -4,7 +4,19 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
 #
 msgid ""
-msgstr "Project-Id-Version: SecureDrop 0.5-rc4\nReport-Msgid-Bugs-To: securedrop@freedom.press\nPO-Revision-Date: 2025-07-03 07:37+0000\nLast-Translator: tekrei <tekrei@tutanota.com>\nLanguage-Team: Turkish <https://weblate.securedrop.org/projects/securedrop/securedrop/tr/>\nLanguage: tr\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n != 1;\nX-Generator: Weblate 5.11.1\nGenerated-By: Babel 2.4.0\n"
+msgstr ""
+"Project-Id-Version: SecureDrop 0.5-rc4\n"
+"Report-Msgid-Bugs-To: securedrop@freedom.press\n"
+"PO-Revision-Date: 2025-07-03 07:37+0000\n"
+"Last-Translator: tekrei <tekrei@tutanota.com>\n"
+"Language-Team: Turkish <https://weblate.securedrop.org/projects/securedrop/securedrop/tr/>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.11.1\n"
+"Generated-By: Babel 2.4.0\n"
 
 msgid "Name too long"
 msgstr "İsim çok uzun"
@@ -409,11 +421,8 @@ msgstr "Neredeyse bitti! Yeni kullanıcıyı eklemeyi tamamlamak için, kullanı
 msgid "Can't scan the barcode? You can manually pair FreeOTP with this account by entering the following two-factor secret into the app:"
 msgstr "Barkodu okutamıyor musunuz? Şu iki aşamalı kimlik doğrulama parolasını uygulamaya yazarak FreeOTP ile bu hesabı el ile eşleştirebilirsiniz:"
 
-msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
-msgstr "<strong>Kritik:</strong>&nbsp;&nbsp;SecureDrop sunucularınızda kullanılan işletim sistemi kullanım ömrünün sonuna gelmiştir. Kaynak Arayüzünü yeniden etkinleştirmek ve güvenliği sağlamak için manuel güncelleme yapılması gerekmektedir. Lütfen yöneticinize başvurun. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Daha Fazlasını Öğrenin</a>"
-
-msgid "<strong>Important:</strong>&nbsp;&nbsp;Your SecureDrop server needs manual attention to resolve issues blocking automatic upgrade to the next operating-system version. Please contact your adminstrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
-msgstr "<strong>Önemli:</strong>&nbsp;&nbsp;SecureDrop sunucunuzun, bir sonraki işletim sistemi sürümüne otomatik yükseltmeyi engelleyen sorunları çözmek için manuel müdahaleye ihtiyacı vardır. Lütfen yöneticinize başvurun. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Daha Fazlasını Öğrenin</a>"
+msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/noble-eol\" rel=\"noreferrer\">Learn More</a>"
+msgstr ""
 
 msgid "Navigation"
 msgstr "Gezinme"
@@ -1128,6 +1137,12 @@ msgstr "<strong>Önemli:</strong> Anonim kalmak istiyorsanız, dosyanın GPG tar
 
 msgid "Back to submission page"
 msgstr "Gönderi sayfasına geri dön"
+
+#~ msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
+#~ msgstr "<strong>Kritik:</strong>&nbsp;&nbsp;SecureDrop sunucularınızda kullanılan işletim sistemi kullanım ömrünün sonuna gelmiştir. Kaynak Arayüzünü yeniden etkinleştirmek ve güvenliği sağlamak için manuel güncelleme yapılması gerekmektedir. Lütfen yöneticinize başvurun. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Daha Fazlasını Öğrenin</a>"
+
+#~ msgid "<strong>Important:</strong>&nbsp;&nbsp;Your SecureDrop server needs manual attention to resolve issues blocking automatic upgrade to the next operating-system version. Please contact your adminstrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
+#~ msgstr "<strong>Önemli:</strong>&nbsp;&nbsp;SecureDrop sunucunuzun, bir sonraki işletim sistemi sürümüne otomatik yükseltmeyi engelleyen sorunları çözmek için manuel müdahaleye ihtiyacı vardır. Lütfen yöneticinize başvurun. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Daha Fazlasını Öğrenin</a>"
 
 #~ msgid "Click <b>Change</b> to open Security Level preferences"
 #~ msgstr "Güvenlik düzeyi ayarlarını açmak için <b>Değiştir</b> üzerine tıklayın"

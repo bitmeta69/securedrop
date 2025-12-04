@@ -4,19 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
 #
 msgid ""
-msgstr ""
-"Project-Id-Version: SecureDrop 0.5-rc4\n"
-"Report-Msgid-Bugs-To: securedrop@freedom.press\n"
-"PO-Revision-Date: 2024-10-23 20:33+0000\n"
-"Last-Translator: victor dargallo <victordargallo@disroot.org>\n"
-"Language-Team: Catalan <https://weblate.securedrop.org/projects/securedrop/securedrop/ca/>\n"
-"Language: ca\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7.1\n"
-"Generated-By: Babel 2.4.0\n"
+msgstr "Project-Id-Version: SecureDrop 0.5-rc4\nReport-Msgid-Bugs-To: securedrop@freedom.press\nPO-Revision-Date: 2025-11-21 12:06+0000\nLast-Translator: John Smith <ecron_89@hotmail.com>\nLanguage-Team: Catalan <https://weblate.securedrop.org/projects/securedrop/securedrop/ca/>\nLanguage: ca\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n != 1;\nX-Generator: Weblate 5.13.3\nGenerated-By: Babel 2.4.0\n"
 
 msgid "Name too long"
 msgstr "El nom és massa llarg"
@@ -421,11 +409,8 @@ msgstr "Gairebé heu acabat! Per finalitzar l'addició d'aquest usuari nou, segu
 msgid "Can't scan the barcode? You can manually pair FreeOTP with this account by entering the following two-factor secret into the app:"
 msgstr "No podeu escanejar el codi de barres? Podeu vincular manualment el FreeOTP amb aquest compte, inserint el codi de factor doble a l'aplicació:"
 
-msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
-msgstr ""
-
-msgid "<strong>Important:</strong>&nbsp;&nbsp;Your SecureDrop server needs manual attention to resolve issues blocking automatic upgrade to the next operating-system version. Please contact your adminstrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
-msgstr ""
+msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/noble-eol\" rel=\"noreferrer\">Learn More</a>"
+msgstr "<strong>Crític:</strong>&nbsp;&nbsp;El sistema operatiu que fan servir els servidors del vostre SecureDrop ha assolit la fi de la seva vida útil. Cal fer una actualització manual per a reactivar la Interfície Font o restablir la seguretat. Contacteu amb l'administració. <a href=\"https://securedrop.org/noble-eol\" rel=\"noreferrer\">Més informació</a>"
 
 msgid "Navigation"
 msgstr "Navegació"
@@ -730,7 +715,7 @@ msgid "Date"
 msgstr "Data"
 
 msgid "There are no submissions."
-msgstr ""
+msgstr "No hi ha cap enviament."
 
 msgid "Filter by codename"
 msgstr "Filtra per nom en clau"
@@ -915,16 +900,16 @@ msgid "Click the <img src=\"{icon}\" alt=\"&quot;Security Level&quot; button\"> 
 msgstr "Feu clic al botó <img src=\"{icon}\" alt=\"Botó &quot;Nivell de seguretat&quot;\"> de la barra d'eines superior"
 
 msgid "Click <b>Settings</b> to open Security Level preferences"
-msgstr ""
+msgstr "Feu clic a <b>Configuració</b> per a obrir les preferències dels Nivells de Seguretat"
 
 msgid "Click <b>Change…</b> and select <b>Safest</b>"
-msgstr ""
+msgstr "Feu clic a <b>Canvia…</b> i seleccioneu <b>El més segur</b>"
 
 msgid "Click <b>Save and restart.</b>"
-msgstr ""
+msgstr "Feu clic <b>Desa i reinicia.</b>"
 
 msgid "Tor Browser will restart, with its security level set to <b>Safest</b>. After the restart, come back to this site."
-msgstr ""
+msgstr "El Navegador Tor es reiniciarà, amb el seu nivell de seguretat establert a <b>El més segur</b>. En reiniciar-se, torneu a aquest lloc."
 
 msgid "<strong>It is recommended to use Tor Browser to access SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Learn how to install it</a>, or ignore this warning to continue."
 msgstr "<strong>És recomanable l'ús del navegador Tor per accedir al SecureDrop:</strong><a class=\"recommend-tor\" href=\"{tor_browser_url}\">Apreneu com instal·lar-lo</a> o ignoreu aquest avís per a continuar."
@@ -1068,7 +1053,7 @@ msgid "Always use Tor Browser (<code>{}</code>) to access SecureDrop. Valid Secu
 msgstr "Utilitzeu sempre el Tor Browser (<code>{}</code>) per accedir al SecureDrop. Les adreces vàlides de llocs del SecureDrop acaben en <code>.onion</code>. L'adreça correcta per a aquest lloc web és:"
 
 msgid "If you are already using Tor Browser, copy the address above and click Tor Browser's <strong>New Identity</strong> button before you access SecureDrop."
-msgstr ""
+msgstr "Si encara utilitzeu el Navegador Tor, copieu l'adreça de sobre i feu clic al botó <strong>Identitat nova</strong> del Navegador tor abans d'accedir al SecureDrop."
 
 msgid "If there is a reasonable risk of your Internet traffic being monitored, consider connecting from a different location or network."
 msgstr "Si existeix cap risc potencial que la vostra connexió d'Internet sigui monitorada, considereu connectar des d'altra ubicació o connexió."
@@ -1095,7 +1080,7 @@ msgid "Codename"
 msgstr "Nom en clau"
 
 msgid "Reveal Codename"
-msgstr "Mostra el nom en clau"
+msgstr "Revela el nom en clau"
 
 msgid "Show Codename"
 msgstr "Mostra el nom en clau"

@@ -411,11 +411,8 @@ msgstr "就快完成了！要完成新用户的添加，请让他们按照下面
 msgid "Can't scan the barcode? You can manually pair FreeOTP with this account by entering the following two-factor secret into the app:"
 msgstr "无法扫描二维码？您可手动输入下列两步验证密钥以将您的账户关联至 FreeOTP:"
 
-msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
-msgstr "<strong>紧急：</strong>&nbsp;&nbsp;你的 SecureDrop 服务器所用的操作系统生命周期已结束。需要手动更新来重新启用信源界面并保持安全。请联系你的管理员。<a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">了解更多</a>"
-
-msgid "<strong>Important:</strong>&nbsp;&nbsp;Your SecureDrop server needs manual attention to resolve issues blocking automatic upgrade to the next operating-system version. Please contact your adminstrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
-msgstr "<strong>重要：</strong>&nbsp;&nbsp;你的 SecureDrop 服务器需要人工关注来解决阻止自动更新到下一个操作系统版本的问题，请联系你的管理员。<a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">了解更多</a>"
+msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/noble-eol\" rel=\"noreferrer\">Learn More</a>"
+msgstr ""
 
 msgid "Navigation"
 msgstr "导航"
@@ -1128,6 +1125,12 @@ msgstr "<strong>重要提示：</strong>若您想保持匿名身份，<strong>�
 
 msgid "Back to submission page"
 msgstr "返回提交页面"
+
+#~ msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
+#~ msgstr "<strong>紧急：</strong>&nbsp;&nbsp;你的 SecureDrop 服务器所用的操作系统生命周期已结束。需要手动更新来重新启用信源界面并保持安全。请联系你的管理员。<a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">了解更多</a>"
+
+#~ msgid "<strong>Important:</strong>&nbsp;&nbsp;Your SecureDrop server needs manual attention to resolve issues blocking automatic upgrade to the next operating-system version. Please contact your adminstrator. <a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">Learn More</a>"
+#~ msgstr "<strong>重要：</strong>&nbsp;&nbsp;你的 SecureDrop 服务器需要人工关注来解决阻止自动更新到下一个操作系统版本的问题，请联系你的管理员。<a href=\"https://securedrop.org/focal-eol\" rel=\"noreferrer\">了解更多</a>"
 
 #~ msgid "Click <b>Change</b> to open Security Level preferences"
 #~ msgstr "点击<b>更改</b>来打开安全等级设置"
