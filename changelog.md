@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.13.0~rc1
+## 2.13.0
 
 ### Web Applications and API
 
@@ -19,7 +19,7 @@
 
 ### Operations
 
-* Update admin toolng to be deployed as a Debian package instead of via git (#7606)
+* Update admin tooling to be deployed as a Debian package instead of via git (#7606)
 * Suppress OSSEC alert caused by non-error Tor log message (#7670)
 * Remove support for Ubuntu 20.04 (Focal) #7671, #7673, #7674)
 * Add playbook checks for server OS version (#7652, #7654)
