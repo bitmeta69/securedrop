@@ -2,6 +2,41 @@
 
 ## 2.14.0~rc1
 
+### Web Applications and API
+
+* Update Source Interface warning banner to refer to modern mobile browsers (#7751)
+
+* v2 Journalist API:
+  * Support conversation truncation via source\_conversation\_truncated event (#7723)
+  * Document synchronization behaviour with multiple clients (#7734)
+  * Strengthen binding between Event.type and Event.target (#7744)
+
+### Operations
+
+* Ensure KeePassXC is installed with securedrop-admin (#7762)
+
+### Development
+
+* Update image build automation to drop redundant tag prep jobs (#7742)
+* Remove current year from messages.pot (#7753)
+* Have ruff lint against Python 3.12 as its baseline (#7764)
+
+* Dependency updates:
+  * Github actions/checkout from 5 to 6 (#7724)
+  * Github actions/cache from 4 to 5 (#7739)
+  * Github actions/download-artifact from 5 to 7 (#7738)
+  * Github actions/upload-artifact from 5 to 6 (#7740)
+  * urllib3 from 2.5.0 to 2.6.3 (#7736, #7754)
+  * filelock from 3.19.1 to 3.20.3 (#7743, #7765)
+  * wheel from 0.45.1 to 0.46.3 (#7760)
+  * python-multipart from 0.0.20 to 0.0.22 (#7761)
+  * virtualenv from 20.34.0 to 20.36.1 (#7765)
+  * pynacl from 1.5.* to 1.6.2 (#7765)
+  * protobuf from 6.33.0 to 6.33.5 (#7765)
+  * pip from 25.0 to 26.0 (#7766)
+
+* Ignores:
+  * CVE-2025-67897 in Sequoia-PGP (7741)
 
 
 ## 2.13.0
