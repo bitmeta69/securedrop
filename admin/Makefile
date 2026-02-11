@@ -6,11 +6,11 @@ test:  ## Run tox
 	bin/dev-shell /opt/admin-dev/venv/bin/tox
 
 .PHONY: update-pip-requirements
-update-pip-requirements: ## Updates all Python requirements files via pip-compile.
+update-pip-requirements: ## Updates all Python requirements files via uv.
 	@echo "███ Updating admin pip requirements..."
-	@bin/dev-shell /opt/admin-dev/venv/bin/pip-compile --allow-unsafe --generate-hashes --output-file requirements.txt requirements.in requirements-ansible.in
-	@bin/dev-shell /opt/admin-dev/venv/bin/pip-compile --allow-unsafe --generate-hashes --output-file requirements-testinfra.txt requirements.in requirements-ansible.in requirements-testinfra.in
-	@bin/dev-shell /opt/admin-dev/venv/bin/pip-compile --allow-unsafe --generate-hashes --output-file requirements-dev.txt requirements-dev.in
+	@bin/dev-shell /opt/admin-dev/venv/bin/uv pip compile --allow-unsafe --generate-hashes --output-file requirements.txt requirements.in requirements-ansible.in
+	@bin/dev-shell /opt/admin-dev/venv/bin/uv pip compile --allow-unsafe --generate-hashes --output-file requirements-testinfra.txt requirements.in requirements-ansible.in requirements-testinfra.in
+	@bin/dev-shell /opt/admin-dev/venv/bin/uv pip compile --allow-unsafe --generate-hashes --output-file requirements-dev.txt requirements-dev.in
 
 # Explanation of the below shell command should it ever break.
 # 1. Set the field separator to ": ##" and any make targets that might appear between : and ##
