@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.14.0~rc2
+
+### Web Applications and API
+
+* Dependency updates:
+  * cffi from 1.16.0 to 2.0.0 (#7774)
+  * cryptography from 41.0.7 to 46.0.5 (#7774)
+
+### Development
+
+* Use uv to update admin requirements (#7774)
+* Dependency updates:
+  * cffi from 1.16.0 to 2.0.0 (#7774)
+  * cryptography from 41.0.7 to 46.0.5 (#7774)
+
+
 ## 2.14.0~rc1
 
 ### Web Applications and API
