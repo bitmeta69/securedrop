@@ -1,22 +1,6 @@
 # Changelog
 
-## 2.14.0~rc2
-
-### Web Applications and API
-
-* Dependency updates:
-  * cffi from 1.16.0 to 2.0.0 (#7774)
-  * cryptography from 41.0.7 to 46.0.5 (#7774)
-
-### Development
-
-* Use uv to update admin requirements (#7774)
-* Dependency updates:
-  * cffi from 1.16.0 to 2.0.0 (#7774)
-  * cryptography from 41.0.7 to 46.0.5 (#7774)
-
-
-## 2.14.0~rc1
+## 2.14.0
 
 ### Web Applications and API
 
@@ -26,6 +10,10 @@
   * Support conversation truncation via source\_conversation\_truncated event (#7723)
   * Document synchronization behaviour with multiple clients (#7734)
   * Strengthen binding between Event.type and Event.target (#7744)
+
+* Dependency updates:
+  * cffi from 1.16.0 to 2.0.0 (#7774)
+  * cryptography from 41.0.7 to 46.0.5 (#7774)
 
 ### Operations
 
@@ -37,6 +25,7 @@
 * Remove current year from messages.pot (#7753)
 * Have ruff lint against Python 3.12 as its baseline (#7764)
 
+* Use uv to update admin requirements (#7774)
 * Dependency updates:
   * Github actions/checkout from 5 to 6 (#7724)
   * Github actions/cache from 4 to 5 (#7739)
@@ -50,6 +39,8 @@
   * pynacl from 1.5.* to 1.6.2 (#7765)
   * protobuf from 6.33.0 to 6.33.5 (#7765)
   * pip from 25.0 to 26.0 (#7766)
+  * cffi from 1.16.0 to 2.0.0 (#7774)
+  * cryptography from 41.0.7 to 46.0.5 (#7774)
 
 * Ignores:
   * CVE-2025-67897 in Sequoia-PGP (7741)
