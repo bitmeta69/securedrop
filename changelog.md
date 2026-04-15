@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.15.0~rc1
+## 2.15.0
 
 ### Web Applications and API
 
@@ -10,8 +10,6 @@
   * Enable V2 API by default (#7789)
   * add `source_converation_seen` event (#7784)
   * Let client request arbitrary metadata shards (#7770)
-
-* Dependency updates:
 
 ### Development
 
