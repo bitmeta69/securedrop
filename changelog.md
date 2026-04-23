@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.15.1
+
+### Web Applications and API
+
+* Streamline memory management for the v2 Journalist API (#7809)
+
+### Operations
+
+* Fix the path used to verify checksums when restoring from a backup (#7802,
+  #7810)
+
 ## 2.15.0
 
 ### Web Applications and API
