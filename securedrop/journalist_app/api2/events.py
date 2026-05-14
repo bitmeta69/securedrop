@@ -14,7 +14,8 @@ from journalist_app.api2.types import (
 from journalist_app.sessions import Session, session
 from models import Reply, Source, Submission
 from redis import Redis
-from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound, StaleDataError
 from store import NotEncrypted
 
 # `IDEMPOTENCE_PERIOD` MUST be greater than or equal to
@@ -131,16 +132,18 @@ class EventHandler:
 
         try:
             utils.delete_file_object(item)
-            return EventResult(
-                event_id=event.id,
-                status=(EventStatusCode.OK, None),
-                items={event.target.item_uuid: None},
-            )
-        except ValueError as exc:
-            return EventResult(
-                event_id=event.id,
-                status=(EventStatusCode.InternalServerError, str(exc)),
-            )
+        except (StaleDataError, ValueError):
+            # `utils.delete_file_object()` is non-atomic: it guarantees database
+            # deletion but not filesystem deletion.  The former is all we need
+            # for consistency with the client, and the latter will be caught by
+            # monitoring for "disconnected" submissions.
+            pass
+
+        return EventResult(
+            event_id=event.id,
+            status=(EventStatusCode.OK, None),
+            items={event.target.item_uuid: None},
+        )
 
     @staticmethod
     def handle_reply_sent(event: Event, minor: int) -> EventResult:
@@ -254,7 +257,7 @@ class EventHandler:
             if item.interaction_count <= event.data.upper_bound:
                 try:
                     utils.delete_file_object(item)
-                except ValueError:
+                except (StaleDataError, ValueError):
                     # `utils.delete_file_object()` is non-atomic: it guarantees
                     # database deletion but not filesystem deletion.  The former
                     # is all we need for consistency with the client, and the
