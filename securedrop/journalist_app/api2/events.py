@@ -15,6 +15,7 @@ from journalist_app.sessions import Session, session
 from models import Reply, Source, Submission
 from redis import Redis
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
+from store import NotEncrypted
 
 # `IDEMPOTENCE_PERIOD` MUST be greater than or equal to
 # `sdconfig.SecureDropConfig.SESSION_LIFETIME`.  In practice, 24 hours is the
@@ -154,14 +155,37 @@ class EventHandler:
                 ),
             )
 
-        reply = save_reply(source, asdict(event.data))
-        db.session.refresh(source)
+        # SQLite will enforce uniqueness within Reply.uuid, but we need
+        # uniqueness within the combined set of Reply.uuid and Submission.uuid.
+        if find_item(event.data.uuid) is not None:
+            return EventResult(
+                event_id=event.id,
+                status=(EventStatusCode.Conflict, "duplicate UUID"),
+            )
+
+        try:
+            reply = save_reply(source, asdict(event.data))
+            db.session.refresh(source)
+
+            return EventResult(
+                event_id=event.id,
+                status=(EventStatusCode.OK, None),
+                sources={source.uuid: source},
+                items={reply.uuid: reply},
+            )
+        except NotEncrypted:
+            db.session.rollback()
+            status = (EventStatusCode.BadRequest, "reply is not encrypted")
+        except IntegrityError:
+            db.session.rollback()
+            status = (EventStatusCode.Conflict, "duplicate UUID")
+        # `save_reply()` can also raise `InvalidUUID`, but this will have been
+        # caught by validation of the `ReplySentData` type before this handler
+        # is ever invoked.
 
         return EventResult(
             event_id=event.id,
-            status=(EventStatusCode.OK, None),
-            sources={source.uuid: source},
-            items={reply.uuid: reply},
+            status=status,
         )
 
     @staticmethod
