@@ -701,7 +701,7 @@ def test_api2_item_deleted(
         assert response.json["items"][event.target.item_uuid] is None
         assert Reply.query.filter(Reply.uuid == event.target.item_uuid).one_or_none() is None
 
-        # Try to delete something that doesn't exist:
+        # Try to delete something that doesn't exist (database-level idempotence):
         nonexistent_event = Event(
             id="345678",
             target=ItemTarget(item_uuid=str(uuid.uuid4()), version=reply_version),
@@ -714,6 +714,22 @@ def test_api2_item_deleted(
         )
         assert response.json["events"][nonexistent_event.id] == [410, None]
         assert nonexistent_event.target.item_uuid not in response.json["items"]
+
+        # File already gone from disk but DB record still present (filesystem-level idempotence):
+        stale_submission_uuid = test_files["submissions"][1].uuid
+        stale_submission_version = index.json["items"][stale_submission_uuid]
+        stale_event = Event(
+            id="410001",
+            target=ItemTarget(item_uuid=stale_submission_uuid, version=stale_submission_version),
+            type=EventType.ITEM_DELETED,
+        )
+        with patch("journalist_app.utils.delete_file_object", side_effect=FileNotFoundError):
+            response = app.post(
+                url_for("api2.data"),
+                json={"events": [asdict(stale_event)]},
+                headers=get_api_headers(journalist_api_token),
+            )
+        assert response.json["events"][stale_event.id] == [410, None]
 
 
 def test_api2_source_deleted(
