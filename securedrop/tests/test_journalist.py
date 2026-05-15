@@ -2,6 +2,7 @@ import base64
 import binascii
 import os
 import random
+import threading
 import time
 import zipfile
 from base64 import b64decode
@@ -17,7 +18,7 @@ from flaky import flaky
 from flask import g, url_for
 from flask_babel import gettext, ngettext
 from journalist_app.sessions import session
-from journalist_app.utils import mark_seen
+from journalist_app.utils import make_star_false, make_star_true, mark_seen
 from markupsafe import escape
 from models import (
     InstanceConfig,
@@ -30,6 +31,7 @@ from models import (
     SeenMessage,
     SeenReply,
     Source,
+    SourceStar,
     Submission,
 )
 from passphrases import PassphraseGenerator
@@ -3771,6 +3773,38 @@ def test_single_source_is_successfully_unstarred(journalist_app, test_journo, te
 
         source = Source.query.get(test_source["id"])
         assert not source.star.starred
+
+
+@pytest.mark.parametrize("make_star", [make_star_true, make_star_false], ids=["true", "false"])
+def test_make_star_race(journalist_app, test_source, make_star):
+    """Concurrent make_star_{true,false} calls can't insert duplicate SourceStar rows."""
+    barrier = threading.Barrier(2)
+    errors = []
+    original_init = SourceStar.__init__
+
+    def slow_init(self, source, starred=True):
+        original_init(self, source, starred)
+        barrier.wait(timeout=5)
+
+    def run():
+        with journalist_app.app_context():
+            try:
+                make_star(test_source["filesystem_id"])
+                db.session.commit()
+            except IntegrityError:
+                db.session.rollback()
+                errors.append(True)
+
+    with patch.object(SourceStar, "__init__", slow_init):
+        threads = [threading.Thread(target=run) for _ in range(2)]
+        for t in threads:
+            t.start()
+        for t in threads:
+            t.join(timeout=10)
+
+    assert len(errors) == 1
+    with journalist_app.app_context():
+        assert SourceStar.query.filter_by(source_id=test_source["id"]).count() == 1
 
 
 @flaky(rerun_filter=utils.flaky_filter_xfail)
