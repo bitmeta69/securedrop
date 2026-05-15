@@ -46,7 +46,7 @@ class EventStatusCode(IntEnum):
     BadRequest = 400
     # The target UUID doesn't exist (non-deletion requests)
     NotFound = 404
-    # Version is out of date or the target UUID is already in use
+    # Version is out of date or there is a database conflict
     Conflict = 409
     # The target UUID doesn't exist and it was a deletion request
     Gone = 410

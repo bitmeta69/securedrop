@@ -324,15 +324,21 @@ class EventHandler:
                 ),
             )
 
-        utils.make_star_true(source.filesystem_id)
-        db.session.commit()
-        db.session.refresh(source)
+        try:
+            utils.make_star_true(source.filesystem_id)
+            db.session.commit()
+            db.session.refresh(source)
 
-        return EventResult(
-            event_id=event.id,
-            status=(EventStatusCode.OK, None),
-            sources={source.uuid: source},
-        )
+            return EventResult(
+                event_id=event.id,
+                status=(EventStatusCode.OK, None),
+                sources={source.uuid: source},
+            )
+        except IntegrityError:
+            db.session.rollback()
+            return EventResult(
+                event_id=event.id, status=(EventStatusCode.Conflict, "duplicate star; please retry")
+            )
 
     @staticmethod
     def handle_source_unstarred(event: Event, minor: int) -> EventResult:
@@ -347,15 +353,21 @@ class EventHandler:
                 ),
             )
 
-        utils.make_star_false(source.filesystem_id)
-        db.session.commit()
-        db.session.refresh(source)
+        try:
+            utils.make_star_false(source.filesystem_id)
+            db.session.commit()
+            db.session.refresh(source)
 
-        return EventResult(
-            event_id=event.id,
-            status=(EventStatusCode.OK, None),
-            sources={source.uuid: source},
-        )
+            return EventResult(
+                event_id=event.id,
+                status=(EventStatusCode.OK, None),
+                sources={source.uuid: source},
+            )
+        except IntegrityError:
+            db.session.rollback()
+            return EventResult(
+                event_id=event.id, status=(EventStatusCode.Conflict, "duplicate star; please retry")
+            )
 
 
 def find_item(item_uuid: ItemUUID) -> Submission | Reply | None:
