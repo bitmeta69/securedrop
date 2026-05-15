@@ -214,23 +214,17 @@ class EventHandler:
                 ),
             )
 
-        try:
-            # Deletion via `mark_source_deleted()` is asynchronous, but if it's
-            # initiated successfully we should report back to the client that
-            # all of the deleted source's items have also been deleted.
-            deleted_items = {item.uuid: None for item in source.collection}
-            mark_source_deleted([source.filesystem_id])
-            return EventResult(
-                event_id=event.id,
-                status=(EventStatusCode.OK, None),
-                sources={event.target.source_uuid: None},
-                items=deleted_items,
-            )
-        except ValueError as exc:
-            return EventResult(
-                event_id=event.id,
-                status=(EventStatusCode.InternalServerError, str(exc)),
-            )
+        # Deletion via `mark_source_deleted()` is asynchronous, but if it's
+        # initiated successfully we should report back to the client that
+        # all of the deleted source's items have also been deleted.
+        deleted_items = {item.uuid: None for item in source.collection}
+        mark_source_deleted([source.filesystem_id])
+        return EventResult(
+            event_id=event.id,
+            status=(EventStatusCode.OK, None),
+            sources={event.target.source_uuid: None},
+            items=deleted_items,
+        )
 
     @staticmethod
     def handle_source_conversation_truncated(event: Event, minor: int) -> EventResult:
