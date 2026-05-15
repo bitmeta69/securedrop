@@ -100,7 +100,11 @@ def create_gist(command, result):
     with urllib.request.urlopen(req) as response:
         return json.loads(response.read().decode())["html_url"]
 
-
+# Save all results in case gist creation fails
+Path("/tmp/paxtest.log").write_bytes(paxtest_results.stdout)
+Path("/tmp/checker.log").write_bytes(checker_results.stdout)
+Path("/tmp/test-suite.log").write_bytes(test_suite_results.stdout)
+# Upload gists
 paxtest_gist = create_gist("paxtest", paxtest_results)
 checker_gist = create_gist("spectre-meltdown-checker.sh", checker_results)
 test_suite_gist = create_gist("test_grsecurity_local.py", test_suite_results)
