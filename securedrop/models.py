@@ -464,6 +464,7 @@ class Reply(db.Model):
 
 class SourceStar(db.Model):
     __tablename__ = "source_stars"
+    __table_args__ = (db.UniqueConstraint("source_id", name="uq_source_stars_source_id"),)
     id = Column("id", Integer, primary_key=True)
     source_id = Column("source_id", Integer, ForeignKey("sources.id"))
     starred = Column("starred", Boolean, default=True)
