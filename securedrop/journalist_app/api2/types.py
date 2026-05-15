@@ -41,15 +41,23 @@ class EventType(StrEnum):
 class EventStatusCode(IntEnum):
     Processing = 102
     OK = 200
+
     # We already saw and processed this event
     AlreadyReported = 208
+
     BadRequest = 400
+
     # The target UUID doesn't exist (non-deletion requests)
     NotFound = 404
-    # Version is out of date or there is a database conflict
+
+    # REPLY_SENT: duplicate UUID
+    # SOURCE_DELETED: version conflict
+    # SOURCE_{STARRED,UNSTARRED}: duplicate SourceStar for Source
     Conflict = 409
+
     # The target UUID doesn't exist and it was a deletion request
     Gone = 410
+
     InternalServerError = 500
     NotImplemented = 501
 
