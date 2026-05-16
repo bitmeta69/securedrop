@@ -38,13 +38,17 @@ class EventHandler:
        `journalist_api2.types.EVENT_DATA_TYPES`;
 
     3. define the handler as a static method `handle_thing_done(event: Event)`
-       in this class
+       in this class; and
 
     4. explicitly register `{"thing_done": self.handle_thing_done}` inside
       `EventHandler.process()`.
 
     This is belt-and-suspenders for ensuring that only the intended methods are
     exposed as callable event handlers.
+
+    To preserve transaction separation between events, handlers MUST return with
+    a clean SQLAlchemy session: in other words, having either successfully
+    committed or rolled back all of their changes.
     """
 
     def __init__(self, session: Session, redis: Redis) -> None:
@@ -89,9 +93,15 @@ class EventHandler:
         try:
             result = handler(event, minor)
 
+            # Enforce "handlers MUST return with a clean SQLAlchemy session" above:
+            assert not db.session.dirty  # noqa: S101
+            assert not db.session.new  # noqa: S101
+            assert not db.session.deleted  # noqa: S101
+
         # Catch anything not handled by the handler:
         except Exception:
             current_app.logger.error(f"unhandled exception in handler for {event}", exc_info=True)
+            db.session.rollback()
             result = EventResult(
                 event.id, (EventStatusCode.InternalServerError, "failed to process event")
             )
