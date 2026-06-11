@@ -4,7 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
 #
 msgid ""
-msgstr "Project-Id-Version: SecureDrop 0.3.12\nReport-Msgid-Bugs-To: securedrop@freedom.press\nPOT-Creation-Date: 2017-09-02 07:28+0000\nPO-Revision-Date: 2026-04-08 22:39+0000\nLast-Translator: \"AO yahoe.001\" <ao_yahoe.001@users.noreply.weblate.securedrop.org>\nLanguage-Team: French <https://weblate.securedrop.org/projects/securedrop/securedrop/fr/>\nLanguage: fr_FR\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n > 1;\nX-Generator: Weblate 5.16.2\nGenerated-By: Babel 2.4.0\n"
+msgstr "Project-Id-Version: SecureDrop 0.3.12\nReport-Msgid-Bugs-To: securedrop@freedom.press\nPOT-Creation-Date: 2017-09-02 07:28+0000\nPO-Revision-Date: 2026-05-12 21:55+0000\nLast-Translator: \"AO yahoe.001\" <ao_yahoe.001@users.noreply.weblate.securedrop.org>\nLanguage-Team: French <https://weblate.securedrop.org/projects/securedrop/securedrop/fr/>\nLanguage: fr_FR\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n > 1;\nX-Generator: Weblate 5.17.1\nGenerated-By: Babel 2.4.0\n"
 
 msgid "Name too long"
 msgstr "Le nom est trop long"
@@ -171,8 +171,8 @@ msgstr[1] "Patientez au moins {num} secondes avant de vous reconnecter."
 msgid "Your 2FA details are invalid - please contact an administrator to reset them."
 msgstr "Vos détails d’A2F sont invalides. Contactez un administrateur pour les faire réinitialiser."
 
-msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
-msgstr "Attendez un nouveau code de votre appli mobile ou de votre clé de sécurité d’A2F avant de réessayer."
+msgid "Please check your credentials. If you are using a two-factor mobile app or security key, wait for a new code before trying again."
+msgstr "Vérifiez vos identifiants. Si vous utilisez une appli d’authentification à deux facteurs ou une clé de sécurité, attendez de recevoir un nouveau code avant de réessayer."
 
 msgid "The item has been deleted."
 msgid_plural "{num} items have been deleted."
@@ -1124,6 +1124,9 @@ msgstr "<strong>Important :</strong> Si vous souhaitez rester anonyme, <strong>
 
 msgid "Back to submission page"
 msgstr "Revenir à la page d’envoi"
+
+#~ msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
+#~ msgstr "Attendez un nouveau code de votre appli mobile ou de votre clé de sécurité d’A2F avant de réessayer."
 
 #~ msgid "<strong>It is recommended you use the desktop version of Tor Browser to access SecureDrop, as Orfox does not provide the same level of security and anonymity as the desktop version.</strong> <a class=\"recommend-tor\" aria-label=\"Learn how to install Tor Browser\" href=\"{tor_browser_url}\" >Learn how to install it</a>, or ignore this warning to continue."
 #~ msgstr "<strong>Il est recommandé d’utiliser la version pour ordinateur du Navigateur Tor pour accéder à SecureDrop, car Orfox n’offre pas le même niveau de sécurité ni d’anonymat que la version pour ordinateur.</strong> <a class=\"recommend-tor\" aria-label=\"Découvrir comment installer le Navigateur Tor\" href=\"{tor_browser_url}\">Découvrez comment l’installer</a> ou ignorez cet avertissement afin de poursuivre."
