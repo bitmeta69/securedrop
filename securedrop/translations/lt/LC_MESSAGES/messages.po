@@ -188,8 +188,8 @@ msgstr[2] "Prašome palaukti bent {num} sekundžių prieš bandant vėl prisijun
 msgid "Your 2FA details are invalid - please contact an administrator to reset them."
 msgstr ""
 
-msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
-msgstr "Prieš bandydami dar kartą, palaukite naujo kodo iš dviejų veiksnių mobiliosios programėlės arba saugos rakto."
+msgid "Please check your credentials. If you are using a two-factor mobile app or security key, wait for a new code before trying again."
+msgstr ""
 
 msgid "The item has been deleted."
 msgid_plural "{num} items have been deleted."
@@ -1137,6 +1137,9 @@ msgstr "<strong>Patarimas:</strong> Jeigu norite likti neatpažintas, <strong>ne
 
 msgid "Back to submission page"
 msgstr "Grįžti į pateikimo puslapį"
+
+#~ msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
+#~ msgstr "Prieš bandydami dar kartą, palaukite naujo kodo iš dviejų veiksnių mobiliosios programėlės arba saugos rakto."
 
 #~ msgid "Field must be between 1 and {max_codename_len} characters long."
 #~ msgstr "Laukas turi būti nuo 1 iki {max_codename_len} simbolių ilgio."
