@@ -188,8 +188,8 @@ msgstr[2] "Te rugăm să aștepți cel puțin {num} de secunde înainte de a te 
 msgid "Your 2FA details are invalid - please contact an administrator to reset them."
 msgstr "Datele 2FA nu sunt valide, contactați un administrator pentru a reinițializa."
 
-msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
-msgstr "Te rugăm să aștepți un cod nou de la aplicația mobilă pentru autentificarea cu doi factori sau cheia de securitate înainte de a încerca din nou."
+msgid "Please check your credentials. If you are using a two-factor mobile app or security key, wait for a new code before trying again."
+msgstr ""
 
 msgid "The item has been deleted."
 msgid_plural "{num} items have been deleted."
@@ -1149,6 +1149,9 @@ msgstr "<strong>Important:</strong> Dacă vrei să rămâi anonim(ă), <strong>n
 
 msgid "Back to submission page"
 msgstr "Înapoi la pagina de trimitere"
+
+#~ msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
+#~ msgstr "Te rugăm să aștepți un cod nou de la aplicația mobilă pentru autentificarea cu doi factori sau cheia de securitate înainte de a încerca din nou."
 
 #~ msgid "<strong>It is recommended you use the desktop version of Tor Browser to access SecureDrop, as Orfox does not provide the same level of security and anonymity as the desktop version.</strong> <a class=\"recommend-tor\" aria-label=\"Learn how to install Tor Browser\" href=\"{tor_browser_url}\" >Learn how to install it</a>, or ignore this warning to continue."
 #~ msgstr "<strong>Este recomandat să utilizați versiunea pentru desktop a browserului Tor pentru a accesa SecureDrop, deoarece Orfox nu oferă același nivel de securitate și anonimat ca versiunea pentru desktop.</strong> <a class=\"recommend-tor\" aria-label=\"Aflați cum să instalați browserul Tor\" href=\"{tor_browser_url}\" >Aflați cum să îl instalați</a> sau ignorați acest avertisment pentru a continua."
