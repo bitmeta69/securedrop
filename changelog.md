@@ -2,6 +2,31 @@
 
 ## 2.16.0~rc1
 
+### Web Applications and API
+* Prevent session key prefix corruption across workers (#7859)
+* Throttle login attempts for invalid usernames (#7771)
+* Return HTTP 404 instead of 500 for missing files in `serve_file_with_etag` (#7747)
+* Update hint on login failure to cover all invalid credential cases (#7829)
+
+* V2 Journalist API:
+  * Update source deletion to happen asynchronously (#7825, #7853)
+  * Remove unused code (#7823, #7824)
+  * Unify missing entity handling with `handle_source_truncated()` (#7851)
+  * Use appropriate HTTP error codes for invalid replies (#7850)
+  * Enforce idempotence atomically (#7849)
+
+### Development
+* Prune obsolete test requirements (#7831)
+* Update APIv2 documentation (#7826, #7836)
+* loaddata: default to NUM\_SOURCES=ALL to load with all test strings (#7796)
+* Dependency updates:
+  * `cryptography` to 46.0.7 (#7800)
+  * `idna` to 3.15 (#7841)
+  * `pip` to 26.1.1 (#7842)
+  * `uv` to 0.11.18 (#7854)
+  * (rust) `openssl` to 0.10.80 (#7840)
+  * Github Actions `cache` to 5.0.5 (#7827)
+  * Github Actions `dependency-review-action` to 5.0.0 (#7838)
 
 ## 2.15.1
 
