@@ -183,8 +183,8 @@ msgstr[1] "पुनः प्रवेश करने से पहले क�
 msgid "Your 2FA details are invalid - please contact an administrator to reset them."
 msgstr ""
 
-msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
-msgstr "फिर से प्रयास करने से पहले कृपया अपने दो-कारक मोबाइल ऐप या सुरक्षा से एक नया कोड की प्रतीक्षा करें।"
+msgid "Please check your credentials. If you are using a two-factor mobile app or security key, wait for a new code before trying again."
+msgstr ""
 
 msgid "The item has been deleted."
 msgid_plural "{num} items have been deleted."
@@ -1127,6 +1127,9 @@ msgstr "<strong>महत्वपूर्ण:</strong> यदि आप गु
 
 msgid "Back to submission page"
 msgstr "सबमिशन पृष्ठ पर वापस जाएं"
+
+#~ msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
+#~ msgstr "फिर से प्रयास करने से पहले कृपया अपने दो-कारक मोबाइल ऐप या सुरक्षा से एक नया कोड की प्रतीक्षा करें।"
 
 #~ msgid "You were logged out due to inactivity. Click the <img src={icon} alt=\"\" width=\"16\" height=\"16\">&nbsp;<b>New Identity</b> button in your Tor Browser's toolbar before moving on. This will clear your Tor Browser activity data on this device."
 #~ msgstr "आप निष्क्रियता के कारण लॉग आउट हो गया. आगे बढ़ने से पहले अपने Tor ब्राउज़र के टूलबार में <img src={icon} alt=\"\" width=\"16\" height=\"16\">&nbsp;<b> नई पहचान </b> बटन पर क्लिक करें."
