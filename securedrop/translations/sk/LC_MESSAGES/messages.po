@@ -188,8 +188,8 @@ msgstr[2] "Pred opakovaním prihlásenia prosím počkajte aspoň {num} sekúnd.
 msgid "Your 2FA details are invalid - please contact an administrator to reset them."
 msgstr "Vaše 2FA údaje sú neplatné - prosím kontaktujte administrátora a nastavte si ich znova."
 
-msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
-msgstr "Pred pokračovaním prosím počkajte na nový kód z mobilnej aplikácie, alebo bezpečnostného kľúča pre dvojfaktorovú autentifikáciu."
+msgid "Please check your credentials. If you are using a two-factor mobile app or security key, wait for a new code before trying again."
+msgstr ""
 
 msgid "The item has been deleted."
 msgid_plural "{num} items have been deleted."
@@ -1147,6 +1147,9 @@ msgstr "<strong>Dôležité:</strong> Ak chcete zostať v anonymite, <strong>nep
 
 msgid "Back to submission page"
 msgstr "Späť na stránku podania"
+
+#~ msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
+#~ msgstr "Pred pokračovaním prosím počkajte na nový kód z mobilnej aplikácie, alebo bezpečnostného kľúča pre dvojfaktorovú autentifikáciu."
 
 #~ msgid "Click <b>Change</b> to open Security Level preferences"
 #~ msgstr "Kliknite na <b>Zmeniť</b> pre otvorenie možností Úrovne zabezpečenia"
