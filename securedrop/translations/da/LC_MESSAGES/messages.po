@@ -184,8 +184,8 @@ msgstr[1] "Vent venligst mindst {num} sekunder, før du logger ind igen."
 msgid "Your 2FA details are invalid - please contact an administrator to reset them."
 msgstr ""
 
-msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
-msgstr "Vent venligst på en ny kode fra din sikkerhedsnøgle eller din app til tofaktorgodkendelse før du prøver igen."
+msgid "Please check your credentials. If you are using a two-factor mobile app or security key, wait for a new code before trying again."
+msgstr ""
 
 msgid "The item has been deleted."
 msgid_plural "{num} items have been deleted."
@@ -1125,6 +1125,9 @@ msgstr ""
 
 msgid "Back to submission page"
 msgstr ""
+
+#~ msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
+#~ msgstr "Vent venligst på en ny kode fra din sikkerhedsnøgle eller din app til tofaktorgodkendelse før du prøver igen."
 
 #~ msgid "Username \"{user}\" already taken."
 #~ msgstr "Brugernavn \"{user}\"  er allerede taget"
