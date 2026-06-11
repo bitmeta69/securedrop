@@ -4,19 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
 #
 msgid ""
-msgstr ""
-"Project-Id-Version: SecureDrop 0.5-rc4\n"
-"Report-Msgid-Bugs-To: securedrop@freedom.press\n"
-"PO-Revision-Date: 2024-09-24 08:33+0000\n"
-"Last-Translator: Ricky Tigg <ricky.tigg@gmail.com>\n"
-"Language-Team: Finnish <https://weblate.securedrop.org/projects/securedrop/securedrop/fi/>\n"
-"Language: fi\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7.1\n"
-"Generated-By: Babel 2.4.0\n"
+msgstr "Project-Id-Version: SecureDrop 0.5-rc4\nReport-Msgid-Bugs-To: securedrop@freedom.press\nPO-Revision-Date: 2026-05-11 14:40+0000\nLast-Translator: Ricky Tigg <ricky.tigg@gmail.com>\nLanguage-Team: Finnish <https://weblate.securedrop.org/projects/securedrop/securedrop/fi/>\nLanguage: fi\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n != 1;\nX-Generator: Weblate 5.17\nGenerated-By: Babel 2.4.0\n"
 
 msgid "Name too long"
 msgstr "Nimi on liian pitkä"
@@ -183,8 +171,8 @@ msgstr[1] "Odota vähintään {num} sekuntia ennen uudelleenkirjautumista."
 msgid "Your 2FA details are invalid - please contact an administrator to reset them."
 msgstr "2FA-tietosi ovat virheelliset - ota yhteys ylläpitoon nollataksesi ne."
 
-msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
-msgstr "Odota uutta koodia kaksivaiheisen tunnistautumisen mobiilisovelluksesta tai fyysisestä tunnistusavaimesta, ennen kuin yrität uudelleen."
+msgid "Please check your credentials. If you are using a two-factor mobile app or security key, wait for a new code before trying again."
+msgstr "Tarkista tunnistetietosi. Jos käytät kaksivaiheista mobiilisovellusta tai turva-avainta, odota uutta koodia ennen kuin yrität uudelleen."
 
 msgid "The item has been deleted."
 msgid_plural "{num} items have been deleted."
@@ -422,7 +410,7 @@ msgid "Can't scan the barcode? You can manually pair FreeOTP with this account b
 msgstr "Etkö voi skannata QR-koodia? Voit parittaa FreeOTP:n käsin tämän tilin kanssa syöttämällä seuraavan kaksivaiheisen tunnistautumisen salaisuuden sovellukseen:"
 
 msgid "<strong>Critical:</strong>&nbsp;&nbsp;The operating system used by your SecureDrop servers has reached its end-of-life. A manual update is required to re-enable the Source Interface and remain safe. Please contact your administrator. <a href=\"https://securedrop.org/noble-eol\" rel=\"noreferrer\">Learn More</a>"
-msgstr ""
+msgstr "<strong>Kriittinen:</strong> SecureDrop-palvelimiesi käyttämä käyttöjärjestelmä on tullut elinkaarensa päähän. Manuaalinen päivitys vaaditaan lähdekäyttöliittymän uudelleen käyttöön ottamiseksi ja turvallisuuden säilyttämiseksi. Ota yhteyttä järjestelmänvalvojaasi. <a href=\"https://securedrop.org/noble-eol\" rel=\"noreferrer\">Opi lisää</a>"
 
 msgid "Navigation"
 msgstr "Liikkuminen"
@@ -727,7 +715,7 @@ msgid "Date"
 msgstr "Päiväys"
 
 msgid "There are no submissions."
-msgstr ""
+msgstr "Lähetyksiä ei ole."
 
 msgid "Filter by codename"
 msgstr "Suodata koodinimellä"
@@ -912,22 +900,22 @@ msgid "Click the <img src=\"{icon}\" alt=\"&quot;Security Level&quot; button\"> 
 msgstr "Napsauta <img src=\"{icon}\" alt=\"&quot;Suojaustaso&quot;-painiketta\"> yllä olevasta työkalupalkista"
 
 msgid "Click <b>Settings</b> to open Security Level preferences"
-msgstr ""
+msgstr "Avaa suojaustason asetukset napsauttamalla <b>Asetukset</b>"
 
 msgid "Click <b>Change…</b> and select <b>Safest</b>"
-msgstr ""
+msgstr "Valitse <b>Muuta…</b> ja sitten <b>Turvallisin</b>"
 
 msgid "Click <b>Save and restart.</b>"
-msgstr ""
+msgstr "Napsauta <b>Tallenna ja käynnistä uudelleen.</b>"
 
 msgid "Tor Browser will restart, with its security level set to <b>Safest</b>. After the restart, come back to this site."
-msgstr ""
+msgstr "Tor-selain käynnistyy uudelleen, ja sen suojaustaso on asetettu arvoon <b>Turvallisin</b>. Palaa uudelleenkäynnistyksen jälkeen tälle sivustolle."
 
 msgid "<strong>It is recommended to use Tor Browser to access SecureDrop:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Learn how to install it</a>, or ignore this warning to continue."
 msgstr "<strong>Tor-selaimen käyttö on erittäin suositeltavaa, kun käytät SecureDropia:</strong> <a class=\"recommend-tor\" href=\"{tor_browser_url}\">Lue asennusohjeet</a>, tai jätä tämä varoitus huomioimatta ja jatka."
 
 msgid "<strong>It is recommended you use the desktop version of Tor Browser to access SecureDrop, as Tor Browser for Android does not provide the same level of security and anonymity as the desktop version.</strong> <a class=\"recommend-tor\" aria-label=\"Learn how to install Tor Browser\" href=\"{tor_browser_url}\" >Learn how to install it</a>, or ignore this warning to continue."
-msgstr ""
+msgstr "<strong>On suositeltavaa käyttää Tor Browserin työpöytäversiota SecureDropin käyttämiseen, koska Tor Browser Androidille ei tarjoa samaa turvallisuus- ja anonymiteettitasoa kuin työpöytäversio.</strong> <a class=\"recommend-tor\" aria-label=\"Opi asentamaan Tor Browser\" href=\"{tor_browser_url}\" >Opi asentamaan se</a> tai jätä tämä varoitus huomiotta jatkaaksesi."
 
 msgid "{} logo"
 msgstr "Organisaation {} logo"
@@ -1065,7 +1053,7 @@ msgid "Always use Tor Browser (<code>{}</code>) to access SecureDrop. Valid Secu
 msgstr "Käytä aina Tor-selainta (<code>{}</code>) päästäksesi SecureDropiin. Kelvollisten SecureDrop-sivustojen osoitteet päättyvät <code>.onion</code>. Tämän sivuston oikea osoite on:"
 
 msgid "If you are already using Tor Browser, copy the address above and click Tor Browser's <strong>New Identity</strong> button before you access SecureDrop."
-msgstr ""
+msgstr "Jos käytät jo Tor Browseria, kopioi yllä oleva osoite ja napsauta Tor Browserin <strong>Uusi identiteetti</strong> -painiketta ennen kuin käytät SecureDropia."
 
 msgid "If there is a reasonable risk of your Internet traffic being monitored, consider connecting from a different location or network."
 msgstr "Jos koet mahdolliseksi, että Internet-liikennettäsi tarkkaillaan, pyri muodostamaan yhteys eri sijainnista ja/tai verkosta."
@@ -1136,6 +1124,9 @@ msgstr "<strong>Tärkeää:</strong> Jos haluat pysyä nimettömänä, <strong>�
 
 msgid "Back to submission page"
 msgstr "Takaisin lähetyssivulle"
+
+#~ msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
+#~ msgstr "Odota uutta koodia kaksivaiheisen tunnistautumisen mobiilisovelluksesta tai fyysisestä tunnistusavaimesta, ennen kuin yrität uudelleen."
 
 #~ msgid "<strong>It is recommended you use the desktop version of Tor Browser to access SecureDrop, as Orfox does not provide the same level of security and anonymity as the desktop version.</strong> <a class=\"recommend-tor\" aria-label=\"Learn how to install Tor Browser\" href=\"{tor_browser_url}\" >Learn how to install it</a>, or ignore this warning to continue."
 #~ msgstr "<strong>On suositeltavaa käyttää Tor-selaimen työpöytäversiota SecureDropin käyttämiseen, koska Orfox ei tarjoa samaa suojaustasoa ja nimettömyyttä kuin työpöytäversio.</strong><a class=\"recommend-tor\" aria-label=\"Learn how to install Tor Browser\" href=\"{tor_browser_url}\" >, tai jätä tämä varoitus huomioimatta jatkaaksesi."
