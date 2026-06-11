@@ -188,8 +188,8 @@ msgstr[2] "Molimo pričekajte barem {num} sekundi prije ponovne prijave."
 msgid "Your 2FA details are invalid - please contact an administrator to reset them."
 msgstr "Vaši podaci za dvofaktorsku atuentikaciju su neispravni – obratite se administratoru da ih ponovno postavi."
 
-msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
-msgstr "Molimo pričekajte novi kod iz Vaše dvofaktorske aplikacije ili sigurnosnog ključa prije nego pokušate ponovno."
+msgid "Please check your credentials. If you are using a two-factor mobile app or security key, wait for a new code before trying again."
+msgstr ""
 
 msgid "The item has been deleted."
 msgid_plural "{num} items have been deleted."
@@ -1147,6 +1147,9 @@ msgstr "<strong>Važno:</strong> Ako želite ostati anonimni, <strong>nemojte</s
 
 msgid "Back to submission page"
 msgstr "Natrag na stranicu predaje"
+
+#~ msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
+#~ msgstr "Molimo pričekajte novi kod iz Vaše dvofaktorske aplikacije ili sigurnosnog ključa prije nego pokušate ponovno."
 
 #~ msgid "<strong>It is recommended you use the desktop version of Tor Browser to access SecureDrop, as Orfox does not provide the same level of security and anonymity as the desktop version.</strong> <a class=\"recommend-tor\" aria-label=\"Learn how to install Tor Browser\" href=\"{tor_browser_url}\" >Learn how to install it</a>, or ignore this warning to continue."
 #~ msgstr "<strong>Predlažemo da koristite dekstop verziju Tor Browser-a za pristup na SecureDrop, jer Orfox ne daje istu razinu sigurnosti i anonimnosti kao desktop verzija.</strong><a class=\"recommend-tor\" aria-label=\"Learn how to install Tor Browser\" href=\"{tor_browser_url}\" >Naučite kako instalirati</a>, ili ignorirajte ovo upozorenje kako bi nastavili."
