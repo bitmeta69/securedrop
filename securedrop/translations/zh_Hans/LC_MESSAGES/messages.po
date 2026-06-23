@@ -178,8 +178,8 @@ msgstr[0] "请至少等待 {num} 秒后再登录。"
 msgid "Your 2FA details are invalid - please contact an administrator to reset them."
 msgstr "两步验证无效，请联系管理员重置。"
 
-msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
-msgstr "请在重试前稍等您的两步验证手机应用程序或安全密钥刷新。"
+msgid "Please check your credentials. If you are using a two-factor mobile app or security key, wait for a new code before trying again."
+msgstr ""
 
 msgid "The item has been deleted."
 msgid_plural "{num} items have been deleted."
@@ -1125,6 +1125,9 @@ msgstr "<strong>重要提示：</strong>若您想保持匿名身份，<strong>�
 
 msgid "Back to submission page"
 msgstr "返回提交页面"
+
+#~ msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
+#~ msgstr "请在重试前稍等您的两步验证手机应用程序或安全密钥刷新。"
 
 #~ msgid "<strong>It is recommended you use the desktop version of Tor Browser to access SecureDrop, as Orfox does not provide the same level of security and anonymity as the desktop version.</strong> <a class=\"recommend-tor\" aria-label=\"Learn how to install Tor Browser\" href=\"{tor_browser_url}\" >Learn how to install it</a>, or ignore this warning to continue."
 #~ msgstr "<strong>建议使用桌面版 Tor 浏览器来访问 SecureDrop，因 Orfox 不提供和桌面版相同的安全性和匿名性等。.</strong> <a class=\"recommend-tor\" aria-label=\"Learn how to install Tor Browser\" href=\"{tor_browser_url}\" >了解如何安装桌面版</a>，或者忽略此警告继续。"

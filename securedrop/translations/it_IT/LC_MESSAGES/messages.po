@@ -187,8 +187,8 @@ msgstr[1] "Attendere almeno {num} secondi prima di accedere nuovamente."
 msgid "Your 2FA details are invalid - please contact an administrator to reset them."
 msgstr "I dettagli per l'accesso con 2FA non sono validi - contatta un amministratore per eseguire il ripristino."
 
-msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
-msgstr "Attendere un nuovo codice a due fattori dall'applicazione mobile o dalla chiave di sicurezza prima di tentare nuovamente."
+msgid "Please check your credentials. If you are using a two-factor mobile app or security key, wait for a new code before trying again."
+msgstr ""
 
 msgid "The item has been deleted."
 msgid_plural "{num} items have been deleted."
@@ -1140,6 +1140,9 @@ msgstr "<strong>Importante:</strong> per rimanere anonimi <strong>non usare</str
 
 msgid "Back to submission page"
 msgstr "Torna alla pagina di invio documenti e messaggi"
+
+#~ msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
+#~ msgstr "Attendere un nuovo codice a due fattori dall'applicazione mobile o dalla chiave di sicurezza prima di tentare nuovamente."
 
 #~ msgid "<strong>It is recommended you use the desktop version of Tor Browser to access SecureDrop, as Orfox does not provide the same level of security and anonymity as the desktop version.</strong> <a class=\"recommend-tor\" aria-label=\"Learn how to install Tor Browser\" href=\"{tor_browser_url}\" >Learn how to install it</a>, or ignore this warning to continue."
 #~ msgstr "<strong>Si consiglia di utilizzare la versione desktop di Tor Browser per accedere a SecureDrop, poiché Orfox non offre lo stesso livello di sicurezza e anonimato della versione desktop.</strong> <a class=\"recommend-tor\" aria-label=\"Scopri come installare Tor Browser\" href=\"{tor_browser_url}\">Scopri come installarlo</a> oppure ignora questo avviso per continuare."

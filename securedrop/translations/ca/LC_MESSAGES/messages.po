@@ -183,8 +183,8 @@ msgstr[1] "Espereu com a mínim {num} segons abans d’iniciar la sessió de nou
 msgid "Your 2FA details are invalid - please contact an administrator to reset them."
 msgstr "Les dades 2FA no són vàlides - contacteu amb un administrador per reiniciar la informació."
 
-msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
-msgstr "Espereu un codi nou de la vostra aplicació de factor doble o clau de seguretat abans de tornar-ho a provar."
+msgid "Please check your credentials. If you are using a two-factor mobile app or security key, wait for a new code before trying again."
+msgstr ""
 
 msgid "The item has been deleted."
 msgid_plural "{num} items have been deleted."
@@ -1136,6 +1136,9 @@ msgstr "<strong>Important:</strong> si voleu romandre en l'anonimat, <strong>no<
 
 msgid "Back to submission page"
 msgstr "Torna a la pàgina d'enviaments"
+
+#~ msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
+#~ msgstr "Espereu un codi nou de la vostra aplicació de factor doble o clau de seguretat abans de tornar-ho a provar."
 
 #~ msgid "<strong>It is recommended you use the desktop version of Tor Browser to access SecureDrop, as Orfox does not provide the same level of security and anonymity as the desktop version.</strong> <a class=\"recommend-tor\" aria-label=\"Learn how to install Tor Browser\" href=\"{tor_browser_url}\" >Learn how to install it</a>, or ignore this warning to continue."
 #~ msgstr "<strong>Es recomana que utilitzeu la versió d'escriptori del Navegador Tor per accedir al SecureDrop, ja que Orfox no ofereix el mateix nivell de seguretat i anonimat que la versió d'escriptori.</strong> <a class=\"recommend-tor\" aria-label=\"Més informació sobre com instal·lar el Navegador Tor\" href=\"{tor_browser_url}\" >Més informació sobre com instal·lar-lo</a>, o ignoreu aquest avís per continuar."

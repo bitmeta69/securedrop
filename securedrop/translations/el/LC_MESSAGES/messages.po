@@ -183,8 +183,8 @@ msgstr[1] "Παρακαλώ περιμένετε τουλάχιστον {num} δ
 msgid "Your 2FA details are invalid - please contact an administrator to reset them."
 msgstr "Οι λεπτομέρειες 2FA σας είναι άκυρες - παρακαλώ επικοινωνήστε με τη διαχείριση για την επαναφορά τους."
 
-msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
-msgstr "Παρακαλώ περιμένετε για έναν νέο κωδικό από την εφαρμογή ή το κλειδί ασφαλείας πριν ξαναδοκιμάσετε."
+msgid "Please check your credentials. If you are using a two-factor mobile app or security key, wait for a new code before trying again."
+msgstr ""
 
 msgid "The item has been deleted."
 msgid_plural "{num} items have been deleted."
@@ -1136,6 +1136,9 @@ msgstr "<strong>Σημαντικό:</strong> Αν επιθυμείτε να δι
 
 msgid "Back to submission page"
 msgstr "Πίσω στη σελίδα υποβολών"
+
+#~ msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
+#~ msgstr "Παρακαλώ περιμένετε για έναν νέο κωδικό από την εφαρμογή ή το κλειδί ασφαλείας πριν ξαναδοκιμάσετε."
 
 #~ msgid "<strong>It is recommended you use the desktop version of Tor Browser to access SecureDrop, as Orfox does not provide the same level of security and anonymity as the desktop version.</strong> <a class=\"recommend-tor\" aria-label=\"Learn how to install Tor Browser\" href=\"{tor_browser_url}\" >Learn how to install it</a>, or ignore this warning to continue."
 #~ msgstr "<strong>Είναι προτιμότερο να χρησιμοποιήσετε την έκδοση του Tor Browser για υπολογιστές, καθώς το Orfox δεν παρέχει το ίδιο επίπεδο ασφάλειας και ανωνυμίας όπως η έκδοση για υπολογιστές.</strong><a class=\"recommend-tor\" aria-label=\"Learn how to install Tor Browser\" href=\"{tor_browser_url}\" >Μάθετε πως να τον εγκαταστήσετε</a>, ή αγνοήστε αυτήν την προειδοποίηση για να συνεχίσετε."

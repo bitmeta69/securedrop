@@ -4,7 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
 #
 msgid ""
-msgstr "Project-Id-Version: SecureDrop 2.5.0~rc1\nReport-Msgid-Bugs-To: securedrop@freedom.press\nPO-Revision-Date: 2026-01-28 17:39+0000\nLast-Translator: Pseudolocale add-on <noreply-addon-pseudolocale@weblate.org>\nLanguage-Team: Esperanto <https://weblate.securedrop.org/projects/securedrop/securedrop/eo/>\nLanguage: eo\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n != 1;\nX-Generator: Weblate 5.15.2\nGenerated-By: Babel 2.9.1\n"
+msgstr "Project-Id-Version: SecureDrop 2.5.0~rc1\nReport-Msgid-Bugs-To: securedrop@freedom.press\nPO-Revision-Date: 2026-05-08 20:40+0000\nLast-Translator: Pseudolocale add-on <noreply-addon-pseudolocale@weblate.org>\nLanguage-Team: Esperanto <https://weblate.securedrop.org/projects/securedrop/securedrop/eo/>\nLanguage: eo\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n != 1;\nX-Generator: Weblate 5.17\nGenerated-By: Babel 2.9.1\n"
 
 msgid "Name too long"
 msgstr "[!Name too long!]"
@@ -171,8 +171,8 @@ msgstr[1] "[!!!!!Please wait at least {num} seconds before logging in again.!!!!
 msgid "Your 2FA details are invalid - please contact an administrator to reset them."
 msgstr "[!!!!!!!Your 2FA details are invalid - please contact an administrator to reset them.!!!!!!!]"
 
-msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
-msgstr "[!!!!!!!!!Please wait for a new code from your two-factor mobile app or security key before trying again.!!!!!!!!!]"
+msgid "Please check your credentials. If you are using a two-factor mobile app or security key, wait for a new code before trying again."
+msgstr "[!!!!!!!!!!!!Please check your credentials. If you are using a two-factor mobile app or security key, wait for a new code before trying again.!!!!!!!!!!!!]"
 
 msgid "The item has been deleted."
 msgid_plural "{num} items have been deleted."
@@ -1124,6 +1124,9 @@ msgstr "[!!!!!!!!!!!!!!!!!!!!!<strong>Important:</strong> If you wish to remain 
 
 msgid "Back to submission page"
 msgstr "[!!Back to submission page!!]"
+
+#~ msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
+#~ msgstr "[!!!!!!!!!Please wait for a new code from your two-factor mobile app or security key before trying again.!!!!!!!!!]"
 
 #~ msgid "<strong>It is recommended you use the desktop version of Tor Browser to access SecureDrop, as Orfox does not provide the same level of security and anonymity as the desktop version.</strong> <a class=\"recommend-tor\" aria-label=\"Learn how to install Tor Browser\" href=\"{tor_browser_url}\" >Learn how to install it</a>, or ignore this warning to continue."
 #~ msgstr "[!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<strong>It is recommended you use the desktop version of Tor Browser to access SecureDrop, as Orfox does not provide the same level of security and anonymity as the desktop version.</strong> <a class=\"recommend-tor\" aria-label=\"Learn how to install Tor Browser\" href=\"{tor_browser_url}\" >Learn how to install it</a>, or ignore this warning to continue.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!]"

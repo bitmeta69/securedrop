@@ -183,8 +183,8 @@ msgstr[1] "המתן לפחות {num} שניות לפני שתתחבר שוב."
 msgid "Your 2FA details are invalid - please contact an administrator to reset them."
 msgstr "פרטי האימות הדו-שלבי שלך אינם תקינים - אנא צור קשר עם מנהל מערכת כדי לאפס אותם."
 
-msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
-msgstr "אנא המתן לקוד חדש מהאפליקציה או ממפתח האבטחה שלך לפני שתנסה שוב."
+msgid "Please check your credentials. If you are using a two-factor mobile app or security key, wait for a new code before trying again."
+msgstr ""
 
 msgid "The item has been deleted."
 msgid_plural "{num} items have been deleted."
@@ -1136,6 +1136,9 @@ msgstr "<strong>חשוב:</strong> אם ברצונך להישאר אנונימי
 
 msgid "Back to submission page"
 msgstr "חזרה לדף שליחת ההודעות"
+
+#~ msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
+#~ msgstr "אנא המתן לקוד חדש מהאפליקציה או ממפתח האבטחה שלך לפני שתנסה שוב."
 
 #~ msgid "<strong>It is recommended you use the desktop version of Tor Browser to access SecureDrop, as Orfox does not provide the same level of security and anonymity as the desktop version.</strong> <a class=\"recommend-tor\" aria-label=\"Learn how to install Tor Browser\" href=\"{tor_browser_url}\" >Learn how to install it</a>, or ignore this warning to continue."
 #~ msgstr "<strong>מומלץ להשתמש בגרסת שולחן העבודה של Tor Browser כדי לגשת ל-SecureDrop, מכיוון ש-Orfox לא מספקת את אותה רמת אבטחה ואנונימיות כמו גרסת שולחן העבודה.</strong><a class=\"recommend-tor\" aria-label=\"Learn how to install Tor Browser\" href=\"{tor_browser_url}\" >למד כיצד להתקין אותו</a>, או התעלם מהאזהרה זו כדי להמשיך."

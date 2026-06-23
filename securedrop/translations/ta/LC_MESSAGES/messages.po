@@ -183,8 +183,8 @@ msgstr[1] "தயவு செய்து மீண்டும் புகு
 msgid "Your 2FA details are invalid - please contact an administrator to reset them."
 msgstr ""
 
-msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
-msgstr "மீண்டும் முயற்சிக்கும் முன் தயவு செய்து உங்களுடைய இருகூற்றுக் கைப்பேசிச் செயலியிலிருந்து வரும் ஒரு புதிய குறி அல்லது பாதுகாப்புச் சாவிக்காகக் காத்திருக்கவும்."
+msgid "Please check your credentials. If you are using a two-factor mobile app or security key, wait for a new code before trying again."
+msgstr ""
 
 msgid "The item has been deleted."
 msgid_plural "{num} items have been deleted."
@@ -1126,6 +1126,9 @@ msgstr ""
 
 msgid "Back to submission page"
 msgstr "அனுப்புகைப் பக்கத்திற்குத் திரும்புக"
+
+#~ msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
+#~ msgstr "மீண்டும் முயற்சிக்கும் முன் தயவு செய்து உங்களுடைய இருகூற்றுக் கைப்பேசிச் செயலியிலிருந்து வரும் ஒரு புதிய குறி அல்லது பாதுகாப்புச் சாவிக்காகக் காத்திருக்கவும்."
 
 #~ msgid "Field must be between 1 and {max_codename_len} characters long."
 #~ msgstr "புலம் 1-க்கும் {max_codename_len}-க்கும் இடையிலான எண்ணிக்கையில் எழுத்துக்களைக் கொண்டிருக்கவேண்டும்."

@@ -178,8 +178,8 @@ msgstr[0] "Mohon tunggu setidaknya {num} detik sebelum masuk kembali."
 msgid "Your 2FA details are invalid - please contact an administrator to reset them."
 msgstr ""
 
-msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
-msgstr "Harap tunggu kode baru dari aplikasi dua faktor di seluler atau kunci keamanan Anda sebelum mencoba lagi."
+msgid "Please check your credentials. If you are using a two-factor mobile app or security key, wait for a new code before trying again."
+msgstr ""
 
 msgid "The item has been deleted."
 msgid_plural "{num} items have been deleted."
@@ -1113,6 +1113,9 @@ msgstr ""
 
 msgid "Back to submission page"
 msgstr "Kembali ke halaman pengiriman"
+
+#~ msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
+#~ msgstr "Harap tunggu kode baru dari aplikasi dua faktor di seluler atau kunci keamanan Anda sebelum mencoba lagi."
 
 #~ msgid "Field must be between 1 and {max_codename_len} characters long."
 #~ msgstr "Masukkan antara 1 dan {max_codename_len} karakter."

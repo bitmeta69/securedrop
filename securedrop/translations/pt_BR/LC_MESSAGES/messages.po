@@ -4,7 +4,19 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
 #
 msgid ""
-msgstr "Project-Id-Version: SecureDrop 0.4.3\nReport-Msgid-Bugs-To: securedrop@freedom.press\nPO-Revision-Date: 2026-04-15 18:54+0000\nLast-Translator: Cory Francis Myers <cory@freedom.press>\nLanguage-Team: Portuguese (Brazil) <https://weblate.securedrop.org/projects/securedrop/securedrop/pt_BR/>\nLanguage: pt_BR\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n > 1;\nX-Generator: Weblate 5.16.2\nGenerated-By: Babel 2.4.0\n"
+msgstr ""
+"Project-Id-Version: SecureDrop 0.4.3\n"
+"Report-Msgid-Bugs-To: securedrop@freedom.press\n"
+"PO-Revision-Date: 2026-04-15 18:54+0000\n"
+"Last-Translator: Cory Francis Myers <cory@freedom.press>\n"
+"Language-Team: Portuguese (Brazil) <https://weblate.securedrop.org/projects/securedrop/securedrop/pt_BR/>\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.16.2\n"
+"Generated-By: Babel 2.4.0\n"
 
 msgid "Name too long"
 msgstr "Nome muito longo"
@@ -171,8 +183,8 @@ msgstr[1] "Por favor, espere pelo menos {num} segundos antes de tentar acessar n
 msgid "Your 2FA details are invalid - please contact an administrator to reset them."
 msgstr "As suas informações de ADF são inválidas - por favor contacte o administrador para redefiní-las."
 
-msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
-msgstr "Por favor, aguarde um novo código 2FA do seu aplicativo de celular ou chave de segurança antes de tentar novamente."
+msgid "Please check your credentials. If you are using a two-factor mobile app or security key, wait for a new code before trying again."
+msgstr ""
 
 msgid "The item has been deleted."
 msgid_plural "{num} items have been deleted."
@@ -1124,6 +1136,9 @@ msgstr "<strong>Importante:</strong> Para manter o seu anonimato, <strong>não</
 
 msgid "Back to submission page"
 msgstr "Voltar à página de envio"
+
+#~ msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
+#~ msgstr "Por favor, aguarde um novo código 2FA do seu aplicativo de celular ou chave de segurança antes de tentar novamente."
 
 #~ msgid "Click <b>Change</b> to open Security Level preferences"
 #~ msgstr "Clique em <b>Alterar</b> para abrir as preferências de Nível de Segurança"

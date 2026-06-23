@@ -178,7 +178,7 @@ msgstr[0] ""
 msgid "Your 2FA details are invalid - please contact an administrator to reset them."
 msgstr ""
 
-msgid "Please wait for a new code from your two-factor mobile app or security key before trying again."
+msgid "Please check your credentials. If you are using a two-factor mobile app or security key, wait for a new code before trying again."
 msgstr ""
 
 msgid "The item has been deleted."
