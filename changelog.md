@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.16.0~rc1
+## 2.16.0
 
 ### Web Applications and API
 * Prevent session key prefix corruption across workers (#7859)
