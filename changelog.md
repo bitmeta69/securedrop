@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.16.1
+
+This release fixes a low-severity security issue; please see our [advisory](https://securedrop.org/news/advisory-securedrop-2_16_1-released/) for instructions for SecureDrop Administrators.
+
+* Fix Ansible copy to mon to only copy specified GPG pubkeys and not the entire directory
+* Remove config files from /var/ossec upon upgrade and add OSSEC alert
+
 ## 2.16.0
 
 ### Web Applications and API
