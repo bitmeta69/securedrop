@@ -295,4 +295,11 @@
     <regex>HiddenServiceVersion 2</regex>
     <description>v2 onion services are still enabled. Support for v2 onion services is deprecated and will be removed starting in March 2021. To preserve access to SecureDrop, you must migrate to v3 onion services: https://securedrop.org/v2-onion-eol</description>
   </rule>
+  <rule id="400902" level="12" >
+    <if_sid>530</if_sid>
+    <options>alert_by_email</options> <!-- force email to be sent -->
+    <match>ossec: output: 'removed_config_check'</match>
+    <regex>/etc/securedrop-removed-config-files</regex>
+    <description>Configuration files including authenticated hidden service information were incorrectly copied to the Monitor Server during installation. It is recommended that you rotate your authenticated hidden service config. Please reach out to SecureDrop Support via Signal, or consult https://docs.securedrop.org/ for instructions. To stop receiving this alert, remove the file /etc/securedrop-removed-config-files on the Monitor Server.</description>
+  </rule>
 </group>

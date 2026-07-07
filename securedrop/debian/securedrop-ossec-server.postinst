@@ -16,6 +16,26 @@ set -x
 # for details, see http://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
+# Remove unused Tails config files that may have been copied during installation
+cleanup_unused_files() {
+
+# first remove known config files
+  files="mon-ssh.auth_private app-ssh.auth_private app-journalist.auth_private tor_v3_keys.json site-specific app-sourcev3-ths"
+
+  for file in $files
+    do
+      if [ -e "/var/ossec/$file" ]
+      then
+        touch /etc/securedrop-removed-config-files
+        shred -uz /var/ossec/"$file" || true
+      fi
+    done
+
+# then remove transferred backups with names like sd-backup-*.tar.gz
+find /var/ossec -type f -name "sd-backup-*.tar.gz" -exec shred -uz {} \; || true
+
+}
+
 configure_postfix_myhostname() {
     if [ -f /etc/postfix/main.cf ]
     then
@@ -92,6 +112,10 @@ case "$1" in
 
         # Restart OSSEC to load the new configs.
         service ossec restart
+
+        # Finally, remove unused Tails config and backup files that may have
+        # been copied during the install process - secure deletion may take time.
+        cleanup_unused_files
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
