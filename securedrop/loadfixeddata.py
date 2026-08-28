@@ -29,6 +29,8 @@ from sdconfig import SecureDropConfig
 from source_user import create_source_user
 from store import Storage
 
+SUPPORTED_ITEM_KINDS = frozenset({"file", "message", "reply"})
+
 
 def verify_empty_database() -> None:
     """Verify that the database is empty before importing data."""
@@ -138,6 +140,14 @@ def record_source_interaction(source: Source) -> None:
     db.session.flush()
 
 
+def validate_item_kinds(sources_data: list[dict[str, Any]]) -> None:
+    for source_data in sources_data:
+        for item_data in source_data["items"]:
+            kind = item_data["kind"]
+            if kind not in SUPPORTED_ITEM_KINDS:
+                raise ValueError(f"Unsupported item kind {kind!r} for item {item_data['uuid']!r}")
+
+
 def import_submissions_and_replies(
     sources_data: list[dict[str, Any]],
     uuid_to_source: dict[str, Source],
@@ -145,6 +155,8 @@ def import_submissions_and_replies(
     yaml_dir: Path,
     save_items: bool = False,
 ) -> tuple[dict[str, Submission], dict[str, Reply]]:
+    validate_item_kinds(sources_data)
+
     uuid_to_submission = {}
     uuid_to_reply = {}
     storage = Storage.get_default()
@@ -345,6 +357,7 @@ def load_fixed_data(yaml_path: Path, save_items: bool = False) -> None:
         with yaml_path.open("r") as f:
             data = yaml.safe_load(f)
         yaml_dir = yaml_path.parent
+        validate_item_kinds(data["sources"])
 
         print("\n--- Importing journalists ---")
         uuid_to_journalist = import_journalists(data["journalists"])
