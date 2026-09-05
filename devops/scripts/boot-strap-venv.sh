@@ -32,10 +32,7 @@ function virtualenv_bootstrap() {
         then
             echo "Active virtualenv uses Python ${VENV_VERSION}."
             venv_instructions
-            if [[ $- != *i* ]]
-            then
-                exit 1
-            fi
+            return 1
         else
             echo "Using active Python ${VENV_VERSION} virtualenv in ${VIRTUAL_ENV}"
         fi

@@ -7,14 +7,20 @@ SCRIPT = Path(__file__).parents[2] / "devops/scripts/boot-strap-venv.sh"
 
 
 def run_bootstrap(
-    command: str, *, cwd: Path, virtual_env: str = "", path: str | None = None
+    command: str,
+    *,
+    cwd: Path,
+    virtual_env: str = "",
+    path: str | None = None,
+    interactive: bool = False,
 ) -> subprocess.CompletedProcess:
     env = os.environ.copy()
     env["VIRTUAL_ENV"] = virtual_env
     if path is not None:
         env["PATH"] = path
+    bash_arguments = ["/bin/bash", "--noprofile", "--norc", "-ic" if interactive else "-c"]
     return subprocess.run(
-        ["/bin/bash", "-c", f'source "{SCRIPT}"; {command}'],
+        [*bash_arguments, f'source "{SCRIPT}"; {command}'],
         cwd=cwd,
         env=env,
         check=False,
@@ -49,6 +55,19 @@ def test_incompatible_active_venv_is_rejected(tmp_path: Path) -> None:
     make_fake_venv(venv, "3.11")
 
     result = run_bootstrap("virtualenv_bootstrap", cwd=tmp_path, virtual_env=str(venv))
+
+    assert result.returncode == 1
+    assert "Active virtualenv uses Python 3.11." in result.stdout
+    assert "Python 3.12 is required." in result.stdout
+
+
+def test_incompatible_active_venv_is_rejected_in_interactive_shell(tmp_path: Path) -> None:
+    venv = tmp_path / "active"
+    make_fake_venv(venv, "3.11")
+
+    result = run_bootstrap(
+        "virtualenv_bootstrap", cwd=tmp_path, virtual_env=str(venv), interactive=True
+    )
 
     assert result.returncode == 1
     assert "Active virtualenv uses Python 3.11." in result.stdout
